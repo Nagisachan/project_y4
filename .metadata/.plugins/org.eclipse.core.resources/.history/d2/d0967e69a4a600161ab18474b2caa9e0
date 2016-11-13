@@ -1,0 +1,13 @@
+import java.io.*;
+public class ParagraphSplitter {
+	public static void main(String[] args) throws FileNotFoundException, IOException, UnsupportedEncodingException {
+		File fileDir = new File("D:\\Course 4th year\\Senior project\\AL-K-Fon.txt");
+		BufferedReader in = new BufferedReader(
+		new InputStreamReader(new FileInputStream(fileDir), "UTF8"));
+		String str;
+		while ((str = in.readLine()) != null) {
+			System.out.println(str);
+		}
+	    in.close();
+	}
+}

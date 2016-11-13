@@ -1,0 +1,14 @@
+import java.io.*;
+public class ReadText {
+	BufferedReader br = new BufferedReader(new FileReader("D:\\Course 4th year\\Senior Project\\AL-K-Fon.txt"));
+	    StringBuilder sb = new StringBuilder();
+	    String line = br.readLine();
+	    	
+	    while (line != null) {
+	        sb.append(line);
+	        sb.append(System.lineSeparator());
+	        line = br.readLine();
+	    }
+	    String everything = sb.toString();
+	}
+}

@@ -1,0 +1,17 @@
+import java.io.*;
+public class ParagraphSplitter {
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		try(BufferedReader br = new BufferedReader(new FileReader("D:\\Course 4th year\\Senior project\\AL-K-Fon.txt"))) {
+		    StringBuilder sb = new StringBuilder();
+		    String line = br.readLine();
+		    while (line != null) {
+		        sb.append(line);
+		        sb.append(System.lineSeparator());
+		        line = br.readLine();
+		    }
+		    String everything = sb.toString();
+		    System.out.println(everything);
+		}
+	}
+}
