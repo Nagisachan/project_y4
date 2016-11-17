@@ -1,0 +1,527 @@
+@font-face {
+  font-family: 'Omyim';
+  src: url('Font/PSL114.ttf');
+}
+
+body {
+  font-family: 'Omyim';
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.bodymain {
+    background-image: url('Pic/BG_Login.png');
+    background-repeat: no-repeat;
+    background-color: FFFFFF;
+    background-position: top;
+}
+
+.boxmain {
+    margin-left: 61%; 
+    margin-top: 6%; 
+    width: 380px; 
+    border-radius: 5px; 
+    background-color:rgba(255, 213, 124, 0.7);
+}
+
+.labeltaginputmain {
+    text-align: left; 
+    font-weight: 500; 
+    font-size: 30pt; 
+    color: #996633;
+}
+
+.inputboxmain {
+    width: 170px; 
+    height: 35px; 
+    border-radius: 6px; 
+    border-style: solid; 
+    border-width: 0px; 
+    background: #FFFFFF; 
+    outline: none; 
+    padding-left: 10px; 
+    padding-right: 10px; 
+    font-family: 'Omyim'; 
+    font-size: 20pt;
+}
+
+.buttonBrown {
+	background: #895437;
+    width: 135px; 
+    height: 45px; 
+    border-radius: 6px; 
+    border-style: solid; 
+    border-width: 0px; 
+    outline: none; 
+    font-family: 'Omyim'; 
+    font-weight: 500; 
+    font-size: 25pt; 
+    color: #FFFFFF;
+}
+
+.buttonBrown:hover {
+	background: #FB7745;
+}
+
+.bodyhome {
+    background-image: url('Pic/BG_Home.png');
+    background-repeat: no-repeat;
+    background-color: FFFFFF;
+    background-position: top;
+}
+
+.menubar {
+  	animation-name: fadeMarginTop-60-8;
+    animation-duration: 1.75s;
+    margin-top: 0px;
+    position: static;
+    margin-top: 0px;
+    width: 1147px; 
+    height: 60px; 
+    background-color: #8FD4D0; 
+    margin: 0 auto; 
+    box-shadow: 0px 0px 2px #555;
+}
+
+@keyframes fadeMarginTop-60-8 {
+    from {
+    	margin-top: -60px;
+    	opacity: 0;
+    }
+    to {
+    	margin-top: 0px;
+    	opacity: 1;
+    }
+}
+
+.logomenubar {
+    width: 15%; 
+    margin-top: 8px; 
+    margin-left: 50px; 
+    margin-right: 50px;
+}
+
+.labelmenubar {
+	animation-name: zoomOut;
+    animation-duration: 0.2s;
+    font-size: 30pt;
+    margin-top: 5px;
+    border-style: solid; 
+    border-width: 0px; 
+    background: none; 
+    outline: none; 
+    font-family: 'Omyim'; 
+    font-weight: 500; 
+    color: #FFFFFF; 
+    vertical-align:top; 
+    padding-left: 35px; 
+    padding-right: 35px;
+}
+
+.labelmenubar:hover{
+	animation-name: zoomIn;
+    animation-duration: 0.2s;
+    font-size: 40pt;
+    margin-top: -3px;
+}
+
+@keyframes zoomOut {
+    from {
+    	font-size: 40pt;
+    	margin-top: -3px;
+    }
+    to {
+    	font-size: 30pt;
+    	margin-top: 5px;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+    	font-size: 30pt;
+    	margin-top: 5px;
+    }
+    to {
+    	font-size: 40pt;
+    	margin-top: -3px;
+    }
+}
+
+.home {
+    animation-name: fadeOpacityShop;
+    animation-duration: 1.75s;
+    opacity: 1;
+    margin-top: 30px; 
+    width: 780px; 
+    height: 450px; 
+    position: absolute; 
+    background-color: none; 
+    left: 32%;
+}
+
+.shopsell {
+  	animation-name: fadeOpacityShop;
+    animation-duration: 1.75s;
+    opacity: 1;
+    margin-top: 30px;
+    overflow-y: scroll; 
+    width: 780px; 
+    height: 450px; 
+    position: absolute; 
+    background-color: none; 
+    left: 32%;
+}
+
+.shopsell::-webkit-scrollbar-track
+{
+	border-radius: 5px;
+	background-color: #B7DEE8;
+}
+
+.shopsell::-webkit-scrollbar
+{
+	width: 20px;
+	background-color: none;
+}
+
+.shopsell::-webkit-scrollbar-thumb
+{
+	border-radius: 5px;
+	background-color: #4BACC6;
+}
+
+@keyframes fadeOpacityShop {
+    from {
+    	opacity: 0;
+    	margin-top: 90px;
+    }
+    to {
+    	opacity: 1;
+    	margin-top: 30px;
+    }
+}
+
+.leftBox {
+    animation-name: fadeOpacityLeftBox;
+    animation-duration: 1.75s;
+    opacity: 1;
+    overflow-y: none;  
+    position: absolute;  
+    width: 250px; 
+    height: 350px; 
+    margin: 0px 20px 20px 10px; 
+    background-color: white; 
+    border-radius: 5px;
+    top: 15.2%;
+    left: 10%;
+}
+
+@keyframes fadeOpacityLeftBox {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.selectedIngredient{
+    width: 240px;
+    height: 120px;
+    overflow-y: scroll;
+    overflow-x: none;
+}
+
+.selectedIngredient::-webkit-scrollbar-track
+{
+    border-radius: 5px;
+    background-color: #00E676;
+}
+
+.selectedIngredient::-webkit-scrollbar
+{
+    height: 20px;
+    background-color: none; 
+}
+
+.selectedIngredient::-webkit-scrollbar-thumb
+{
+    border-radius: 5px;
+    background-color: #00C853;
+}
+
+.foodBoxShop {
+    width: 340px; 
+    height: 400px; 
+    margin: 0px 20px 20px 10px; 
+    background-color: white; 
+    border-radius: 5px;
+}
+
+.foodBoxEat {
+    width: 340px; 
+    height: 198px; 
+    margin: 0px 20px 20px 10px; 
+    background-color: white; 
+    border-radius: 5px;
+}
+
+.foodBoxKitchen {
+    width: 340px; 
+    height: 68px; 
+    margin: 0px 20px 20px 10px; 
+    background-color: white; 
+    border-radius: 5px;
+}
+
+.foodBoxSell {
+    width: 340px; 
+    height: 132px; 
+    margin: 0px 20px 20px 10px; 
+    background-color: white; 
+    border-radius: 5px;
+}
+
+.foodBoxShop {
+    width: 340px; 
+    height: 220px; 
+    margin: 0px 20px 20px 10px; 
+    background-color: white; 
+    border-radius: 5px;
+}
+
+.changeQuantity {
+    width: 80px; 
+    height: 35px; 
+    border-radius: 2px;
+    border-style: solid; 
+    border-color: #8FD4D0; 
+    border-width: 1px; 
+    background: #FFFFFF; 
+    outline: none; 
+    font-size: 15pt; 
+    color: #4BACC6; 
+    text-align: center;
+}
+
+.buttonReceive{
+    font-size: 20pt; 
+    width: 250px; 
+    background-color: #E040FB; 
+    outline: none; 
+    color: #ffffff; 
+    border-style: solid; 
+    border-width: 0px; 
+    border-radius: 5px;
+    font-family: 'Omyim'; 
+    font-weight: 500;
+    font-size: 30pt;
+}
+
+.buttonCook{
+    font-size: 20pt; 
+    width: 230px; 
+    height: 50px; 
+    background-color: #F44336; 
+    outline: none; 
+    color: #ffffff; 
+    border-style: solid; 
+    border-width: 0px; 
+    border-radius: 5px;
+    font-family: 'Omyim'; 
+    font-weight: 500;
+    font-size: 30pt;
+}
+
+.buttonBuy {
+	background: #B7DEE8;
+	color: #FFFFFF;
+    width: 80px; 
+    height: 35px; 
+    border-radius: 5px; 
+    border-style: solid; 
+    border-width: 0px; 
+    outline: none; 
+    font-family: 'Omyim'; 
+    font-weight: 500; 
+    font-size: 20pt;
+}
+
+.buttonBuy:hover {
+	background: #4BACC6;
+	color: #FFFFFF;
+}
+
+.infobar {
+  	animation-name: fadeOpacity;
+    animation-duration: 1.75s;
+    opacity: 1;
+    margin-top: 523px;
+    margin-left: 110px;
+    width: 1147px; 
+    height: 60px; 
+    background-color: #8FD4D0;  
+    box-shadow: 0px 0px 2px #555;
+}
+
+@keyframes fadeOpacity {
+    from {
+    	opacity: 0;
+    	margin-top: 583px;
+    }
+    to {
+    	opacity: 1;
+    	margin-top: 523px;
+    }
+}
+
+.picinfobar {
+    width: 120px; 
+    height: 120px; 
+    margin-top: -81px; 
+    margin-left: 50px; 
+    margin-right: 25px; 
+    border-radius: 68px; 
+    border-style: solid; 
+    border-color: #8FD4D0; 
+    border-width: 8px;
+}
+
+.labelinfobar {
+    width: 300px; 
+    border-style: solid; 
+    border-width: 0px; 
+    background: none; 
+    outline: none; 
+    font-family: 'Omyim'; 
+    font-size: 34pt; 
+    font-weight: 500; 
+    color: #FFFFFF; 
+    vertical-align:top; 
+    padding-left: 40px; 
+    padding-right: 40px; 
+    display: inline;
+}
+
+.menuslide {
+    animation-name: fadeMarginLeft-300-0;
+    animation-duration: 1.75s;
+    margin-left: 0px;
+    opacity: 1;
+}
+
+@keyframes fadeMarginLeft-300-0 {
+    from {
+        margin-left: -300px;
+        opacity: 0;
+    }
+    to {
+        margin-left: 0px;
+        opacity: 1;
+    }
+}
+
+.menuAdmin {
+    background-color: #00ACC1;
+    width: 300px; 
+    padding-top: 5px; 
+    padding-bottom: 5px;
+    font-size: 25pt; 
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+.menuAdmin:hover{
+    background-color: #FAFAFA;
+    color: #00ACC1;
+}
+
+.contentAdmin {
+    animation-name: opacity0-1;
+    animation-duration: 3s;
+    margin-left: 300px;
+    opacity: 1;
+    top: 0px;
+    position: absolute;
+    width: 989px; 
+    height: 583px;
+    background-color: #FAFAFA;
+    padding: 30px;
+    font-size: 20pt; 
+    color: #00ACC1;
+    text-align: center;
+}
+
+@keyframes opacity0-1 {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.scrollForTable {
+    overflow-x: scroll;
+    overflow-y: none;
+}
+
+.scrollForTable::-webkit-scrollbar-track
+{
+    border-radius: 0px;
+    background-color: #8FD4D0;
+}
+
+.scrollForTable::-webkit-scrollbar
+{
+    height: 0px;
+    background-color: #8FD4D0; 
+}
+
+.scrollForTable::-webkit-scrollbar-thumb
+{
+    border-radius: 0px;
+    background-color: #8FD4D0;
+}
+
+.displayTable {
+    border-collapse: collapse;
+    border: 1px solid #8FD4D0;
+}
+
+.displayCol {
+    border: 1px solid #8FD4D0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.selectUserRole {
+    width: 117px; 
+    border-radius: 6px; 
+    border-style: solid; 
+    border-width: 0px; 
+    background: none; 
+    outline-width: 0; 
+    padding-left: 10px; 
+    padding-right: 10px; 
+    font-family: 'Omyim'; 
+    font-size: 16pt; 
+    color: #00ACC1;
+}
+
+.buttonAdd {
+    background: #8FD4D0;
+}
+
+.buttonAdd:hover {
+    background: #00ACC1;
+}
+
+.selectRow {
+
+}
+
+.selectRow:hover {
+    background: #E0F2F1;
+}

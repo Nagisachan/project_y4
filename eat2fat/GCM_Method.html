@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body style="background-color: #FAFAFA;">
+		<div class="menuslide" style="width: 300px; height: 643px; text-align: center; background-color: #00ACC1;">
+			<div style="width: 300px; background-color: #8FD4D0; padding-top: 10px; padding-bottom: 10px;">
+				<img src="Pic/Logo.png" style="width: 40%; height= 40%; margin-top: 5px;">
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_Method.html'" style="background-color: #FAFAFA; color: #00ACC1;">
+				<label>Method</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_AddFood.html'">
+				<label>Add Food</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_EditFood.html'">
+				<label>Edit Food</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_Log.html'">
+				<label>Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_PlayerLog.html'">
+				<label>Player Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_ReportGenerator.html'">
+				<label>Report Generator</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Logout.php'">
+				<label>Logout</label>
+			</div>
+		</div>
+
+		<div class="contentAdmin">
+			<table class="displayTable" style="width: 100%;">
+				<tr style="height: 50px;">
+					<td style="text-align: right; padding-right: 30px;">
+						Method Name :
+					</td>
+					<td style="text-align: left;">
+						<input type="text" id="methodName" name="methodName" style="width: 400px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;">
+					</td>
+				</tr>
+				<tr style="height: 50px;">
+					<td style="text-align: right; padding-right: 30px;">
+						Method Description :
+					</td>
+					<td style="text-align: left;">
+						<input type="text" id="methodDescription" name="methodDescription" style="width: 400px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;">
+					</td>
+				</tr>
+				<tr style="height: 50px;">
+					<td style="text-align: right; padding-right: 30px;">
+						
+					</td>
+					<td style="text-align: left;">
+						<input class="buttonAdd" type="button" value="Add Method" onclick="addMethod()" style="width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;">
+					</td>
+				</tr>
+			</table>
+
+			<br>
+
+			<div class="scrollForTable" style="height: 50px; width: 972px;">
+				<table class="displayTable" style="height: 50px; width: 972px;">
+					<tr>
+						<td class="displayCol" style="width: 150px; color: #FFFFFF; background-color: #8FD4D0;">
+							Method ID
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Method Name
+						</td>
+						<td class="displayCol" style="width: 562px; color: #FFFFFF; background-color: #8FD4D0;">
+							Method Description
+						</td>
+						<td class="displayCol" style="width: 60px; color: #FFFFFF; background-color: #8FD4D0;">
+							Delete
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="overflow-y: scroll; height: 335px;">
+				<div id="tableTemplate"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript"> 
+			loadMethod();
+
+			function addMethod()
+			{
+				var methodName = document.getElementById("methodName").value;
+				var methodDescription = document.getElementById("methodDescription").value;
+
+				if(methodName == "")
+				{
+					alert("Invalid Method Name");
+				}
+				else
+				{
+					var xmlhttp = new XMLHttpRequest();
+					var url = "AddMethod.php?methodName=" + methodName + "&methodDescription=" + methodDescription;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadMethod();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+			}
+
+			function deleteMethod(methodID)
+			{
+				if(confirm("Do you want to delete it?"))
+				{
+					var xmlhttp = new XMLHttpRequest();
+					var url = "DeleteMethod.php?methodID="+methodID;
+				
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{ 
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadMethod();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+			}
+			
+			function loadMethod()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetMethod.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponse(xmlhttp.responseText);
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponse(response)
+			{
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length; i++)
+				{
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''><td class='displayCol' style='width: 150px;'>" + 
+					arr[i].methodID + 
+					"</td><td class='displayCol' style='width: 200px;'>" + 
+					arr[i].methodName + " <img src='Pic/Edit.png' style='width: 15px; height= 15px; margin-top: 5px;' onclick=\"editName('" + arr[i].methodID + "', '" + arr[i].methodName + "')\">" +
+					"</td><td class='displayCol' style='width: 562px;'>" + 
+					arr[i].methodDescription + " <img src='Pic/Edit.png' style='width: 15px; height= 15px; margin-top: 5px;' onclick=\"editDescription('" + arr[i].methodID + "', '" + arr[i].methodDescription + "')\">" +
+					"</td><td class='displayCol' style='width: 60px;'>" + 
+					"<img src='Pic/Delete.png' style='width: 20px; height= 20px; margin-top: 5px;' onclick=\"deleteMethod('" + arr[i].methodID + "')\">" +
+					"</td></tr>"
+				}
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+			}
+
+			function editName(methodID, methodName)
+			{
+			    var changeTo = prompt("Edit method name", methodName);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeMethodName.php?methodID=" + methodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadMethod();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editDescription(methodID, methodDescription)
+			{
+			    var changeTo = prompt("Edit method description", methodDescription);
+			    if (changeTo != null)
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeMethodDescription.php?methodID=" + methodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadMethod();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+		</script>
+	</body>
+</html>

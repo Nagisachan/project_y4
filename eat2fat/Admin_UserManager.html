@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body style="background-color: #FAFAFA;">
+		<div class="menuslide" style="width: 300px; height: 643px; text-align: center; background-color: #00ACC1;">
+			<div style="width: 300px; background-color: #8FD4D0; padding-top: 10px; padding-bottom: 10px;">
+				<img src="Pic/Logo.png" style="width: 40%; height= 40%; margin-top: 5px;">
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Admin_UserManager.html'" style="background-color: #FAFAFA; color: #00ACC1;">
+				<label>User Manager</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Admin_Log.html'">
+				<label>Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Admin_GCMLog.html'">
+				<label>GCM Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Admin_PlayerLog.html'">
+				<label>Player Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Logout.php'">
+				<label>Logout</label>
+			</div>
+		</div>
+
+		<div class="contentAdmin">
+			<div class="scrollForTable" style="height: 50px; width: 972px;">
+				<table class="displayTable" style="height: 50px; width: 972px;">
+					<tr>
+						<td class="displayCol" style="width: 138px; color: #FFFFFF; background-color: #8FD4D0;">
+							User ID
+						</td>
+						<td class="displayCol" style="width: 138px; color: #FFFFFF; background-color: #8FD4D0;">
+							Password
+						</td>
+						<td class="displayCol" style="width: 215px; color: #FFFFFF; background-color: #8FD4D0;">
+							E-mail
+						</td>
+						<td class="displayCol" style="width: 117px; color: #FFFFFF; background-color: #8FD4D0;">
+							User Role
+						</td>
+						<td class="displayCol" style="width: 222px; color: #FFFFFF; background-color: #8FD4D0;">
+							Registration Date
+						</td>
+						<td class="displayCol" style="width: 122px; color: #FFFFFF; background-color: #8FD4D0;">
+							Delete
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div style="overflow-y: scroll; height: 525px;">
+				<div id="tableTemplate"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			loadUsers();
+
+			function deleteUser(userID)
+			{
+				if(confirm("Do you want to delete it?"))
+				{
+					var xmlhttp = new XMLHttpRequest();
+					var url = "DeleteUser.php?userID=" + userID;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadUsers();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+			}
+
+			function loadUsers()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetUser.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponse(xmlhttp.responseText);
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponse(response)
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetUserRole.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						var userRole = JSON.parse(xmlhttp.responseText);
+						var arr = JSON.parse(response);
+						var i;
+						var out = "<table class='displayTable'>";
+						for(i = 0; i < arr.length; i++)
+						{
+							out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;'><td class='displayCol' style='width: 138px;'>" +
+							arr[i].userID +
+							"</td><td class='displayCol' style='width: 138px;'>" +
+							arr[i].userPassword +
+							"</td><td class='displayCol' style='width: 175px;'>" +
+							arr[i].userEmail +
+							"</td><td class='displayCol' style='width: 117px;'><select id='changeUserRole" + arr[i].userID + "' class='selectUserRole' onchange=\"changeUserRole('" + arr[i].userID + "')\">";
+							
+							for(j = 0; j < userRole.length; j++)
+							{
+								if(arr[i].userRoleName == userRole[j].userRoleName)
+								{
+									out += "<option value='" + userRole[j].userRoleName + "' selected>" + userRole[j].userRoleName + "</option>";
+								}
+								else
+								{
+									out += "<option value='" + userRole[j].userRoleName + "'>" + userRole[j].userRoleName + "</option>";
+								}
+							}
+							
+							out += "</select></td><td class='displayCol' style='width: 222px;'>" +
+							arr[i].registrationDate +
+							"</td><td class='displayCol' style='width: 122px;'>" +
+							"<img src='Pic/Delete.png' style='width: 20px; height= 20px; margin-top: 5px;' onclick=\"deleteUser('" + arr[i].userID + "')\">" +
+							"</td></tr>";
+						}
+						out += "</table>";
+						document.getElementById("tableTemplate").innerHTML = out;
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function changeUserRole(userID)
+			{
+				if(confirm("Do you want to change it?"))
+				{	
+					var xmlhttp = new XMLHttpRequest();
+					var index = document.getElementById("changeUserRole" + userID).selectedIndex;
+	    			var option = document.getElementById("changeUserRole" + userID).options;
+					var url = "ChangeUserRole.php?userID=" + userID + "&changeTo=" + option[index].text;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+				else
+				{
+					loadUsers();
+				}
+			}
+		</script>
+	</body>
+</html>

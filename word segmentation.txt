@@ -1,1 +1,6 @@
 https://tws.spicydog.org/feedback/
+
+https://tws.spicydog.org/php/api.php?action=segment
+
+key:text
+value:พ่อบ้านกินข้าว

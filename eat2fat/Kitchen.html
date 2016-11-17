@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body class="bodyhome">
+		<div class="menubar">
+			<img class="logomenubar" src="Pic/Logo.png">
+			<input class="labelmenubar" type="button" value="Home" onclick="window.location.href='Home.html'">
+			<input class="labelmenubar" type="button" value="Kitchen" onclick="window.location.href='Kitchen.html'">
+			<input class="labelmenubar" type="button" value="Eat" onclick="window.location.href='Eat.html'">
+			<input class="labelmenubar" type="button" value="Shop" onclick="window.location.href='Shop.html'">
+			<input class="labelmenubar" type="button" value="Sell" onclick="window.location.href='Sell.html'">
+			<input class="labelmenubar" type="button" value="Logout" onclick="window.location.href='Logout.php'">
+		</div>
+
+		<div class="leftBox">
+			<center style="font-size: 20pt; background-color: #00C853; color: #ffffff; border-top-left-radius: 5px; border-top-right-radius: 5px;">Ingredient for Cooking</center>
+			<br>
+			<center class="selectedIngredient">
+				<table id="selected" style="width: 190px;">
+				</table>
+			</center>
+			<br>
+			<center style="font-size: 20pt; background-color: #00C853; color: #ffffff;">Method for Cooking</center>
+			<br>
+			<center id="selectTemplateMethod"></center>
+			<br>
+			<center><button onclick="Cook()" class="buttonCook">Click for Cook!</button></center>
+		</div>
+
+		<div class="shopsell" id="sellTableTemplate">
+		</div>
+		
+		<div class="infobar">
+			<img class="picinfobar" src="Pic/Profile.png">
+			<div class="labelinfobar" id="showUsername"></div>
+			<div class="labelinfobar" id="showWeight"></div>
+			<div class="labelinfobar" id="showEmoney"></div>			
+		</div>
+		
+		<script type="text/javascript">
+			loadPlayer();
+			loadFood();
+			loadMethod();
+			var selectedIngredient = [];
+			var selectedCount = 0;
+			
+			function loadPlayer()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetPlayerInformation.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						displayResponsePlayer(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponsePlayer(response)
+			{
+				var arr = JSON.parse(response);
+				document.getElementById("showUsername").innerHTML = arr[0].playerID;
+				document.getElementById("showWeight").innerHTML = "Weight : " + arr[0].playerWeight + " kg";
+				document.getElementById("showEmoney").innerHTML = "E Money : " + arr[0].playerMoney;
+				Money = arr[0].playerMoney;
+			}
+			
+			function loadFood()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetFoodInStore.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						displayResponseFood(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+			
+			function displayResponseFood(response)
+			{
+				var arr = JSON.parse(response);
+				var i=0;
+				var out = "<table>";
+				for(i = 0; i < Math.floor(arr.length/2); i++)
+				{
+					out += "<tr><td><div class='foodBoxKitchen' onclick=\"checkSelect('" + arr[2*i].foodID + "', '" + arr[2*i].foodName + "')\"><table style='margin: 5px; width: 330px; padding-top: 5px;'><tr>";
+					out += "<td id='store" + arr[2*i].foodID + "' value='0' colspan='3' style='font-size: 14pt; padding: 5px; background-color: #FFC107; border-radius: 5px; color: #FFFFFF;'>";
+					out += "Food Name: " + arr[2*i].foodName + "<br>";
+					out += "Quantity in your store: " + arr[2*i].quantity + " / " + arr[2*i].maxQuantity + "<br>"; 
+					out += "</tr></table></div></td>";
+					
+					out += "<td><div class='foodBoxKitchen' onclick=\"checkSelect('" + arr[2*i+1].foodID + "', '" + arr[2*i+1].foodName + "')\"><table style='margin: 5px; width: 330px; padding-top: 5px;'><tr>";
+					out += "<td id='store" + arr[2*i+1].foodID + "' value='0' colspan='3' style='font-size: 14pt; padding: 5px; background-color: #FFC107; border-radius: 5px; color: #FFFFFF;'>";
+					out += "Food Name: " + arr[2*i+1].foodName + "<br>";
+					out += "Quantity in your store: " + arr[2*i+1].quantity + " / " + arr[2*i+1].maxQuantity + "<br>"; 
+					out += "</tr></table></div></td></tr>";
+				}
+			
+				if(Math.floor(arr.length/2) != arr.length/2)
+				{
+					out += "<tr><td><div class='foodBoxKitchen' onclick=\"checkSelect('" + arr[2*i].foodID + "', '" + arr[2*i].foodName + "')\"><table style='margin: 5px; width: 330px; padding-top: 5px;'><tr>";
+					out += "<td id='store" + arr[2*i].foodID + "' value='0' colspan='3' style='font-size: 14pt; padding: 5px; background-color: #FFC107; border-radius: 5px; color: #FFFFFF;'>";
+					out += "Food Name: " + arr[2*i].foodName + "<br>";
+					out += "Quantity in your store: " + arr[2*i].quantity + " / " + arr[2*i].maxQuantity + "<br>"; 
+					out += "</tr></table></div></td></tr>";
+				}
+				out += "</table>";
+				document.getElementById("sellTableTemplate").innerHTML = out;
+			}
+			
+			function Cook()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				if(selectedCount > 0)
+				{
+					var url = "Cook_Button.php?";
+					var list = '&list=["';
+			    	for(var i=0 ; i<selectedCount ; i++)
+			    	{
+			    		if(i != 0)
+			    		{
+			    			list += ',"';
+			    		}
+			    		list += selectedIngredient[i].ID + '"';	
+			    	}
+				    list += "]";
+				    url += list;
+					url += "&method=" + document.getElementById("method").value; 
+
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							var response = xmlhttp.responseText.replace(/\s/g, '');
+							if(response == "successed")
+							{
+								alert("Successed Cooking");
+							}
+							else if(response == "true")
+							{
+								alert("Failed Cooking");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+							loadMethod();
+							selectedIngredient = [];
+							selectedCount = 0;
+							document.getElementById("selected").innerHTML = "";
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+				else
+				{
+					alert("Invalid Ingredient");
+				}
+			}
+
+			function checkSelect(foodID, foodName)
+			{
+				var out = "";
+				if (document.getElementById("store" + foodID).value == 1)
+				{
+					document.getElementById("store" + foodID).value = 0;
+					document.getElementById("store" + foodID).style.background = "#FFC107";
+					
+					var found = 0;
+					for(var i=0;i<selectedCount && found == 0;i++)
+					{
+						if(selectedIngredient[i].ID == foodID)
+						{
+							selectedIngredient.splice(i, 1);
+							found = 1;
+						}
+					}
+					selectedCount = selectedCount - 1;
+
+					for(var i=0;i<selectedCount;i++)
+					{
+						out += "<tr style=\"font-size: 16pt; color: #00C853; height: 25px;\">";
+						out += "<td style=\"text-align: center;\">";
+						out += selectedIngredient[i].Name;
+						out += "</td>";
+						out += "</tr><tr style=\"background-color: #FAFAFA; height: 1px;\"><td></td></tr>";
+					}
+					document.getElementById("selected").innerHTML = out;
+				}
+				else
+				{
+					document.getElementById("store" + foodID).value = 1;
+					document.getElementById("store" + foodID).style.background = "#00C853";
+					
+					selectedCount = selectedCount + 1;
+					selectedIngredient.push({ID:foodID, Name: foodName});
+					for(var i=0;i<selectedCount;i++)
+					{
+						out += "<tr style=\"font-size: 16pt; color: #00C853; height: 25px;\">";
+						out += "<td style=\"text-align: center;\">";
+						out += selectedIngredient[i].Name;
+						out += "</td>";
+						out += "</tr><tr style=\"background-color: #FAFAFA; height: 1px;\"><td></td></tr>";
+					}
+					document.getElementById("selected").innerHTML = out;
+				}
+			}
+
+			function loadMethod()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetMethodForCooking.php";
+				xmlhttp.onreadystatechange=function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+				{
+					displayResponseMethod(xmlhttp.responseText); }
+				}
+				xmlhttp.open("GET", url, true); xmlhttp.send();
+			}
+
+			function displayResponseMethod(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out ="<select id=\"method\" name=\"method\" style=\"width: 240px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FAFAFA; outline-width: 0.5; outline-color: #00C853; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #00C853;\">";
+				for(i = 0; i < arr.length; i++)
+				{
+					out += "<option value=\"" +
+					arr[i].methodName + 
+					"\" ";
+
+					if(i == 0)
+					{
+						out += "selected";
+					}
+
+					out += ">"+
+					arr[i].methodName +
+					"</option>";
+				}
+				out += "</select>"; 
+				document.getElementById("selectTemplateMethod").innerHTML = out;
+			}
+		</script>
+		
+	</body>
+</html>

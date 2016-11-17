@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body style="background-color: #FAFAFA;">
+		<div class="menuslide" style="width: 300px; height: 643px; text-align: center; background-color: #00ACC1;">
+			<div style="width: 300px; background-color: #8FD4D0; padding-top: 10px; padding-bottom: 10px;">
+				<img src="Pic/Logo.png" style="width: 40%; height= 40%; margin-top: 5px;">
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_Method.html'">
+				<label>Method</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_AddFood.html'">
+				<label>Add Food</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_EditFood.html'" style="background-color: #FAFAFA; color: #00ACC1;">
+				<label>Edit Food</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_Log.html'">
+				<label>Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_PlayerLog.html'">
+				<label>Player Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_ReportGenerator.html'">
+				<label>Report Generator</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Logout.php'">
+				<label>Logout</label>
+			</div>
+		</div>
+
+		<div class="contentAdmin">
+			<div id="headTable" class="scrollForTable" style="height: 50px; width: 972px;">
+				<table class="displayTable" style="height: 50px; width: 2660px;">
+					<tr>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Food ID
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Food Name
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Food Description
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							level Ingredient
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Method
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Food Price
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Carbohydrate
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Protein
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Fat
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Vitamin
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Cooldown
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Weight for Unlock
+						</td>
+						<td class="displayCol" style="width: 200px; color: #FFFFFF; background-color: #8FD4D0;">
+							Max Quantity
+						</td>
+						<td class="displayCol" style="width: 60px; color: #FFFFFF; background-color: #8FD4D0;">
+							Delete
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="dataTable" style="overflow-y: scroll; height: 520px; width: 989px;" onscroll="myFunction()">
+				<div id="tableTemplate" style="989"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript"> 
+			loadFood();
+
+			function myFunction()
+			{
+    			document.getElementById("headTable").scrollLeft = document.getElementById("dataTable").scrollLeft;
+			}
+			
+			function loadFood()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetFood.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponse(xmlhttp.responseText);
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponse(response)
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetMethod.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						var method = JSON.parse(xmlhttp.responseText);
+						var arr = JSON.parse(response);
+						var i;
+						var out = "<table class='displayTable' style='width: 2660px;'>";
+						for(i = 0; i < arr.length; i++) 
+						{
+							out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;'><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].foodID + 
+							
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].foodName + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editName('" + arr[i].foodID + "', '" + arr[i].foodName + "')\">" +
+							
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].foodDescription + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editDescription('" + arr[i].foodID + "', '" + arr[i].foodDescription + "')\">" +
+							
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].levelIngredientName;
+							
+							if(arr[i].methodName != "")
+							{
+								out += "</td><td class='displayCol' style='width: 200px;'><select id='changeMethod" + arr[i].foodID + "' class='selectUserRole' onchange=\"changeMethod('" + arr[i].foodID + "')\" style='width: 150px;'>";
+							
+								for(j = 0; j < method.length; j++)
+								{
+									if(arr[i].methodName == method[j].methodName)
+									{
+										out += "<option value='" + method[j].methodName + "' selected>" + method[j].methodName + "</option>";
+									}
+									else
+									{
+										out += "<option value='" + method[j].methodName + "'>" + method[j].methodName + "</option>";
+									}
+								}
+							}
+							else
+							{
+								out += "</td><td class='displayCol' style='width: 200px;'>-" + arr[i].methodName;
+							}
+
+							out += "</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].foodPrice + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editPrice('" + arr[i].foodID + "', '" + arr[i].foodPrice + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].carbohydrate + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editCarbohydrate('" + arr[i].foodID + "', '" + arr[i].carbohydrate + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].protein + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editProtein('" + arr[i].foodID + "', '" + arr[i].protein + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].fat + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editFat('" + arr[i].foodID + "', '" + arr[i].fat + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].vitamin + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editVitamin('" + arr[i].foodID + "', '" + arr[i].vitamin + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].coolDown + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editCoolDown('" + arr[i].foodID + "', '" + arr[i].coolDown + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].weightForUnlock + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editWeightForUnlock('" + arr[i].foodID + "', '" + arr[i].weightForUnlock + "')\">" +
+
+							"</td><td class='displayCol' style='width: 200px;'>" + 
+							arr[i].maxQuantity + " <img src='Pic/Edit.png' style='width: 15px; height: 15px; margin-top: 5px;' onclick=\"editMaxQuantity('" + arr[i].foodID + "', '" + arr[i].maxQuantity + "')\">" +
+
+							"</td><td class='displayCol' style='width: 60px;'>" + 
+							"<img src='Pic/Delete.png' style='width: 20px; height: 20px; margin-top: 5px;' onclick=\"deleteFood('" + arr[i].foodID + "')\">" +
+							"</td></tr>";
+						}
+						out += "</table>";
+						document.getElementById("tableTemplate").innerHTML = out;
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function editName(foodID, foodName)
+			{
+			    var changeTo = prompt("Edit food name", foodName);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeFoodName.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editDescription(foodID, foodDescription)
+			{
+			    var changeTo = prompt("Edit food description", foodDescription);
+			    if (changeTo != null)
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeFoodDescription.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function changeMethod(foodID)
+			{
+				if(confirm("Do you want to change it?"))
+				{	
+					var xmlhttp = new XMLHttpRequest();
+					var index = document.getElementById("changeMethod" + foodID).selectedIndex;
+	    			var option = document.getElementById("changeMethod" + foodID).options;
+					var url = "ChangeMethod.php?foodID=" + foodID + "&changeTo=" + option[index].text;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+				else
+				{
+					loadUsers();
+				}
+			}
+
+			function editPrice(foodID, foodPrice)
+			{
+			    var changeTo = prompt("Edit food price", foodPrice);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeFoodPrice.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editCarbohydrate(foodID, carbohydrate)
+			{
+			    var changeTo = prompt("Edit carbohydrate", carbohydrate);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeCarbohydrate.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editProtein(foodID, protein)
+			{
+			    var changeTo = prompt("Edit protein", protein);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeProtein.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editFat(foodID, fat)
+			{
+			    var changeTo = prompt("Edit fat", fat);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeFat.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editVitamin(foodID, vitamin)
+			{
+			    var changeTo = prompt("Edit fat", vitamin);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeVitamin.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editCoolDown(foodID, coolDown)
+			{
+			    var changeTo = prompt("Edit fat", coolDown);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeCoolDown.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editWeightForUnlock(foodID, weightForUnlock)
+			{
+			    var changeTo = prompt("Edit fat", weightForUnlock);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeWeightForUnlock.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function editMaxQuantity(foodID, maxQuantity)
+			{
+			    var changeTo = prompt("Edit fat", maxQuantity);
+			    if (changeTo != "")
+			    {
+			        var xmlhttp = new XMLHttpRequest();
+					var url = "ChangeMaxQuantity.php?foodID=" + foodID + "&changeTo=" + changeTo;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+			    }
+			}
+
+			function deleteFood(foodID)
+			{
+				if(confirm("Do you want to delete it?"))
+				{
+					var xmlhttp = new XMLHttpRequest();
+					var url = "DeleteFood.php?foodID="+foodID;
+				
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{ 
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+							}
+							else
+							{
+								alert("Failed");
+							}
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body class="bodymain">
+		<img src="Pic/Logo.png" style="margin-left: 44%; margin-top: 3%; width: 40%; height= 40%;">
+		<div class="boxmain">
+			<table style="width: 100%; padding-top: 20px; padding-right: 20px; padding-left: 20px;">
+				<tr>
+					<td class="labeltaginputmain">
+						Username
+					</td>
+					<td style="text-align: right;">
+						<input class="inputboxmain" type="text" id="username" name="username">
+					</td>
+				</tr>
+				<tr>
+					<td class="labeltaginputmain">
+						Password
+					</td>
+					<td style="text-align: right;">
+						<input class="inputboxmain" type="password" id="password" name="password">
+					</td>
+				</tr>
+			</table>
+			<table style="width: 100%; padding-right: 20px; padding-left: 20px; padding-bottom: 20px; text-align: center;">
+				<tr>
+					<td>
+						<input class="buttonBrown" type="button" value="Register" onclick="window.location.href='Register.html'">
+					</td>
+					<td>
+						<input class="buttonBrown" type="button" value="Login" onclick="login()">
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<script type="text/javascript">
+			function login()
+			{
+				var username = document.getElementById("username").value;
+				var password = document.getElementById("password").value;
+				var xmlhttp = new XMLHttpRequest();
+				var url = "Login.php?username=" + username + "&password=" + password;
+				xmlhttp.onreadystatechange=function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText == "Admin")
+						{
+							window.location.href='Admin_UserManager.html';
+						}
+						else if(xmlhttp.responseText == "GCM")
+						{
+							window.location.href='GCM_Method.html';
+						}
+						else if(xmlhttp.responseText == "Player")
+						{
+							window.location.href='Home.html';
+						}
+						else
+						{
+							alert("Failed");
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+		</script>
+	</body>
+</html>

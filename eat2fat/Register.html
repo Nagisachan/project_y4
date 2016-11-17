@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat - Register</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body class="bodymain">
+		<img src="Pic/Logo.png" style="margin-left: 44%; margin-top: 3%; width: 40%; height= 40%;">
+		<div class="boxmain">
+			<table style="width: 100%; padding-top: 20px; padding-right: 20px; padding-left: 20px;">
+				<tr>
+					<td class="labeltaginputmain">
+						Username
+					</td>
+					<td style="text-align: right;">
+						<input class="inputboxmain" type="text" id="username" name="username" onchange="checkUsername()">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<div id="errorUsername"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="labeltaginputmain">
+						Password
+					</td>
+					<td style="text-align: right;">
+						<input class="inputboxmain" type="password" id="password" name="password" onchange="checkPassword()">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<div id="errorPassword"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="labeltaginputmain">
+						E-mail
+					</td>
+					<td style="text-align: right;">
+						<input class="inputboxmain" type="text" id="email" name="email" onchange="checkEmail()">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<div id="errorEmail"></div>
+					</td>
+				</tr>
+			</table>
+			<table style="width: 100%; padding-right: 20px; padding-left: 20px; padding-bottom: 20px; text-align: center;">
+				<tr>
+					<td>
+						<input class="buttonBrown" type="button" value="Back" onclick="window.location.href='Index.html'">
+					</td>
+					<td>
+						<input class="buttonBrown" type="button" value="Submit" onclick="submit()">
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<script type="text/javascript">
+			var errorUsername = true;
+			var errorPassword = true;
+			var errorEmail = true;
+
+			function checkUsername()
+			{
+				var username = document.getElementById("username").value;
+
+				if(username.length >= 8 && username.length <= 16)
+				{
+					var xmlhttp = new XMLHttpRequest();
+					var url = "CheckUsername.php?username=" + username;
+					xmlhttp.onreadystatechange=function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								document.getElementById("errorUsername").style.color = "#4CAF50";
+								document.getElementById("errorUsername").innerHTML = "Username is OK";
+								errorUsername = false;
+							}
+							else
+							{
+								document.getElementById("errorUsername").style.color = "#F44336";
+								document.getElementById("errorUsername").innerHTML = "Username is already being used";
+								errorUsername = true;
+							}
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+				else
+				{
+					document.getElementById("errorUsername").style.color = "#F44336";
+					document.getElementById("errorUsername").innerHTML = "The length of username is 8-16 characters";
+					errorUsername = true;
+				}
+			}
+
+			function checkPassword()
+			{
+				var password = document.getElementById("password").value;
+				if(password.length >= 8 && password.length <= 16)
+				{
+					document.getElementById("errorPassword").style.color = "#4CAF50";
+					document.getElementById("errorPassword").innerHTML = "Password is OK";
+					errorPassword = false;
+				}
+				else
+				{
+					document.getElementById("errorPassword").style.color = "#F44336";
+					document.getElementById("errorPassword").innerHTML = "The length of password is 8-16 characters";
+					errorPassword = true;
+				}
+			}
+
+			function checkEmail()
+			{
+				var email = document.getElementById("email").value;
+
+				if(validateEmail(email))
+				{
+					var xmlhttp = new XMLHttpRequest();
+					var url = "CheckEmail.php?email=" + email;
+					xmlhttp.onreadystatechange=function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								document.getElementById("errorEmail").style.color = "#4CAF50";
+								document.getElementById("errorEmail").innerHTML = "E-mail is OK";
+								errorEmail = false;
+							}
+							else
+							{
+								document.getElementById("errorEmail").style.color = "#F44336";
+								document.getElementById("errorEmail").innerHTML = "E-mail is already being used";
+								errorEmail = true;
+							}
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+				else
+				{
+					document.getElementById("errorEmail").style.color = "#F44336";
+					document.getElementById("errorEmail").innerHTML = "E-mail is invalid";
+					errorEmail = true;
+				}
+			}
+
+			function validateEmail(email)
+			{
+				var emailReg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+				var valid = emailReg.test(email);
+
+				if(!valid) {
+			        return false;
+			    } else {
+			    	return true;
+			    }
+			}
+
+			function submit()
+			{
+				if(errorEmail || errorEmail || errorEmail)
+				{
+					alert("Your input is/are invalid");
+				}
+				else
+				{
+					var username = document.getElementById("username").value;
+					var password = document.getElementById("password").value;
+					var email = document.getElementById("email").value;
+					var xmlhttp = new XMLHttpRequest();
+					var url = "Register.php?username=" + username + "&password=" + password + "&email=" + email;
+					xmlhttp.onreadystatechange=function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							if(xmlhttp.responseText == "true")
+							{
+								alert("Successed");
+								window.location.href='index.html';
+							}
+							else
+							{
+								alert("Failed");
+							}
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body style="background-color: #FAFAFA;">
+		<div class="menuslide" style="width: 300px; height: 643px; text-align: center; background-color: #00ACC1;">
+			<div style="width: 300px; background-color: #8FD4D0; padding-top: 10px; padding-bottom: 10px;">
+				<img src="Pic/Logo.png" style="width: 40%; height= 40%; margin-top: 5px;">
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_Method.html'">
+				<label>Method</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_AddFood.html'">
+				<label>Add Food</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_EditFood.html'">
+				<label>Edit Food</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_Log.html'">
+				<label>Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_PlayerLog.html'">
+				<label>Player Log</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='GCM_ReportGenerator.html'" style="background-color: #FAFAFA; color: #00ACC1;">
+				<label>Report Generator</label>
+			</div>
+			<div class="menuAdmin" onclick="window.location.href='Logout.php'">
+				<label>Logout</label>
+			</div>
+		</div>
+
+		<div class="contentAdmin">
+			<table id="filterTemplate" class="displayTable" style="width: 100%;">
+				<tr style="height: 50px;">
+					<td style="text-align: right; padding-right: 30px;">
+						Report :
+					</td>
+					<td colspan="4" style="text-align: left;">
+						<select onchange="filter()" id="selectedReport" name="selectedReport" style="width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;">
+							<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>
+							<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>
+							<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>
+							<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>
+							<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>
+							<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>
+							<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>
+							<option >ประวัติการทานอาหารของตัวละครของ Player</option>
+							<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>
+						</select>
+					</td>
+				</tr>
+				<tr style="height: 50px;">
+					<td style="text-align: right; padding-right: 30px;">
+						Start Date :
+					</td>
+					<td style="text-align: left;">
+						<input type="date" id="startDate" name="startDate" style="width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;">
+					</td>
+					<td style="text-align: right; padding-right: 30px;">
+						End Date :
+					</td>
+					<td style="text-align: left;">
+						<input type="date" id="endDate" name="endDate" style="width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;">
+					</td>
+					<td style="text-align: left;">
+						<input class="buttonAdd" type="button" value="Submit" onclick="loadReport1()" style="margin-left: 40px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;">
+					</td>
+				</tr>
+			</table>
+
+			<br>
+
+			<div class="scrollForTable" style="height: 50px; width: 972px;">
+				<table id="headTableTemplate" class="displayTable" style="height: 50px; width: 972px;">
+				</table>
+			</div>
+			<div style="overflow-y: scroll; height: 335px;">
+				<div id="tableTemplate"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript"> 			
+			function loadReport1()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var startDate = document.getElementById("startDate").value;
+				var endDate = document.getElementById("endDate").value;
+				var url = "GetReport1.php?startDate=" + startDate + "&endDate=" + endDate;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport1(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function loadReport2()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var startDate = document.getElementById("startDate").value;
+				var endDate = document.getElementById("endDate").value;
+				var url = "GetReport2.php?startDate=" + startDate + "&endDate=" + endDate;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport1(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function loadReport3()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var startDate = document.getElementById("startDate").value;
+				var endDate = document.getElementById("endDate").value;
+				var url = "GetReport3.php?startDate=" + startDate + "&endDate=" + endDate;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport1(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function loadReport4()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var startDate = document.getElementById("startDate").value;
+				var endDate = document.getElementById("endDate").value;
+				var url = "GetReport4.php?startDate=" + startDate + "&endDate=" + endDate;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport1(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponseReport1(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length; i++) {
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td class='displayCol' style='width: 72px;'>" + 
+					(i+1) + 
+					"</td><td class='displayCol' style='width: 250px;'>" + 
+					arr[i].foodID +
+					"</td><td class='displayCol' style='width: 400px;'>" + 
+					arr[i].foodName +
+					"</td><td class='displayCol' style='width: 250px;'>" + 
+					arr[i].quantity +
+					"</td></tr>"
+				}
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+
+				out =	"<tr>"+
+							"<td class=\"displayCol\" style=\"width: 72px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"No."+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 250px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Food ID"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 400px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Food Name"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 250px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Quantity"+
+							"</td>"+
+						"</tr>";
+				document.getElementById("headTableTemplate").innerHTML = out;
+			}
+
+			function loadReport5()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var date = document.getElementById("date").value;
+				var url = "GetReport5.php?date=" + date;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport5(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponseReport5(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length-1; i++) {
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td class='displayCol' style='width: 72px;'>" + 
+					(i+1) + 
+					"</td><td class='displayCol' style='width: 650px;'>" + 
+					arr[i].period +
+					"</td><td class='displayCol' style='width: 250px;'>" + 
+					arr[i].numberOfPlayer +
+					"</td></tr>"
+				}
+
+				out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td colspan='2' lass='displayCol' style='width: 722px;'>" + 
+					arr[i].period +
+					"</td><td class='displayCol' style='width: 250px;'>" + 
+					arr[i].numberOfPlayer +
+					"</td></tr>"
+
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+
+				out =	"<tr>"+
+							"<td class=\"displayCol\" style=\"width: 72px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"No."+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 650px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Period"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 250px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Number Of Player"+
+							"</td>"+
+						"</tr>";
+				document.getElementById("headTableTemplate").innerHTML = out;
+			}
+
+			function loadReport6()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetReport6.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport6(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponseReport6(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length; i++) {
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td class='displayCol' style='width: 72px;'>" + 
+					(i+1) + 
+					"</td><td class='displayCol' style='width: 550px;'>" + 
+					arr[i].playerID +
+					"</td><td class='displayCol' style='width: 350px;'>" + 
+					arr[i].rateOfWeight +
+					"</td></tr>"
+				}
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+
+				out =	"<tr>"+
+							"<td class=\"displayCol\" style=\"width: 72px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"No."+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 550px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Player ID"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 350px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Rate of Weight (kg/day)"+
+							"</td>"+
+						"</tr>";
+				document.getElementById("headTableTemplate").innerHTML = out;
+			}
+
+			function loadReport7()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetReport7.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport7(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponseReport7(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length; i++) {
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td class='displayCol' style='width: 72px;'>" + 
+					(i+1) + 
+					"</td><td class='displayCol' style='width: 550px;'>" + 
+					arr[i].playerID +
+					"</td><td class='displayCol' style='width: 350px;'>" + 
+					arr[i].weight +
+					"</td></tr>"
+				}
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+
+				out =	"<tr>"+
+							"<td class=\"displayCol\" style=\"width: 72px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"No."+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 550px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Player ID"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 350px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Weight"+
+							"</td>"+
+						"</tr>";
+				document.getElementById("headTableTemplate").innerHTML = out;
+			}
+
+			function loadReport8()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var playerID = document.getElementById("playerID").value;
+				var url = "GetReport8.php?playerID=" + playerID;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport8(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponseReport8(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length; i++) {
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td class='displayCol' style='width: 72px;'>" + 
+					(i+1) + 
+					"</td><td class='displayCol' style='width: 250px;'>" + 
+					arr[i].foodID +
+					"</td><td class='displayCol' style='width: 400px;'>" + 
+					arr[i].foodName +
+					"</td><td class='displayCol' style='width: 250px;'>" + 
+					arr[i].quantity +
+					"</td></tr>"
+				}
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+
+				out =	"<tr>"+
+							"<td class=\"displayCol\" style=\"width: 72px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"No."+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 250px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Food ID"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 400px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Food Name"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 250px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Quantity"+
+							"</td>"+
+						"</tr>";
+				document.getElementById("headTableTemplate").innerHTML = out;
+			}
+
+			function loadReport9()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var startDate = document.getElementById("startDate").value;
+				var endDate = document.getElementById("endDate").value;
+				var url = "GetReport9.php?startDate=" + startDate + "&endDate=" + endDate;
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						if(xmlhttp.responseText != "false")
+						{
+							displayResponseReport9(xmlhttp.responseText);
+							alert("Loaded");
+						}
+						else
+						{
+							window.location.href="Logout.php";
+						}
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponseReport9(response) {
+				var arr = JSON.parse(response);
+				var i;
+				var out = "<table class='displayTable'>";
+				for(i = 0; i < arr.length; i++) {
+					out += "<tr class='selectRow' style='font-size: 16pt; height: 35px;''>" +
+					"<td class='displayCol' style='width: 72px;'>" + 
+					(i+1) + 
+					"</td><td class='displayCol' style='width: 300px;'>" + 
+					arr[i].foodID +
+					"</td><td class='displayCol' style='width: 600px;'>" + 
+					arr[i].foodName +
+					"</td></tr>"
+				}
+				out += "</table>";
+				document.getElementById("tableTemplate").innerHTML = out;
+
+				out =	"<tr>"+
+							"<td class=\"displayCol\" style=\"width: 72px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"No."+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 300px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Food ID"+
+							"</td>"+
+							"<td class=\"displayCol\" style=\"width: 600px; color: #FFFFFF; background-color: #8FD4D0;\">"+
+								"Food Name"+
+							"</td>"+
+						"</tr>";
+				document.getElementById("headTableTemplate").innerHTML = out;
+			}
+
+			function filter()
+			{
+				var out = "";
+				if(document.getElementById('selectedReport').selectedIndex == 0)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option selected>จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Start Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"startDate\" name=\"startDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"End Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"endDate\" name=\"endDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport1()\" style=\"margin-left: 40px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 1)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option selected>จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Start Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"startDate\" name=\"startDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"End Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"endDate\" name=\"endDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport2()\" style=\"margin-left: 40px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 2)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option selected>จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Start Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"startDate\" name=\"startDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"End Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"endDate\" name=\"endDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport3()\" style=\"margin-left: 40px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 3)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option selected>จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Start Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"startDate\" name=\"startDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"End Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"endDate\" name=\"endDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport4()\" style=\"margin-left: 40px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 4)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option selected>จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"date\" name=\"startDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td colspan=\"3\" style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport5()\" style=\"margin-left: 450px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 5)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option selected>Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td colspan=\"5\" style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport6()\" style=\"margin-left: 777px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 6)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option selected>Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td colspan=\"5\" style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport7()\" style=\"margin-left: 777px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 7)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option selected>ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option >วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Player ID :"+
+								"</td>"+
+								"<td colspan=\"3\" style=\"text-align: left;\">"+
+									"<input type=\"text\" id=\"playerID\" name=\"playerID\" style=\"width: 450px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport8()\" style=\"margin-left: 120px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+				else if(document.getElementById('selectedReport').selectedIndex == 8)
+				{
+					out = 	"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Report :"+
+								"</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+									"<select onchange=\"filter()\" id=\"selectedReport\" name=\"selectedReport\" style=\"width: 815px; height: 32px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกซื้อโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ Player ขายให้แก่ระบบ</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกปรุงโดย Player</option>"+
+										"<option >จำนวนวัตถุดิบหรือาหารสูงสุด 10 อันดับ ที่ถูกทานโดยตัวละครของ Player</option>"+
+										"<option >จำนวน Player ที่เข้าสู่ระบบในแต่ละช่วงเวลา</option>"+
+										"<option >Player 50 อันดับแรก ที่มีอัตราการเปลี่ยนแปลงของน้ำหนักต่อหนึ่งหน่วยเวลามากที่สุด</option>"+
+										"<option >Player 50 อันดับแรก ที่มีน้ำหนักของตัวละครมากที่สุด</option>"+
+										"<option >ประวัติการทานอาหารของตัวละครของ Player</option>"+
+										"<option selected>วัตถุดิบหรืออาหารที่ถูกเพิ่มโดย Game Content Master</option>"+
+									"</select>"+
+								"</td>"+
+							"</tr>"+
+							"<tr style=\"height: 50px;\">"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"Start Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"startDate\" name=\"startDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: right; padding-right: 30px;\">"+
+									"End Date :"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input type=\"date\" id=\"endDate\" name=\"endDate\" style=\"width: 180px; height: 30px; border-radius: 6px; border-style: solid; border-width: 0px; background: #FFFFFF; outline-width: 0.5; outline-color: #8FD4D0; padding-left: 10px; padding-right: 10px; font-family: 'Omyim'; font-size: 20pt; color: #8FD4D0;\">"+
+								"</td>"+
+								"<td style=\"text-align: left;\">"+
+									"<input class=\"buttonAdd\" type=\"button\" value=\"Submit\" onclick=\"loadReport9()\" style=\"margin-left: 40px; width: 140px; height: 40px; border-radius: 6px; border-style: solid; border-width: 0px; outline: none; font-family: 'Omyim'; font-size: 20pt; color: #FFFFFF;\">"+
+								"</td>"+
+							"</tr>";
+					document.getElementById('filterTemplate').innerHTML = out;
+				}
+			}
+		</script>
+	</body>
+</html>

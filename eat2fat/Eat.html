@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Eat2Fat</title>
+		<link rel="stylesheet" type="text/css" href="CSS.css">
+		<meta charset="utf-8">
+	</head>
+	<body class="bodyhome">
+		<div class="menubar">
+			<img class="logomenubar" src="Pic/Logo.png">
+			<input class="labelmenubar" type="button" value="Home" onclick="window.location.href='Home.html'">
+			<input class="labelmenubar" type="button" value="Kitchen" onclick="window.location.href='Kitchen.html'">
+			<input class="labelmenubar" type="button" value="Eat" onclick="window.location.href='Eat.html'">
+			<input class="labelmenubar" type="button" value="Shop" onclick="window.location.href='Shop.html'">
+			<input class="labelmenubar" type="button" value="Sell" onclick="window.location.href='Sell.html'">
+			<input class="labelmenubar" type="button" value="Logout" onclick="window.location.href='Logout.php'">
+		</div>
+
+		<div class="shopsell" id="sellTableTemplate">
+		</div>
+		
+		<div class="infobar">
+			<img class="picinfobar" src="Pic/Profile.png">
+			<div class="labelinfobar" id="showUsername"></div>
+			<div class="labelinfobar" id="showWeight"></div>
+			<div class="labelinfobar" id="showEmoney"></div>			
+		</div>
+		
+		<script type="text/javascript">
+			loadPlayer();
+			loadFood();
+			
+			function loadPlayer()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetPlayerInformation.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						displayResponsePlayer(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function displayResponsePlayer(response)
+			{
+				var arr = JSON.parse(response);
+				document.getElementById("showUsername").innerHTML = arr[0].playerID;
+				document.getElementById("showWeight").innerHTML = "Weight : " + arr[0].playerWeight + " kg";
+				document.getElementById("showEmoney").innerHTML = "E Money : " + arr[0].playerMoney;
+				Money = arr[0].playerMoney;
+			}
+			
+			function loadFood()
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var url = "GetFoodInStore.php";
+				xmlhttp.onreadystatechange=function()
+				{
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						displayResponseFood(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+			
+			function displayResponseFood(response)
+			{
+				var arr = JSON.parse(response);
+				var i=0;
+				var out = "<table>";
+				for(i = 0; i < Math.floor(arr.length/2); i++)
+				{
+					out += "<tr><td><div class='foodBoxEat'><table style='margin: 5px; width: 330px; padding-top: 5px;'><tr>";
+					out += "<td colspan='3' style='font-size: 14pt; padding: 5px; background-color: #FFC107; border-radius: 5px; color: #FFFFFF;'>";
+					out += "Food Name: " + arr[2*i].foodName + "<br>";
+					out += "Carbohydrate: " + arr[2*i].carbohydrate + "<br>";
+					out += "Protein: " + arr[2*i].protein + "<br>";
+					out += "Fat: " + arr[2*i].fat + "<br>";
+					out += "Vitamin: " + arr[2*i].vitamin + "<br>";
+					out += "Quantity in your store: " + arr[2*i].quantity + " / " + arr[2*i].maxQuantity + "<br>"; 
+					out += "</td></tr><tr style='text-align: center;'><td style='font-size: 20pt; color: #4BACC6;'>Quantity</td>";
+					out += "<td><input class='changeQuantity' type='number' min='0' value='0' id='Quantity" + arr[2*i].foodID + "'></td>";
+					out += "<td><button class='buttonBuy' onclick=\"Eat('" + arr[2*i].foodID + "','" + arr[2*i].quantity + "')\">Eat</button></td>";
+					out += "</tr></table></div></td>";
+					
+					out += "<td><div class='foodBoxEat'><table style='margin: 5px; width: 330px; padding-top: 5px;'><tr>";
+					out += "<td colspan='3' style='font-size: 14pt; padding: 5px; background-color: #FFC107; border-radius: 5px; color: #FFFFFF;'>";
+					out += "Food Name: " + arr[2*i+1].foodName + "<br>";
+					out += "Carbohydrate: " + arr[2*i+1].carbohydrate + "<br>";
+					out += "Protein: " + arr[2*i+1].protein + "<br>";
+					out += "Fat: " + arr[2*i+1].fat + "<br>";
+					out += "Vitamin: " + arr[2*i+1].vitamin + "<br>";
+					out += "Quantity in your store: " + arr[2*i+1].quantity + " / " + arr[2*i+1].maxQuantity + "<br>"; 
+					out += "</td></tr><tr style='text-align: center;'><td style='font-size: 20pt; color: #4BACC6;'>Quantity</td>";
+					out += "<td><input class='changeQuantity' type='number' min='0' value='0' id='Quantity" + arr[2*i+1].foodID + "'></td>";
+					out += "<td><button class='buttonBuy' onclick=\"Eat('" + arr[2*i+1].foodID + "','" + arr[2*i+1].quantity + "')\">Eat</button></td>";
+					out += "</tr></table></div></td></tr>";
+				}
+			
+				if(Math.floor(arr.length/2) != arr.length/2)
+				{
+					out += "<tr><td><div class='foodBoxEat'><table style='margin: 5px; width: 330px; padding-top: 5px;'><tr>";
+					out += "<td colspan='3' style='font-size: 14pt; padding: 5px; background-color: #FFC107; border-radius: 5px; color: #FFFFFF;'>";
+					out += "Food Name:" + arr[2*i].foodName + "<br>";
+					out += "Carbohydrate: " + arr[2*i].carbohydrate + "<br>";
+					out += "Protein: " + arr[2*i].protein + "<br>";
+					out += "Fat: " + arr[2*i].fat + "<br>";
+					out += "Vitamin: " + arr[2*i].vitamin + "<br>";
+					out += "Quantity in your store: " + arr[2*i].quantity + " / " + arr[2*i].maxQuantity + "<br>"; 
+					out += "</td></tr><tr style='text-align: center;'><td style='font-size: 20pt; color: #4BACC6;'>Quantity</td>";
+					out += "<td><input class='changeQuantity' type='number' min='0' value='0' id='Quantity" + arr[2*i].foodID + "'></td>";
+					out += "<td><button class='buttonBuy' onclick=\"Eat('" + arr[2*i].foodID + "','" + arr[2*i].quantity + "')\">Eat</button></td>";
+					out += "</tr></table></div></td></tr>";
+				}
+				out += "</table>";
+				document.getElementById("sellTableTemplate").innerHTML = out;
+			}
+			
+			function Eat(foodID, quantityInStore)
+			{
+				var xmlhttp = new XMLHttpRequest();
+				var quantity = document.getElementById("Quantity" + foodID).value;
+				if ((parseInt(quantity) <= parseInt(quantityInStore)) && (parseInt(quantity) >= 1))
+				{
+					var url = "Eat_Button.php?foodID=" + foodID + "&quantity=" + quantity;
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+						{
+							loadPlayer();
+							loadFood();
+						}
+					}
+					xmlhttp.open("GET", url, true);
+					xmlhttp.send();
+				}
+				else
+				{
+					alert("Invalid Quantity");
+				}
+			}
+		</script>
+		
+	</body>
+</html>
