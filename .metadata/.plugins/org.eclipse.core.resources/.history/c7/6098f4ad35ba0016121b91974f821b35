@@ -71,8 +71,8 @@ public class ParagraphSplitter {
 		HttpURLConnection con = (HttpURLConnection) object.openConnection();
 		con.setDoOutput(true);
 		//con.setDoInput(true);
-	//	con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-	//	con.setRequestProperty("Accept", "application/json; charset=UTF-8");
+		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		con.setRequestProperty("Accept", "application/json; charset=UTF-8");
 		con.setRequestMethod("POST");
 		OutputStream os = con.getOutputStream();
 		String param = json.toString();
