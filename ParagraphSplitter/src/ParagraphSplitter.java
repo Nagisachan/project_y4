@@ -66,7 +66,7 @@ public class ParagraphSplitter {
 		json.put("count",i-1);
 		json.put("content",content);
 		System.out.println(json.toString());
-		URL object=new URL("http://localhost/test.php");
+		URL object=new URL("http://punyapat.org/echo_post.php");
 
 		HttpURLConnection con = (HttpURLConnection) object.openConnection();
 		con.setDoOutput(true);

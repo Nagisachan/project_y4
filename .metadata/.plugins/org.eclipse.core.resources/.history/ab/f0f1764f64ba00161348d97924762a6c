@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.Properties;
 import org.json.*;
@@ -62,25 +63,36 @@ public class ParagraphSplitter {
 			}
 		}
 		in.close();
-		json.put("count",i);
+		json.put("count",i-1);
 		json.put("content",content);
 		System.out.println(json.toString());
 		URL object=new URL("http://localhost/test.php");
 
 		HttpURLConnection con = (HttpURLConnection) object.openConnection();
 		con.setDoOutput(true);
-		con.setDoInput(true);
-		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		con.setRequestProperty("Accept", "application/json");
+		//con.setDoInput(true);
+	//	con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	//	con.setRequestProperty("Accept", "application/json; charset=UTF-8");
 		con.setRequestMethod("POST");
 		OutputStream os = con.getOutputStream();
-		os.write(json.toString().getBytes("UTF-8"));
+		String param = json.toString();
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+		bw.write(URLEncoder.encode("json","UTF-8") + "=" + URLEncoder.encode(param,"UTF-8"));
+		bw.flush();
+		bw.close();
 		os.close();
+		//os.write(param.getBytes("UTF-8"));
+		
+		//OutputStream os = con.getOutputStream();
+	    //DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	    //wr.write(new String("json=" + json).getBytes());
+	    //String param =  URLEncoder.encode(json.toString(), "UTF-8");
+	    //wr.write(param.getBytes());
 		
         BufferedReader br = new BufferedReader(new InputStreamReader(
-                (con.getInputStream())));
+               (con.getInputStream())));
 
-        String output;
+       String output;
         System.out.println("Output from Server .... \n");
         while ((output = br.readLine()) != null) {
             System.out.println(output);
