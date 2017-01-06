@@ -10,6 +10,9 @@ print("\n".join(twenty_train.data[0].split("\n")[:3]))
 
 print(twenty_train.target_names[twenty_train.target[0]])
 
+#import sys
+#sys.exit()
+
 # test print target
 print twenty_train.target[:10]
 
