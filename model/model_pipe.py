@@ -25,14 +25,14 @@ predicted = text_clf.predict(docs_test)
 
 # score
 score = np.mean(predicted == twenty_test.target)
-print score
+print "MultinomialNB",score
 
 # using different model (SVM)
 text_clf = Pipeline([('vect', CountVectorizer()),('tfidf', TfidfTransformer()),('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)),])
 text_clf=text_clf.fit(twenty_train.data, twenty_train.target)
 predicted = text_clf.predict(docs_test)
 score = np.mean(predicted == twenty_test.target)
-print score
+print "SVM",score
 
 
 # using different model (multi-layer perceptron)
@@ -40,7 +40,7 @@ text_clf = Pipeline([('vect', CountVectorizer()),('tfidf', TfidfTransformer()),(
 text_clf=text_clf.fit(twenty_train.data, twenty_train.target)
 predicted = text_clf.predict(docs_test)
 score = np.mean(predicted == twenty_test.target)
-print score
+print "NN",score
 
 # view more info
 print(metrics.classification_report(twenty_test.target, predicted, target_names=twenty_test.target_names))
