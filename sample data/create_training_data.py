@@ -4,7 +4,7 @@ from pprint import pprint
 
 filename = "story-satun-2.txt"
 creatorname = 'wimonsri-story-satun-2.txt'
-output = "wimonsri-story-satun-2-testingdata.txt"
+output = "wimonsri-story-satun-2-trainingdata.txt"
 
 f = codecs.open(filename, "r", "utf-8")
 index = 0
