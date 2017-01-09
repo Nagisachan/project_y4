@@ -1,12 +1,22 @@
 from word_segmentation_spicydog import Tws
-from sklearn.feature_extraction.text import CountVectorizer	
+from sklearn.feature_extraction.text import CountVectorizer
+from read_training_data import N
 import sys
 import string
 
 text = []
 tag = []
 
+tmp_text = []
+tmp_tag = []
+
+read = N()
 tws = Tws()
+
+tmp_text,tmp_tag = read.read_text_tag()
+
+for i in range(0,len(tmp_text)):
+        print i
 
 with open("../sample data/chatralada-story-baan-kho-testingdata-tmp.txt","r") as f:
 	for line in f:

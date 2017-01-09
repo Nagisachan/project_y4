@@ -11,9 +11,6 @@ import glob
 
 class N(object):
 
-    def __init__(self):
-        print "hello"
-
     def read_text_tag(self):
         listcreatorname = []
         listfilename = []
@@ -32,8 +29,8 @@ class N(object):
             listfilename.append(filename)
             index += 1
 
-        print listfilename
-        print listcreatorname
+        #print listfilename
+        #print listcreatorname
 
         index -= 1
         
@@ -58,7 +55,7 @@ class N(object):
                     datatext.append(content)
                     index = index + 1
 
-            print datatext[0]
+            #print datatext[0]
 
             with open(creatorname) as data_file:    
                 data_json = json.load(data_file)
@@ -66,7 +63,7 @@ class N(object):
             
             mark = 0
 
-            print "start"
+            #print "start"
             for index in range(0,len(datatext)):
                 if data_json["paragraph"][index]["dropdowntag"] or data_json["paragraph"][index]["freetag"]:
                     #segment = tws.word_segment(train_text)
