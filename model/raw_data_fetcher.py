@@ -1,4 +1,5 @@
-from word_segmentation_spicydog import Tws
+#from word_segmentation_spicydog import Tws
+from word_segmentation_insightera import Tws
 from sklearn.feature_extraction.text import CountVectorizer
 from read_training_data import N
 import numpy as np
@@ -22,6 +23,7 @@ class RawData(object):
 
 		# FIXME
 		# only use first 5 docs
+		max_doc = 100
 		text = text[:100]
 		tag = tag[:100]
 		print "[RawData]: fetch from %d docs" % len(tag)

@@ -1,13 +1,12 @@
 import numpy as np
 from sklearn.pipeline import Pipeline
-from sklearn.datasets import fetch_20newsgroups
+#from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.naive_bayes import MultinomialNB
+#from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import SGDClassifier
-from sklearn.neural_network import MLPClassifier
+#from sklearn.neural_network import MLPClassifier
 from sklearn import metrics
-from word_segmentation_spicydog import Tws
 from raw_data_fetcher import RawData
 import string
 
