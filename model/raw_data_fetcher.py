@@ -17,7 +17,7 @@ class RawData(object):
                 self.tag_table = {}
                 self.tag_inverse_table = {}
                 
-        def load(self):
+        def load(self,sample_n):
                 text = []
                 tag = []
 
@@ -30,11 +30,10 @@ class RawData(object):
 
                 print text[0]
 
-                # FIXME
-                # only use first 5 docs
-                max_doc = 5
-                text = text[:5]
-                tag = tag[:5]
+                if sample_n > 0:
+                    text = text[:sample_n]
+                    tag = tag[:sample_n]
+                    
                 print "[RawData]: fetch from %d docs" % len(tag)
                 # create 1 tag per doc raw data
                 new_text = []
@@ -95,7 +94,7 @@ class RawData(object):
                 
 if __name__ == '__main__':              
         raw = RawData()
-        raw.load()
+        raw.load(0)
         text,tag = raw.get_train_data()
         
         def custom_preprocessor(str):

@@ -26,7 +26,7 @@ twenty_test = fetch_20newsgroups(subset='test', categories=categories, shuffle=T
 """
 
 raw = RawData()
-raw.load()
+raw.load(10)
 
 text,tag = raw.get_train_data()
 twenty_train_data = text
