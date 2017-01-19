@@ -9,6 +9,9 @@ from sklearn.linear_model import SGDClassifier
 from sklearn import metrics
 from raw_data_fetcher import RawData
 import string
+from sklearn.externals import joblib
+import os.path
+from sys import argv
 
 """
 # fetch raw data
@@ -26,7 +29,7 @@ twenty_test = fetch_20newsgroups(subset='test', categories=categories, shuffle=T
 """
 
 raw = RawData()
-raw.load(10)
+raw.load(15)
 
 text,tag = raw.get_train_data()
 twenty_train_data = text
@@ -56,13 +59,35 @@ count_vect = CountVectorizer(tokenizer=custom_tokenizer,analyzer = 'word',prepro
 print "train sample =",len(twenty_train_target)
 print "test sample =",len(twenty_test_target)
 
+# read model from file
+model_file_name = "core_model/SGDClassifier0.model"
+if os.path.isfile(model_file_name) and len(argv) > 1 and argv[1] != "0":
+    print "read model from '%s'" % (model_file_name)
+    clf = joblib.load(model_file_name) 
+else:
+    print "ceate new model"
+    clf = SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)
+
 # SVM
-text_clf = Pipeline([('vect', count_vect),('tfidf', TfidfTransformer()),('clf', SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)),])
-text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
+text_clf = Pipeline([('vect', count_vect),('tfidf', TfidfTransformer()),('clf', clf)])
+
+# save model to file
+if len(argv) > 3 and argv[3] != "0":
+    print "skip train model..."
+    text_clf = clf
+else:
+    print "train model..."
+    text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
+
+# save model to file
+if len(argv) > 2 and argv[2] != "0":
+    print "save model to file '%s'" % (model_file_name)
+    joblib.dump(clf, model_file_name)
+    
 predicted = text_clf.predict(twenty_test_data)
 score = np.mean(predicted == twenty_test_target)
 print "SVM",score
 
 # view more info
 print(metrics.classification_report(twenty_test_target, predicted, target_names=raw.get_target_names()))
-print metrics.confusion_matrix(twenty_test_target, predicted)
+#print metrics.confusion_matrix(twenty_test_target, predicted)
