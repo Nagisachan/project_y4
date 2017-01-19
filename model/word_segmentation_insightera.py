@@ -6,7 +6,8 @@ import time
 class Tws(object):
     
     def __init__(self):
-        self.server_url = "https://internal.insightera.co.th/toolbox/word_segmentation/index.php?method=process"
+        #self.server_url = "https://internal.insightera.co.th/toolbox/word_segmentation/index.php?method=process"
+        self.server_url = "http://punyapat.org/web/tech/lexto/ws.php"
         requests.packages.urllib3.disable_warnings()
     
     def word_segment(self,sentence):
