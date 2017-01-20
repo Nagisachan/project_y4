@@ -21,7 +21,7 @@ if len(argv) != 3:
 print "reading data..."
     
 raw = RawData()
-raw.load(5)
+raw.load(0)
 
 text,tag = raw.get_train_data()
 twenty_train_data = text
