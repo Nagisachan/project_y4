@@ -4,6 +4,7 @@
 from word_segmentation_insightera import Tws
 from sklearn.feature_extraction.text import CountVectorizer
 from read_training_data import N
+from sklearn.model_selection import train_test_split
 import numpy as np
 import sys
 import string
@@ -13,7 +14,7 @@ class RawData(object):
         def __init__(self):
                 self.read = N()
                 self.tws = Tws()
-                self.train_text_ratio = 0.8
+                self.train_text_ratio = 0.9
                 self.tag_table = {}
                 self.tag_inverse_table = {}
                 
@@ -23,7 +24,7 @@ class RawData(object):
 
                 stopwords = codecs.open('stop_words.txt', 'r','utf-8').read().split()
                 space = ' '
-                print stopwords
+                #print stopwords
 
                 # read raw data
                 text,tag = self.read.read_text_tag()
@@ -65,6 +66,11 @@ class RawData(object):
                         
                                 new_text.append(filteredtext)
                                 new_tag.append(t)
+                
+                X = new_text
+                y = new_tag
+                
+                self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 
                 # random sample
                 text = []
@@ -77,14 +83,16 @@ class RawData(object):
                                 
                 self.text = text
                 self.tag = tag
-        
+                
         def get_train_data(self):
                 train_data_count = int(len(self.tag)*self.train_text_ratio)
                 return self.text[:train_data_count],self.tag[:train_data_count]
+                #return self.X_train,self.y_train
                 
         def get_test_data(self):
                 train_data_count = int(len(self.tag)*self.train_text_ratio)
                 return self.text[train_data_count:],self.tag[train_data_count:]
+                #return self.X_test,self.y_test
         
         def get_target_names(self):
                 tmp = []

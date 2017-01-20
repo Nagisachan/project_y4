@@ -11,14 +11,14 @@ class Tws(object):
         requests.packages.urllib3.disable_warnings()
     
     def word_segment(self,sentence):
-        print "Request word segmentation...."
+        # print "Request word segmentation...."
         start = time.time()
         r = requests.post(self.server_url, data=('{"text":"' + sentence + '"}').encode('utf-8'),verify=False)
         stop = time.time()
 		
         if r.status_code == 200:
             j_output = json.loads(r.text)
-            print "Done %d words (%.2fms)" % (len(j_output),(stop-start))
+            print "Done %5d words (%.2fms)" % (len(j_output),(stop-start))
             return j_output
         else:
             print "error", r.status_code, r.reason
