@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -16,11 +18,24 @@ public class App {
 	
 	private File dictFile;
 	private final int port = 6789;
+	Trie dict;
 	
 	public App(String[] args) {
 		
 		dictFile = new File(args[0]);
-		
+		dict = new Trie();
+				
+		if (dictFile.exists()){
+			try {
+				addDict(dictFile);
+			} catch (IOException e) {
+				log.error("error in add dict",e);
+			}
+		}
+		else{
+			System.out.println(" !!! Error: The dictionary file is not found, " + dictFile.getName());
+		}	
+				
 		try(ServerSocket serverSocket = new ServerSocket(port)) {
 			log.info("start listen on port " + port + "...");
 			while(true){
@@ -29,6 +44,22 @@ public class App {
 		} catch (Exception e) {
 			log.error("error in main",e);
 		}
+	}
+	
+	private void addDict(File dictFile) throws IOException {
+
+		// Read words from dictionary
+		String line;
+		FileReader fr = new FileReader(dictFile);
+		BufferedReader br = new BufferedReader(fr);
+
+		while ((line = br.readLine()) != null) {
+			line = line.trim();
+			if (line.length() > 0)
+				dict.add(line);
+		}
+
+		br.close();
 	}
 	
 	public static void main(String[] args) {
@@ -51,7 +82,9 @@ public class App {
 		@Override
 		public void run() {
 			try{
-				LongLexTo tokenizer = new LongLexTo(dictFile);
+				log.info("new connection from " + socket.getInetAddress() + "...");
+				
+				LongLexTo tokenizer = new LongLexTo(dict);
 				File unknownFile = new File(dictFile.getParent(),"unknown.txt");
 				if (unknownFile.exists())
 					tokenizer.addDict(unknownFile);

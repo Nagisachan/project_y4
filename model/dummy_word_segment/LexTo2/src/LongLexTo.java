@@ -96,13 +96,10 @@ public class LongLexTo {
 	/*******************************************************************/
 	/************** Constructor (passing dictionary file ) *************/
 	/*******************************************************************/
-	public LongLexTo(File dictFile) throws IOException {
+	public LongLexTo(Trie dict) throws IOException {
 
-		dict = new Trie();
-		if (dictFile.exists())
-			addDict(dictFile);
-		else
-			System.out.println(" !!! Error: The dictionary file is not found, " + dictFile.getName());
+		this.dict = dict;
+		
 		indexList = new Vector<Integer>();
 		lineList = new Vector<Integer>();
 		typeList = new Vector<Integer>();
