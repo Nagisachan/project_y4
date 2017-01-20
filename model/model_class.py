@@ -11,6 +11,7 @@ from sklearn.externals import joblib
 from sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.datasets import fetch_20newsgroups
 #from sklearn.neural_network import MLPClassifier
 #from sklearn.naive_bayes import MultinomialNB
 #from sklearn.datasets import fetch_20newsgroups
@@ -92,7 +93,7 @@ class CLFModel(object):
         else:
             self.clf.fit(X_train_tfidf, y_train_data)
     
-    def predict(self,x_test_data,print_result=False,y_test_data=False,target_name=False):
+    def predict(self,x_test_data,print_result=False,y_test_data=list(),target_name=list()):
         X_train_counts = self.count_vect.transform(x_test_data)
         X_train_tfidf = self.tfidf_transformer.transform(X_train_counts)
         predicted = self.clf.predict(X_train_tfidf)
@@ -101,7 +102,7 @@ class CLFModel(object):
             score = np.mean(predicted == y_test_data)
             self.logger.info("score = %.2f" % score)
             
-        if print_result and y_test_data:
+        if print_result and len(y_test_data) > 0:
             self.logger.info(metrics.classification_report(y_test_data, predicted, target_names=target_name))
         
         return predicted
@@ -116,6 +117,14 @@ class CLFModel(object):
 
 if __name__ == '__main__':
     model = CLFModel()
-    model.run_test(n_sample=100)   
+    #model.run_test(n_sample=100)   
 
+    #fetch raw data
+    categories = ['alt.atheism', 'soc.religion.christian','comp.graphics', 'sci.med']
+    twenty_train = fetch_20newsgroups(subset='train', categories=categories, shuffle=True, random_state=42)
+    twenty_test = fetch_20newsgroups(subset='test', categories=categories, shuffle=True, random_state=42)
     
+    print "Using 20 news groups as sample data..."
+    model.create_new_model()
+    model.train(twenty_train.data,twenty_train.target)
+    model.predict(twenty_test.data,True,twenty_test.target,twenty_test.target_names)
