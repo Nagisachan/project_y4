@@ -12,6 +12,7 @@ class Tws(object):
     
     def word_segment(self,sentence):
         # print "Request word segmentation...."
+        sentence = sentence.replace('"',"'")
         start = time.time()
         r = requests.post(self.server_url, data=('{"text":"' + sentence + '"}').encode('utf-8'),verify=False)
         stop = time.time()
@@ -21,11 +22,11 @@ class Tws(object):
             print "Done %5d words (%.2fms)" % (len(j_output),(stop-start))
             return j_output
         else:
-            print "error", r.status_code, r.reason
+            print "error input=%s status=%d reason=%s" % (sentence, r.status_code, r.reason)
             return []
                     
 if __name__ == '__main__':
     tws = Tws()
-    result = tws.word_segment('ทดสอบตัดคำไทย')
+    result = tws.word_segment(unicode('ทดสอบตัดคำไทยดูว่าแม่นไหม','utf-8'))
     for word in result:
         print(word)

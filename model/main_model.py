@@ -80,9 +80,9 @@ def train(x_train_data,y_train_data,count_vect,tfidf_transformer,clf,partial=Fal
         clf.fit(X_train_tfidf, y_train_data)
 
 def predict(x_test_data,count_vect,tfidf_transformer,clf):
-    X_train_counts = count_vect.transform(x_test_data)
-    X_train_tfidf = tfidf_transformer.transform(X_train_counts)
-    return clf.predict(X_train_tfidf)
+    X_test_counts = count_vect.transform(x_test_data)
+    X_test_tfidf = tfidf_transformer.transform(X_test_counts)
+    return clf.predict(X_test_tfidf)
     
 # save model to file
 if len(argv) > 2 and argv[2] != "0":
