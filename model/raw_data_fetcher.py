@@ -83,6 +83,8 @@ class RawData(object):
             self.raw_paragraph_text.append(filteredtext)
             self.raw_paragraph_tag.append(all_tag)
 
+        print
+        
         X = new_text
         y = new_tag
         
@@ -190,6 +192,35 @@ class RawData(object):
         train_text = result_text
         train_tag = result_tag
         
+        # Zipf’s rule
+        from collections import defaultdict
+        frequency = defaultdict(int) # default = 0
+
+        for text in train_text:
+            words = text.split(' ')
+            for token in words:
+                frequency[token] += 1
+        
+        all_word_count = len(frequency.keys())
+        all_word_occur_count = sum(frequency.values())
+        min_threshold = int(0.005*all_word_count)
+        max_threshold = int(0.6*all_word_count)
+        all_filtered_word_count = len([word for word in frequency.keys() if frequency[word] > min_threshold and frequency[word] < max_threshold])
+        
+        sorted_frequency = sorted(frequency.items(), key=operator.itemgetter(1), reverse=True)
+        
+        #for fword,fvalue in sorted_frequency[:10] + sorted_frequency[-5:]:
+        #    print fword,fvalue
+        
+        all_filtered_word_occur_count = 0
+        for i in range(len(train_text)):
+            words = train_text[i].split(' ')
+            tmp = [word for word in words if frequency[word] < max_threshold and frequency[word] > min_threshold]
+            all_filtered_word_occur_count += len(tmp)
+            train_text[i] = " ".join(tmp) 
+
+        #print "min=%d max=%d before=%d/%d after=%d/%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count,all_filtered_word_count)
+        
         return train_text,train_tag,test_text,test_tag
         
     def get_target_names(self):
@@ -212,14 +243,15 @@ class RawData(object):
         
 if __name__ == '__main__':              
     raw = RawData()
-    raw.load(0)
+    raw.load(0 if len(sys.argv) < 2 else int(sys.argv[1]))
     raw.show_tag_summary()
-    sys.exit()
     
     target_tag = 6;
     #text,tag = raw.get_train_data()
     text,tag,test_text,test_tag = raw.get_train_test_data_tag(target_tag)
     print "train = %d, test = %d" % (len(tag),len(test_tag))
+    
+    sys.exit()
     
     def custom_preprocessor(str):
         str = str.translate({ord(char): None for char in string.punctuation})

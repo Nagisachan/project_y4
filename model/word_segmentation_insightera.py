@@ -2,6 +2,7 @@
 import requests
 import json
 import time
+import sys
 
 class Tws(object):
     
@@ -19,7 +20,9 @@ class Tws(object):
 		
         if r.status_code == 200:
             j_output = json.loads(r.text)
-            print "Done %5d words (%.2fms)" % (len(j_output),(stop-start))
+            #print "Done %5d words (%.2fms)" % (len(j_output),(stop-start))
+            sys.stdout.write('.')
+            sys.stdout.flush()
             return j_output
         else:
             print "error input=%s status=%d reason=%s" % (sentence, r.status_code, r.reason)

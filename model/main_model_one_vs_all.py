@@ -66,31 +66,34 @@ print "reading data..."
     
 raw = RawData()
 raw.load(0)
-all_tag_idx = raw.get_all_tag_idx()
 
-for target_tag in all_tag_idx:
-    twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
-    
-    if min(len(twenty_train_target),len(twenty_test_target)) < 20:
-        continue
+for rnd in range(10):
+    all_tag_idx = raw.get_all_tag_idx()
+    for target_tag in all_tag_idx:
+        twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
         
-    # show info
-    print "train sample =",len(twenty_train_target)
-    print "test sample =",len(twenty_test_target)
+        if len(twenty_train_target) < 50:
+            continue
+               
+        # show info
+        #print "train sample =",len(twenty_train_target)
+        #print "test sample =",len(twenty_test_target)
+        
+        # save model to file
+        if len(argv) > 2 and argv[2] != "0":
+            print "- skip train model..."
+        else:
+            #print "- train model..."
+            #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
+            train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
+               
+        #predicted = text_clf.predict(twenty_test_data)
+        predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
+        score = np.mean(predicted == twenty_test_target)
+        print "SVM score %.2f (%s)-[%d/%d]" % (score,raw.get_target_names()[target_tag],len(twenty_train_target),len(twenty_test_target))
     
-    # save model to file
-    if len(argv) > 2 and argv[2] != "0":
-        print "- skip train model..."
-    else:
-        print "- train model..."
-        #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
-        train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
-           
-    #predicted = text_clf.predict(twenty_test_data)
-    predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
-    score = np.mean(predicted == twenty_test_target)
-    print "SVM score (%s) = %.2f" % (raw.get_target_names()[target_tag],score)
-
+    print "--------------------"
+    
 sys.exit()
 
 # view more info
