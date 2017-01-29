@@ -58,7 +58,6 @@ class RawData(object):
                     filteredtext.append(t)
                     
             # we will do word segmentation using only a space.            
-            #tmp_text = space.join([l for l in tmp_text]) 
             filteredtext = space.join([l for l in filteredtext])
             
             tmp_tag = tag[i].split(',')
@@ -83,13 +82,12 @@ class RawData(object):
             
             self.raw_paragraph_text.append(filteredtext)
             self.raw_paragraph_tag.append(all_tag)
-    
+
         X = new_text
         y = new_tag
         
         # train/test split using library
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-        self.X_train_tag, self.X_test_tag, self.y_train_tag, self.y_test_tag = train_test_split(self.raw_paragraph_text, self.raw_paragraph_tag, test_size=0.33, random_state=42)
 
         # random sample manually
         text = []
@@ -134,7 +132,7 @@ class RawData(object):
         #return self.X_test,self.y_test
     
     def get_train_test_data_tag(self,tag_idx):
-        print "Get tag %s(%d)" % (self.tag_inverse_table[tag_idx],tag_idx)
+        #print "Get tag %s(%d) = %d" % (self.tag_inverse_table[tag_idx],tag_idx,[tag_idx in b for b in self.raw_paragraph_tag].count(True))
         match_text = []
         not_match_text = []
         
@@ -200,12 +198,28 @@ class RawData(object):
             tmp.append(self.tag_inverse_table[i])
         return tmp
         
+    def show_tag_summary(self):
+        summary = []
+        for name, idx in self.tag_table.iteritems():
+            summary.append(("%s(%d)" % (name,idx),[idx in t for t in self.raw_paragraph_tag].count(True)))
+            
+        sorted_summary= sorted(summary, key=operator.itemgetter(1), reverse=True)
+        for tag, count in sorted_summary[:10]:
+            print "%5d %s" % (count,tag)
+    
+    def get_all_tag_idx(self):
+        return self.tag_inverse_table.iterkeys()
+        
 if __name__ == '__main__':              
     raw = RawData()
     raw.load(0)
+    raw.show_tag_summary()
+    sys.exit()
+    
     target_tag = 6;
     #text,tag = raw.get_train_data()
     text,tag,test_text,test_tag = raw.get_train_test_data_tag(target_tag)
+    print "train = %d, test = %d" % (len(tag),len(test_tag))
     
     def custom_preprocessor(str):
         str = str.translate({ord(char): None for char in string.punctuation})
@@ -221,7 +235,6 @@ if __name__ == '__main__':
     #    print "TAG = %d => '%s'" % (tag[i] , raw.get_target_names()[tag[i]])
     #    print
     
-    print
     print "text count =",len(text),"tag count =",len(tag)
     tag_count = [[raw.get_target_names()[x],x,tag.count(x)] for x in set(tag)]
     sorted_tag_count= sorted(tag_count, key=operator.itemgetter(2), reverse=True)

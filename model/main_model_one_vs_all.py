@@ -14,29 +14,33 @@ import os.path
 from sys import argv
 import sys
 
-if len(argv) != 3:
-    print "Usage main_model <read model from file (0 or 1)> <skip train (0 or 1)>"
-    sys.exit()
-
-print "reading data..."
+def train(x_train_data,y_train_data,count_vect,tfidf_transformer,clf,partial=False):
+    X_train_counts = count_vect.fit_transform(x_train_data)
+    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
     
-raw = RawData()
-raw.load(0)
+    if partial:
+        clf.partial_fit(X_train_tfidf, y_train_data)
+    else:
+        clf.fit(X_train_tfidf, y_train_data)
 
-twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(6)
-
-# prepare Custom Count Vectorizer
+def predict(x_test_data,count_vect,tfidf_transformer,clf):
+    X_test_counts = count_vect.transform(x_test_data)
+    X_test_tfidf = tfidf_transformer.transform(X_test_counts)
+    return clf.predict(X_test_tfidf)
+    
 def custom_preprocessor(str):
 	str = str.translate({ord(char): None for char in string.punctuation})
 	return str
 	
 def custom_tokenizer(str):
 	return str.split(' ')
-    
-# show info
-print "train sample =",len(twenty_train_target)
-print "test sample =",len(twenty_test_target)
 
+############### MAIN ###############    
+    
+if len(argv) != 3:
+    print "Usage main_model <read model from file (0 or 1)> <skip train (0 or 1)>"
+    sys.exit()
+    
 # read model from file
 model_file_name = "core_model/SGDClassifier0.model"
 count_vect_file_name = "core_model/CountVectorizer0.model"
@@ -58,32 +62,36 @@ else:
     clf = SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)
     tfidf_transformer = TfidfTransformer()
 
-def train(x_train_data,y_train_data,count_vect,tfidf_transformer,clf,partial=False):
-    X_train_counts = count_vect.fit_transform(x_train_data)
-    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+print "reading data..."
     
-    if partial:
-        clf.partial_fit(X_train_tfidf, y_train_data)
-    else:
-        clf.fit(X_train_tfidf, y_train_data)
+raw = RawData()
+raw.load(0)
+all_tag_idx = raw.get_all_tag_idx()
 
-def predict(x_test_data,count_vect,tfidf_transformer,clf):
-    X_test_counts = count_vect.transform(x_test_data)
-    X_test_tfidf = tfidf_transformer.transform(X_test_counts)
-    return clf.predict(X_test_tfidf)
+for target_tag in all_tag_idx:
+    twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
     
-# save model to file
-if len(argv) > 2 and argv[2] != "0":
-    print "- skip train model..."
-else:
-    print "- train model..."
-    #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
-    train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
-       
-#predicted = text_clf.predict(twenty_test_data)
-predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
-score = np.mean(predicted == twenty_test_target)
-print "SVM score = %f" % score
+    if min(len(twenty_train_target),len(twenty_test_target)) < 20:
+        continue
+        
+    # show info
+    print "train sample =",len(twenty_train_target)
+    print "test sample =",len(twenty_test_target)
+    
+    # save model to file
+    if len(argv) > 2 and argv[2] != "0":
+        print "- skip train model..."
+    else:
+        print "- train model..."
+        #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
+        train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
+           
+    #predicted = text_clf.predict(twenty_test_data)
+    predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
+    score = np.mean(predicted == twenty_test_target)
+    print "SVM score (%s) = %.2f" % (raw.get_target_names()[target_tag],score)
+
+sys.exit()
 
 # view more info
 print(metrics.classification_report(twenty_test_target, predicted, target_names=raw.get_target_names()))
