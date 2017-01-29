@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -15,37 +16,38 @@ import org.apache.commons.logging.LogFactory;
 public class App {
 
 	private static final Log log = LogFactory.getLog(App.class);
-	
+
 	private File dictFile;
+	private Hashtable<Integer, String> cache;
 	private final int port = 6789;
 	Trie dict;
-	
+
 	public App(String[] args) {
-		
+
 		dictFile = new File(args[0]);
 		dict = new Trie();
-				
-		if (dictFile.exists()){
+		cache = new Hashtable<>();
+
+		if (dictFile.exists()) {
 			try {
 				addDict(dictFile);
 			} catch (IOException e) {
-				log.error("error in add dict",e);
+				log.error("error in add dict", e);
 			}
-		}
-		else{
+		} else {
 			System.out.println(" !!! Error: The dictionary file is not found, " + dictFile.getName());
-		}	
-				
-		try(ServerSocket serverSocket = new ServerSocket(port)) {
+		}
+
+		try (ServerSocket serverSocket = new ServerSocket(port)) {
 			log.info("start listen on port " + port + "...");
-			while(true){
+			while (true) {
 				new SocketHandler(serverSocket.accept()).start();
 			}
 		} catch (Exception e) {
-			log.error("error in main",e);
+			log.error("error in main", e);
 		}
 	}
-	
+
 	private void addDict(File dictFile) throws IOException {
 
 		// Read words from dictionary
@@ -61,31 +63,31 @@ public class App {
 
 		br.close();
 	}
-	
+
 	public static void main(String[] args) {
-		if(args.length != 1){
+		if (args.length != 1) {
 			System.err.println("Usage LongLexTo <dict-path>");
 			System.exit(-1);
 		}
-		
+
 		new App(args);
 	}
 
-	class SocketHandler extends Thread{
-		
+	class SocketHandler extends Thread {
+
 		private Socket socket;
-		
+
 		public SocketHandler(Socket socket) {
 			this.socket = socket;
 		}
-		
+
 		@Override
 		public void run() {
-			try{
+			try {
 				log.info("new connection from " + socket.getInetAddress() + "...");
-				
+
 				LongLexTo tokenizer = new LongLexTo(dict);
-				File unknownFile = new File(dictFile.getParent(),"unknown.txt");
+				File unknownFile = new File(dictFile.getParent(), "unknown.txt");
 				if (unknownFile.exists())
 					tokenizer.addDict(unknownFile);
 
@@ -93,38 +95,46 @@ public class App {
 				int begin, end;
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				PrintWriter pw = new PrintWriter(socket.getOutputStream(),true);
+				PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 				line = br.readLine().trim();
-				
-				List<String> words = new ArrayList<>();
-				if (!line.isEmpty()) {
-					tokenizer.wordInstance(line);
-					begin = tokenizer.first();
 
-					while (tokenizer.hasNext()) {
-						end = tokenizer.next();
-						String word = line.substring(begin, end);
-						if (!word.trim().isEmpty()) {
-							words.add("\"" + word + "\"");
+				String output;
+				int hashCode;
+
+				if (cache.containsKey((hashCode = line.hashCode()))) {
+					output = cache.get(hashCode);
+					log.debug(hashCode + ": from cache");
+				} else {
+					List<String> words = new ArrayList<>();
+					if (!line.isEmpty()) {
+						tokenizer.wordInstance(line);
+						begin = tokenizer.first();
+
+						while (tokenizer.hasNext()) {
+							end = tokenizer.next();
+							String word = line.substring(begin, end);
+							if (!word.trim().isEmpty()) {
+								words.add("\"" + word + "\"");
+							}
+							begin = end;
 						}
-						begin = end;
 					}
+					output = String.join(",", words);
+					cache.put(line.hashCode(), output);
+					log.debug(hashCode + ": from lexto");
 				}
 
-				String output = String.join(",", words);
-				
 				log.info(line);
 				log.info(output);
-				
+
 				pw.println(output);
-				
+
 				br.close();
 				pw.close();
-			}
-			catch(Exception e){
-				log.error("error in handler",e);
+			} catch (Exception e) {
+				log.error("error in handler", e);
 			}
 		}
-		
+
 	}
 }
