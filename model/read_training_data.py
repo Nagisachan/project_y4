@@ -1,6 +1,4 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from word_segmentation_spicydog import Tws
 from sklearn.feature_extraction.text import CountVectorizer
 from pprint import pprint
 import sys

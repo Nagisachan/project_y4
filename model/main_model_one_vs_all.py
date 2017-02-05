@@ -1,6 +1,5 @@
 import numpy as np
 from sklearn.pipeline import Pipeline
-#from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
@@ -48,7 +47,7 @@ def custom_tokenizer(str):
 ############### MAIN ###############    
     
 if len(argv) != 3:
-    print "Usage main_model <read model from file (0 or 1)> <skip train (0 or 1)>"
+    print "Usage: main_model_one_vs_all <read model from file (0 or 1)> <skip train (0 or 1)>"
     sys.exit()
     
 # read model from file
@@ -81,10 +80,9 @@ models = {
     'SVM': SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
     'NB': MultinomialNB(alpha=.01),
     'ANN' : MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1),
-    'KNN' : KNeighborsClassifier(n_neighbors=10),
+    #'KNN' : KNeighborsClassifier(n_neighbors=10),
     'RDFOREST' : RandomForestClassifier(n_estimators=25),
-    'SVM' : SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
-    'NC' : NearestCentroid(),
+    #'NC' : NearestCentroid(),
 }
 
 model_avg_score = dict()
@@ -103,7 +101,7 @@ for model_name,clf in models.iteritems():
         for target_tag in all_tag_idx:
             twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
             
-            if len(twenty_train_target) < 50:
+            if len(twenty_train_target) < 100:
                 continue
                    
             # show info
@@ -140,12 +138,29 @@ for model_name,clf in models.iteritems():
 for model,scores in model_avg_score.iteritems():
     print
     print "### %s ###" % model
+    
+    avg_score = 0
+    avg_precision = 0
+    avg_recall = 0
+    avg_f1 = 0
+    count = 0
     for key in scores:
-        print "agv     score: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(scores[key]/30))
-        print "agv precision: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_precision[model][key]/30))
-        print "agv    recall: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_recall[model][key]/30))
-        print "agv        f1: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_f1[model][key]/30))
-        print
+        #print "agv     score: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(scores[key]/30))
+        #print "agv precision: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_precision[model][key]/30))
+        #print "agv    recall: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_recall[model][key]/30))
+        #print "agv        f1: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_f1[model][key]/30))
+        #print
+        
+        avg_score += scores[key]/30
+        avg_precision += model_avg_precision[model][key]/30
+        avg_recall += model_avg_recall[model][key]/30
+        avg_f1 += model_avg_f1[model][key]/30
+        count += 1
+    
+    print "agv     score = %.2f" % (avg_score/count)
+    print "agv precision = %.2f" % (avg_precision/count)
+    print "agv    recall = %.2f" % (avg_recall/count)
+    print "agv        f1 = %.2f" % (avg_f1/count)
     print
     
 sys.exit()
