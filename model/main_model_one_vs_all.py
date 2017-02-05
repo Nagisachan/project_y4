@@ -3,16 +3,26 @@ from sklearn.pipeline import Pipeline
 #from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
-#from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import SGDClassifier
-#from sklearn.neural_network import MLPClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn import metrics
 from raw_data_fetcher import RawData
 import string
 from sklearn.externals import joblib
 import os.path
 from sys import argv
+from collections import defaultdict
 import sys
+from sklearn.linear_model import RidgeClassifier
+from sklearn.svm import LinearSVC
+from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import PassiveAggressiveClassifier
+from sklearn.naive_bayes import BernoulliNB, MultinomialNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import NearestCentroid
+from sklearn.ensemble import RandomForestClassifier
 
 def train(x_train_data,y_train_data,count_vect,tfidf_transformer,clf,partial=False):
     X_train_counts = count_vect.fit_transform(x_train_data)
@@ -67,32 +77,76 @@ print "reading data..."
 raw = RawData()
 raw.load(0)
 
-for rnd in range(10):
-    all_tag_idx = raw.get_all_tag_idx()
-    for target_tag in all_tag_idx:
-        twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
-        
-        if len(twenty_train_target) < 50:
-            continue
-               
-        # show info
-        #print "train sample =",len(twenty_train_target)
-        #print "test sample =",len(twenty_test_target)
-        
-        # save model to file
-        if len(argv) > 2 and argv[2] != "0":
-            print "- skip train model..."
-        else:
-            #print "- train model..."
-            #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
-            train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
-               
-        #predicted = text_clf.predict(twenty_test_data)
-        predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
-        score = np.mean(predicted == twenty_test_target)
-        print "SVM score %.2f (%s)-[%d/%d]" % (score,raw.get_target_names()[target_tag],len(twenty_train_target),len(twenty_test_target))
+models = {
+    'SVM': SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
+    'NB': MultinomialNB(alpha=.01),
+    'ANN' : MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1),
+    'KNN' : KNeighborsClassifier(n_neighbors=10),
+    'RDFOREST' : RandomForestClassifier(n_estimators=25),
+    'SVM' : SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
+    'NC' : NearestCentroid(),
+}
+
+model_avg_score = dict()
+model_avg_precision = dict()
+model_avg_recall = dict()
+model_avg_f1 = dict()
+
+for model_name,clf in models.iteritems():
+    scores = defaultdict(int)
+    precision = defaultdict(int)
+    recall = defaultdict(int)
+    f1 = defaultdict(int)
     
-    print "--------------------"
+    for rnd in range(30):
+        all_tag_idx = raw.get_all_tag_idx()
+        for target_tag in all_tag_idx:
+            twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
+            
+            if len(twenty_train_target) < 50:
+                continue
+                   
+            # show info
+            #print "train sample =",len(twenty_train_target)
+            #print "test sample =",len(twenty_test_target)
+            
+            # save model to file
+            if len(argv) > 2 and argv[2] != "0":
+                print "- skip train model..."
+            else:
+                #print "- train model..."
+                #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
+                train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
+                   
+            #predicted = text_clf.predict(twenty_test_data)
+            predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
+            score = np.mean(predicted == twenty_test_target)
+            
+            print "%s score %.2f (%s)-[%d/%d]" % (model_name,score,raw.get_target_names()[target_tag].encode('utf-8'),len(twenty_train_target),len(twenty_test_target))
+        
+            scores[target_tag] += score
+            matrix = metrics.precision_recall_fscore_support(twenty_test_target, predicted,average='binary',pos_label=target_tag)
+            precision[target_tag] += matrix[0]
+            recall[target_tag] += matrix[1]
+            f1[target_tag] += matrix[2]
+            
+        print "--------------------"
+    
+    model_avg_score[model_name] = scores
+    model_avg_precision[model_name] = precision
+    model_avg_recall[model_name] = recall
+    model_avg_f1[model_name] = f1
+
+for model,scores in model_avg_score.iteritems():
+    print
+    print "### %s ###" % model
+    for key in scores:
+        print "agv     score: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(scores[key]/30))
+        print "agv precision: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_precision[model][key]/30))
+        print "agv    recall: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_recall[model][key]/30))
+        print "agv        f1: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_f1[model][key]/30))
+        print
+    print
     
 sys.exit()
 
