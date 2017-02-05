@@ -1,9 +1,7 @@
 <?php
 // Start the session
 session_start();
-if($_SESSION['lg_username']) != 0){
-	header('Location: expert.html');
-}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,14 +59,20 @@ h1 {letter-spacing:7px}
 
 <body>
 
-<!-- !PAGE CONTENT! -->
+<!-- !PAGE CONTENT! http://thaiautotag.win/show_search.php?search=abc -->
 <div class="w3-content" style="max-width:1500px">
 
 
 <!-- Header -->
 <header class="w3-panel w3-padding-128 w3-center w3-opacity">
-  <h1>Tagvisor</h1>
+  <h1>TaggerBot</h1>
 </header>
+<!--<h1 class="w3-panel w3-center">Please "Log in" For using add tag function</h1>
+</br>
+<h2 class="w3-panel w3-center">For Sodsri-Saridwongsa Foundation</h2>
+<h1 class="w3-panel w3-center">Password: test12345</h1>
+</br>
+</br> -->
 
 <div class="container">
  <div class="row">
@@ -77,9 +81,9 @@ h1 {letter-spacing:7px}
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg" placeholder="Search" />
                     <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="button">
+                        <a href="http://thaiautotag.win/show_search.php?search=Active Learning" class="btn btn-default" >
                             <span class="glyphicon glyphicon-search"></span>
-                        </button>
+                        </a>
                     </span>
                 
                 </div>
@@ -91,9 +95,9 @@ h1 {letter-spacing:7px}
 
  <div class="menu">
     <div class="w3-btn-bar w3-border w3-show-inline-block">
-      <a href="http://thaiautotag.win/mainpage.html" class="w3-btn">Home</a>
-	  <a href="http://thaiautotag.win/login.html" class="w3-btn">Log In</a>
-	  <a href="http://thaiautotag.win/regis.html" class="w3-btn">Registration</a>
+      <a href="http://www.thaiautotag.win/mainpage.php" class="w3-btn">Home</a>
+	  <a href="http://www.thaiautotag.win/login.php" class="w3-btn">Profile: Suphanut</a>
+	  <a href="http://www.thaiautotag.win/regis.php" class="w3-btn">Log Out</a>
     </div>
   </div>
 

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <title>W3.CSS Template</title>
@@ -141,10 +144,12 @@ h1 {letter-spacing:7px}
 
  <div class="menu">
     <div class="w3-btn-bar w3-border w3-show-inline-block">
-       <a href="http://thaiautotag.win/expert.html" class="w3-btn">Home</a>
-	  <a href="http://thaiautotag.win/profile.html" class="w3-btn">Profile: Name</a>
-	  <a href="http://thaiautotag.win/upload.html" class="w3-btn">Upload</a>
-	  <a href="http://thaiautotag.win/mainpage.html" class="w3-btn">Log out</a>
+       <a href="http://thaiautotag.win/expert.php" class="w3-btn">Home</a>
+	  <a href="http://thaiautotag.win/profile.php" class="w3-btn">Profile: <?php
+		echo $_SESSION['login'];
+	  ?></a>
+	  <a href="http://thaiautotag.win/uploadpage.php" class="w3-btn">Upload</a>
+	  <a href="http://thaiautotag.win/mainpage.php" class="w3-btn">Log out</a>
     </div>
   </div>
 

@@ -1,36 +1,63 @@
 <?php
-$lg_username =  $_GET['lg_username'];
-#echo $lg_username;
-$lg_password = $_GET['lg_password'];
-#echo $lg_password;
+session_start();
+$lg_username =  $_POST['lg_username'];
+echo $lg_username;
+$lg_password = $_POST['lg_password'];
+echo $lg_password;
 
-$dsn = "DSN=Sample Cloudera Impala DSN 64;host=10.8.0.6;port=21050;database=autotag";
+#echo "session!";
+#echo $_SESSION['login'];
 
-$conn = odbc_connect($dsn, '', '');
-#print_r($conn);
+//$dsn = "DSN=Sample Cloudera Impala DSN 64;host=10.8.0.6;port=21050;database=autotag";
+//$dsn = "DSN=Sample Cloudera Impala DSN 64;host=13.76.160.188;port=21050;database=tagvisor";
 
-$result = odbc_exec($conn, "select roletype from test_login2 WHERE id = '" . $lg_username . "' AND password = '" . $lg_password . "'");
-echo "command : select roletype from test_login2 WHERE id = '" . $lg_username . "' AND password = '" . $lg_password . "'";
+//$conn = odbc_connect($dsn, '', '');
+//print_r($conn);
+/*
 
-#echo "--result--";
+$result = odbc_exec($conn, "select username from users WHERE username = '" . $lg_username . "' AND password = '" . $lg_password . "';");
+echo "command : select username from users WHERE username = '" . $lg_username . "' AND password = '" . $lg_password . "';";
 
-while($row = odbc_fetch_array($result))
-#print_r($row);
+echo "--result--";
 
-echo $row['roletype'];
+while($row = odbc_fetch_array($result)){
+	print_r($row);
+	
+}
 
-if($lg_username == 'nxz')
+*/
+
+$conn = mysqli_connect('localhost','root','password','tagvisor');
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+
+$sql = "SELECT password FROM users WHERE username = '".$lg_username."';";
+$result = mysqli_query($conn,$sql);
+$rs = $result->fetch_array(MYSQLI_ASSOC);
+
+if($rs["password"] == $lg_password){
+	$_SESSION['login']=$lg_username;
+	header('Location: expert_ez.php');
+}
+else{
+	header('Location: login.php');
+}
+
+
+/*if($_SESSION['login'] == 'nxz')
 {
-	header('Location: http://52.163.225.136/expert.html');
-	exit;
+	header('Location: expert.php');
 }
 else
 {
-	header('Location: http://52.163.225.136/login.html');
-	exit;
-}
+	header('Location: login.php');
+}*/
 
 ?>
+
 
 
 

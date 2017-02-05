@@ -1,3 +1,9 @@
+<?php
+// Start the session
+session_start();
+
+
+?>
 <!DOCTYPE html>
 <html>
 <title>Main Page</title>
@@ -14,6 +20,13 @@
 body,h1 {font-family: "Raleway", Arial, sans-serif}
 h1 {letter-spacing:7px}
 .menu {position: absolute;top: 25px;right: 25px;}
+
+.border_red { border: 4px solid red; }
+.border_lime { border: 4px solid lime; }
+
+table.table-hover {
+    width: 25%;
+}
 
 #custom-search-input{
     padding: 3px;
@@ -58,10 +71,40 @@ h1 {letter-spacing:7px}
 <div class="w3-content" style="max-width:1500px">
 
 
+
 <!-- Header -->
 <header class="w3-panel w3-padding-128 w3-center w3-opacity">
   <h1>Tagvisor</h1>
 </header>
+<table class="table table-hover" align="center" >
+<?php
+
+	$user=$_SESSION['login'];
+	$conn = mysqli_connect('localhost','root','password','tagvisor');
+
+	if (!$conn) {
+		die("Connection failed: " . mysqli_connect_error());
+	}
+	//echo "Connected successfully";
+
+	$sql = "SELECT stats.docid AS did,docname,status FROM stats INNER JOIN users ON users.id = stats.userid INNER JOIN doc ON doc.docid = stats.docid WHERE users.username = '".$user."' ORDER BY did;";
+	$result = mysqli_query($conn,$sql);
+	while($rs = $result->fetch_array(MYSQLI_ASSOC)){
+		if($rs["status"] == 0){
+			echo'<tr><td align="center"><a href="http://www.thaiautotag.win/upload.php?docid='.$rs["did"].'">'.$rs[docname].'</a></td></tr>';
+		}
+		else if($rs["status"] == 1){
+			echo'<tr><td class="danger" align="center"><a href="http://www.thaiautotag.win/upload.php?docid='.$rs["did"].'">'.$rs[docname].'</a></td></tr>';
+		}
+		else{
+			echo'<tr><td class="success" align="center"><a href="http://www.thaiautotag.win/upload.php?docid='.$rs["did"].'">'.$rs[docname].'</a></td></tr>';
+		}
+	}
+	
+	?>
+</table>
+  <br>
+  <br>
 
 <div class="container">
  <div class="row">
@@ -84,10 +127,14 @@ h1 {letter-spacing:7px}
 
  <div class="menu">
     <div class="w3-btn-bar w3-border w3-show-inline-block">
-      <a href="http://thaiautotag.win/expert.html" class="w3-btn">Home</a>
-	  <a href="http://thaiautotag.win/profile.html" class="w3-btn">Profile: Name</a>
-	  <a href="http://thaiautotag.win/upload.html" class="w3-btn">Upload</a>
-	  <a href="http://thaiautotag.win/mainpage.html" class="w3-btn">Log out</a>
+      <a href="http://www.thaiautotag.win/expert_ez.php" class="w3-btn">Home</a>
+	  <a href="http://thaiautotag.win/profile.php" class="w3-btn">Profile: 
+	  <?php
+		echo $_SESSION['login'];
+	  ?>
+	  </a>
+	  <!--a href="http://thaiautotag.win/uploadpage.php" class="w3-btn">Upload</a-->
+	  <a href="http://thaiautotag.win/mainpage.php" class="w3-btn">Log out</a>
     </div>
   </div>
 
