@@ -1,0 +1,42 @@
+วิธีการติดตั้ง
+1. ติดตั้ง python version 2.7
+2. ลง library scikit-learn 1.8 และ scipy 1.8
+
+กรณีที่ต้องการสร้าง web service สำหรับการแบ่งคำไทยด้วย lexto ด้วย (ข้อ 3 4)
+3. ติดตั้ง Apache (web server) + php5
+4. ติดตั้ง Java (JRE หรือ JDK)
+
+5. นำไฟล์ .py ทั้งหมดไปวางไว้ที่ directory เดียวกัน
+6. สามารถสั่ง run ได้ผ่าน command ตามหัวข้อวิธีการทดลอง run โปรแกรม
+
+กรณีที่ต้องการสร้าง web service สำหรับการแบ่งคำไทยด้วย lexto ด้วย (ข้อ 7)
+7. นำไฟล์ .php ไปวางไว้ที่ path ของ website
+8. สั่ง run .jar ไฟล์ด้วยคำสั่ง java -jar lexto.jar lexitron.txt
+
+คำอธิบายไฟล์ต่างๆ
+Python:
+main_model_one_vs_all.py - ไฟล์หลักสำหรับเริ่มทำการ run โปรแกรม
+raw_data_fetcher.py - สำหรับดึงข้อมูลไป train + ทำ preprocess เช่น ลบ stop word, ลบอักขระพิเศษ
+read_training_data.py - อ่านข้อมูลดิบจาก storage
+word_segmentation_insightera.py - ตัดคำไทย
+
+PHP:
+ws.php - สำหรับช่วยแปลง service ของ java ให้เป็น web service แบบง่าย
+
+Java:
+lexto.jar - สร้าง service เพื่อรับประโยคภาษาไทยมาแล้วผลลัพธ์เป็นการแบ่งคำ
+lexitron.txt - ไฟล์ dictionary ที่มีรายการคำไทยทั้งหมดเพื่อช่วยในการแบ่งคำ
+
+วิธีการทดลอง run โปรแกรม
+
+1. ดูวิธีการ run โปรแกรม
+python main_model_one_vs_all.py
+ผลลัพธ์ Usage: main_model_one_vs_all <read model from file (0 or 1)> <skip train (0 or 1)>
+
+2. การเรียกใช้งานโปรแกรม
+python main_model_one_vs_all.py 0 0
+โดย
+0 0 = เริ่มทำงานใหม่หมด
+1 0 = คือใช้ model เดิมที่เคย save ไว้ก่อนแล้ว
+1 1 = คือการทำ online train คือเมื่อมีข้อมูลใหม่ที่ต้องการ update model
+
