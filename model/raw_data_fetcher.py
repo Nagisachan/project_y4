@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-#from word_segmentation_spicydog import Tws
+from dummy_read_training_data import DummyN
 from word_segmentation_insightera import Tws
 from sklearn.feature_extraction.text import CountVectorizer
 from read_training_data import N
@@ -14,7 +14,8 @@ import random
 
 class RawData(object):
     def __init__(self):
-        self.read = N()
+        #self.read = N()
+        self.read = DummyN()
         self.tws = Tws()
         self.train_text_ratio = 0.8
         self.tag_table = {'OTHER':0}
@@ -46,8 +47,9 @@ class RawData(object):
         new_tag = []
         for i in range(0,len(text)):
             filteredtext = []
-            tmp_text = self.tws.word_segment(text[i].strip())
-            
+            #tmp_text = self.tws.word_segment(text[i].strip())
+            tmp_text = text[i].split(';')
+
             # preprocess
             for t in tmp_text:
                 # remove punctuation

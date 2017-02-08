@@ -78,10 +78,10 @@ raw.load(0)
 
 models = {
     'SVM': SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
-    'NB': MultinomialNB(alpha=.01),
-    'ANN' : MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1),
+    #'NB': MultinomialNB(alpha=.01),
+    #'ANN' : MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1),
     #'KNN' : KNeighborsClassifier(n_neighbors=10),
-    'RDFOREST' : RandomForestClassifier(n_estimators=25),
+    #'RDFOREST' : RandomForestClassifier(n_estimators=25),
     #'NC' : NearestCentroid(),
 }
 
@@ -90,13 +90,15 @@ model_avg_precision = dict()
 model_avg_recall = dict()
 model_avg_f1 = dict()
 
+nround_avg = 10;
+
 for model_name,clf in models.iteritems():
     scores = defaultdict(int)
     precision = defaultdict(int)
     recall = defaultdict(int)
     f1 = defaultdict(int)
     
-    for rnd in range(30):
+    for rnd in range(nround_avg):
         all_tag_idx = raw.get_all_tag_idx()
         for target_tag in all_tag_idx:
             twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
@@ -145,16 +147,10 @@ for model,scores in model_avg_score.iteritems():
     avg_f1 = 0
     count = 0
     for key in scores:
-        #print "agv     score: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(scores[key]/30))
-        #print "agv precision: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_precision[model][key]/30))
-        #print "agv    recall: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_recall[model][key]/30))
-        #print "agv        f1: %s = %.2f" % (raw.get_target_names()[key].encode('utf-8'),(model_avg_f1[model][key]/30))
-        #print
-        
-        avg_score += scores[key]/30
-        avg_precision += model_avg_precision[model][key]/30
-        avg_recall += model_avg_recall[model][key]/30
-        avg_f1 += model_avg_f1[model][key]/30
+        avg_score += scores[key]/nround_avg
+        avg_precision += model_avg_precision[model][key]/nround_avg
+        avg_recall += model_avg_recall[model][key]/nround_avg
+        avg_f1 += model_avg_f1[model][key]/nround_avg
         count += 1
     
     print "agv     score = %.2f" % (avg_score/count)
