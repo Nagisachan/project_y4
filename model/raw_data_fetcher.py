@@ -23,15 +23,35 @@ class RawData(object):
         self.raw_paragraph_text = []
         self.raw_paragraph_tag = []
         
-    def load(self,sample_n):
+    def load(self,sample_n=0,is_verbose=False):
+        # 1. word segmentation
+        # 2. remove punctuation
+        # 3. remove stop words
+        # 4. convert tag to ID
+        # 5. create doc-tag(s) style
+
         text = []
         tag = []
 
+        # read stop words list
         stopwords = codecs.open('stop_words.txt', 'r','utf-8').read().split()
         space = ' '
         
-        #for stopword in stopwords:
-        #    print stopword
+        # read lemma dict
+        lemma_dict = dict()
+        with open('lemma_dict','r') as f:
+            for line in f:
+                lemma,words = line.split(":")
+                for word in words.split(","):
+                    word = word.strip()
+                    lemma_dict[unicode(word,'utf-8')] = lemma
+                    
+                    if is_verbose:
+                        print "%s => %s" % (word,lemma)
+        
+        if is_verbose:
+            for stopword in stopwords:
+                print stopword,
 
         # read raw data
         text,tag = self.read.read_text_tag()
@@ -48,16 +68,28 @@ class RawData(object):
         for i in range(0,len(text)):
             filteredtext = []
             #tmp_text = self.tws.word_segment(text[i].strip())
+
+            # use dummy input which has already been segmented separate by ';' 
             tmp_text = text[i].split(';')
 
             # preprocess
             for t in tmp_text:
+                t = t.strip()
+                
                 # remove punctuation
                 t = t.translate({ord(char): None for char in (string.punctuation + unicode('‘’“”…๑๒๓๔๕๖๗๘๙๐','utf-8'))})
-                
+                  
+                #Lemmatization
+                if t in lemma_dict:
+                    if is_verbose:
+                        print "change %s => %s" % (t.encode('utf-8'),lemma_dict[t])
+                        
                 # remove stop word
                 if t not in stopwords and t.strip():
                     filteredtext.append(t)
+                else:
+                    if is_verbose:
+                        print "remove %s" % (t)
                     
             # we will do word segmentation using only a space.            
             filteredtext = space.join([l for l in filteredtext])
@@ -78,34 +110,14 @@ class RawData(object):
                 else:
                     idx = self.tag_table[t];
                     
-                new_text.append(filteredtext)
-                new_tag.append(idx)
                 all_tag.append(idx)
             
-            self.raw_paragraph_text.append(filteredtext)
-            self.raw_paragraph_tag.append(all_tag)
+            self.raw_paragraph_text.append(filteredtext) #text
+            self.raw_paragraph_tag.append(all_tag) #tag ID
 
         print
         
-        X = new_text
-        y = new_tag
-        
-        # train/test split using library
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-
-        # random sample manually
-        text = []
-        tag = []
-        m = len(new_tag)
-        rand_index = random.sample(range(m),m)
-        for idx in rand_index:
-            text.append(new_text[idx])
-            tag.append(new_tag[idx])
-                        
-        self.text = text
-        self.tag = tag
-        
-        # random for raw
+        # random sample order
         text = []
         tag = []
         m = len(self.raw_paragraph_tag)
@@ -116,30 +128,19 @@ class RawData(object):
                         
         self.raw_paragraph_text = text
         self.raw_paragraph_tag = tag
-        
-    def get_train_data(self):
-        train_data_count = int(len(self.tag)*self.train_text_ratio)
-        
-        # manual random
-        return self.text[:train_data_count],self.tag[:train_data_count] 
-        
-        # library random
-        #return self.X_train,self.y_train 
-        
-    def get_test_data(self):
-        train_data_count = int(len(self.tag)*self.train_text_ratio)
-        
-        # manual random
-        return self.text[train_data_count:],self.tag[train_data_count:] 
-        
-        # library random
-        #return self.X_test,self.y_test
     
-    def get_train_test_data_tag(self,tag_idx):
+    def get_train_test_data_tag(self,tag_idx,is_verbose=False):
+        # 1. create 2 classes match and not match
+        # 2. make classes balance (randomly select same number of sample from 2 classes)
+        # 3. select train/test sample data count
+        # 4. assignment a tag to each doc, tag ID (non-zero) and zero
+        # 5. Zipf’s rule
+
         #print "Get tag %s(%d) = %d" % (self.tag_inverse_table[tag_idx],tag_idx,[tag_idx in b for b in self.raw_paragraph_tag].count(True))
         match_text = []
         not_match_text = []
         
+        # separate in to 2 classes
         for idx in range(0,len(self.raw_paragraph_tag)):
             if tag_idx in self.raw_paragraph_tag[idx]:
                 match_text.append(self.raw_paragraph_text[idx])
@@ -156,6 +157,7 @@ class RawData(object):
             random.shuffle(match_text)
             match_text = match_text[0:len(not_match_text)]
         
+        # train/test sample count
         train_data_count = int(len(match_text)*self.train_text_ratio)
         
         test_match_text = match_text[train_data_count:]
@@ -164,7 +166,7 @@ class RawData(object):
         train_match_text = match_text[:train_data_count]
         train_not_match_text = not_match_text[:train_data_count]
         
-        # for test
+        # random test sample
         all_text = test_match_text + test_not_match_text
         all_tag = [tag_idx for i in range(len(test_match_text))] + [0 for i in range(len(test_not_match_text))]
         
@@ -179,7 +181,7 @@ class RawData(object):
         test_text = result_text
         test_tag = result_tag
         
-        # for train
+        # random train sample
         all_text = train_match_text + train_not_match_text
         all_tag = [tag_idx for i in range(0,len(train_match_text))] + [0 for i in range(0,len(train_not_match_text))]
         
@@ -193,7 +195,7 @@ class RawData(object):
         
         train_text = result_text
         train_tag = result_tag
-        
+    
         # Zipf’s rule
         from collections import defaultdict
         frequency = defaultdict(int) # default = 0
@@ -203,21 +205,21 @@ class RawData(object):
             for token in words:
                 frequency[token] += 1
         
+        #FIXME
         all_word_count = len(frequency.keys())
         all_word_occur_count = sum(frequency.values())
         min_threshold = int(0.005*all_word_count)
         max_threshold = int(0.6*all_word_count)
-        all_filtered_word_count = len([word for word in frequency.keys() if frequency[word] > min_threshold and frequency[word] < max_threshold])
-        
         sorted_frequency = sorted(frequency.items(), key=operator.itemgetter(1), reverse=True)
         
-        #for fword,fvalue in sorted_frequency[:10] + sorted_frequency[-5:]:
-        #    print fword,fvalue
+        if is_verbose:
+            for fword,fvalue in sorted_frequency[:10] + sorted_frequency[-5:]:
+                print fword,fvalue
         
         all_filtered_word_occur_count = 0
         for i in range(len(train_text)):
             words = train_text[i].split(' ')
-            tmp = [word for word in words if frequency[word] < max_threshold and frequency[word] > min_threshold]
+            tmp = [word for word in words if frequency[word] <= max_threshold and frequency[word] >= min_threshold]
             all_filtered_word_occur_count += len(tmp)
             train_text[i] = " ".join(tmp) 
 
@@ -245,12 +247,11 @@ class RawData(object):
         
 if __name__ == '__main__':              
     raw = RawData()
-    raw.load(0 if len(sys.argv) < 2 else int(sys.argv[1]))
+    raw.load(0 if len(sys.argv) < 2 else int(sys.argv[1]),True)
     raw.show_tag_summary()
     
     target_tag = 6;
-    #text,tag = raw.get_train_data()
-    text,tag,test_text,test_tag = raw.get_train_test_data_tag(target_tag)
+    text,tag,test_text,test_tag = raw.get_train_test_data_tag(target_tag,True)
     print "train = %d, test = %d" % (len(tag),len(test_tag))
     
     sys.exit()
