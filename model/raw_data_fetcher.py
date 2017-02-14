@@ -35,7 +35,10 @@ class RawData(object):
 
         # read stop words list
         stopwords = codecs.open('stop_words.txt', 'r','utf-8').read().split()
-        space = ' '
+        for stopword in stopwords:
+            print stopword.encode('utf-8'),
+        print
+        print "[Preprocess] all stopword = %d words" % len(stopwords)
         
         # read lemma dict
         lemma_dict = dict()
@@ -46,12 +49,11 @@ class RawData(object):
                     word = word.strip()
                     lemma_dict[unicode(word,'utf-8')] = lemma
                     
-                    if is_verbose:
-                        print "%s => %s" % (word,lemma)
+                    print "%s => %s" % (word,lemma)
         
-        if is_verbose:
-            for stopword in stopwords:
-                print stopword,
+        print "[Preprocess] all lemma = %d rows" % len(lemma_dict)
+
+        space = ' '
 
         # read raw data
         text,tag = self.read.read_text_tag()
@@ -60,11 +62,14 @@ class RawData(object):
             text = text[:sample_n]
             tag = tag[:sample_n]
             
-        print "[RawData]: fetch from %d paragraphs" % len(tag)
+        print "[Preprocess]: fetch from %d paragraphs" % len(tag)
         
         # create 1 tag per doc raw data
         new_text = []
         new_tag = []
+        
+        lemma_count = 0
+        stopword_count = 0
         for i in range(0,len(text)):
             filteredtext = []
             #tmp_text = self.tws.word_segment(text[i].strip())
@@ -78,16 +83,18 @@ class RawData(object):
                 
                 # remove punctuation
                 t = t.translate({ord(char): None for char in (string.punctuation + unicode('‘’“”…๑๒๓๔๕๖๗๘๙๐','utf-8'))})
-                  
+                
                 #Lemmatization
                 if t in lemma_dict:
+                    lemma_count += 1
                     if is_verbose:
                         print "change %s => %s" % (t.encode('utf-8'),lemma_dict[t])
-                        
+                  
                 # remove stop word
                 if t not in stopwords and t.strip():
                     filteredtext.append(t)
                 else:
+                    stopword_count += 1
                     if is_verbose:
                         print "remove %s" % (t)
                     
@@ -115,6 +122,9 @@ class RawData(object):
             self.raw_paragraph_text.append(filteredtext) #text
             self.raw_paragraph_tag.append(all_tag) #tag ID
 
+        print "[Preprocess]: remove punctuation %s" % (string.punctuation + '‘’“”…๑๒๓๔๕๖๗๘๙๐')
+        print "[Preprocess]: apply lemma = %d pairs" % lemma_count
+        print "[Preprocess]: remove stopword = %d words" % stopword_count
         print
         
         # random sample order
@@ -223,7 +233,7 @@ class RawData(object):
             all_filtered_word_occur_count += len(tmp)
             train_text[i] = " ".join(tmp) 
 
-        #print "min=%d max=%d before=%d/%d after=%d/%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count,all_filtered_word_count)
+        print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
         
         return train_text,train_tag,test_text,test_tag
         

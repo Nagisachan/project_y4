@@ -8,6 +8,7 @@ class DummyN(object):
         self.cache_file_tag = 'dummy-input-tag.txt'
 
     def read_text_tag(self):
+        print "[Fetch Data] read dummy, pre-wordsegmented text"
         if os.path.isfile(self.cache_file_text) and os.path.isfile(self.cache_file_tag):
             text=[]
             with open(self.cache_file_text,'r') as f:

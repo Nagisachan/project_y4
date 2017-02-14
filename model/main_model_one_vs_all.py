@@ -65,13 +65,13 @@ if os.path.isfile(model_file_name) and len(argv) > 1 and argv[1] != "0":
     clf = joblib.load(model_file_name)
     model_from_file = True
 else:
-    print "- ceate new model"
+    print "[Main] ceate new model"
     #text_clf = Pipeline([('vect', count_vect),('tfidf', tfidf_transformer),('clf', clf)])
     count_vect = CountVectorizer(tokenizer=custom_tokenizer,analyzer = 'word',preprocessor=custom_preprocessor)
     clf = SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)
     tfidf_transformer = TfidfTransformer()
 
-print "reading data..."
+print "[Main] reading data..."
     
 raw = RawData()
 raw.load(0)
