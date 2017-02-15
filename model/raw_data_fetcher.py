@@ -233,7 +233,7 @@ class RawData(object):
             all_filtered_word_occur_count += len(tmp)
             train_text[i] = " ".join(tmp) 
 
-        print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
+        #print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
         
         return train_text,train_tag,test_text,test_tag
         
