@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from dummy_read_training_data import DummyN
+from impala_db import ImpalaDB
 from word_segmentation_insightera import Tws
 from sklearn.feature_extraction.text import CountVectorizer
 from read_training_data import N
@@ -15,7 +16,8 @@ import random
 class RawData(object):
     def __init__(self):
         #self.read = N()
-        self.read = DummyN()
+        #self.read = DummyN()
+        self.read =ImpalaDB()
         self.tws = Tws()
         self.train_text_ratio = 0.8
         self.tag_table = {'OTHER':0}
@@ -53,12 +55,11 @@ class RawData(object):
         
         print "[Preprocess] all lemma = %d rows" % len(lemma_dict)
 
-        space = ' '
-
         # read raw data
-        text,tag = self.read.read_text_tag()
-
+        text_id,text,tag = self.read.read_text_tag()
+        
         if sample_n > 0:
+            text_id = text_id[:sample_n]
             text = text[:sample_n]
             tag = tag[:sample_n]
             
@@ -72,10 +73,10 @@ class RawData(object):
         stopword_count = 0
         for i in range(0,len(text)):
             filteredtext = []
-            #tmp_text = self.tws.word_segment(text[i].strip())
+            tmp_text = self.tws.word_segment(unicode(text[i].strip(),'utf-8'))
 
             # use dummy input which has already been segmented separate by ';' 
-            tmp_text = text[i].split(';')
+            #tmp_text = text[i].split(';')
 
             # preprocess
             for t in tmp_text:
@@ -97,18 +98,19 @@ class RawData(object):
                     stopword_count += 1
                     if is_verbose:
                         print "remove %s" % (t)
-                    
+            
             # we will do word segmentation using only a space.            
-            filteredtext = space.join([l for l in filteredtext])
+            filteredtext = ' '.join([l for l in filteredtext])
             
             tmp_tag = tag[i].split(',')
             tmp_tag = [t.strip() for t in tmp_tag]
             
             all_tag = []
             for t in tmp_tag:
-                if t.strip() == '':
+                if t == '':
                     continue;
             
+                """
                 # convert tag to int
                 if t not in self.tag_table:
                     idx = len(self.tag_table)
@@ -116,16 +118,20 @@ class RawData(object):
                     self.tag_inverse_table[idx] = t
                 else:
                     idx = self.tag_table[t];
-                    
+                """
+                
+                idx = int(t)
                 all_tag.append(idx)
             
-            self.raw_paragraph_text.append(filteredtext) #text
+            self.raw_paragraph_text.append((text_id[i],filteredtext)) #text
             self.raw_paragraph_tag.append(all_tag) #tag ID
-
+        
+        print
         print "[Preprocess]: remove punctuation %s" % (string.punctuation + '‘’“”…๑๒๓๔๕๖๗๘๙๐')
         print "[Preprocess]: apply lemma = %d pairs" % lemma_count
         print "[Preprocess]: remove stopword = %d words" % stopword_count
-        print
+        
+        print len(self.raw_paragraph_text), len(self.raw_paragraph_tag)
         
         # random sample order
         text = []
@@ -138,6 +144,10 @@ class RawData(object):
                         
         self.raw_paragraph_text = text
         self.raw_paragraph_tag = tag
+    
+        for tag in self.read.get_all_tag():
+            self.tag_table[unicode(tag[1],'utf-8')] = tag[0];
+            self.tag_inverse_table[tag[0]] = unicode(tag[1],'utf-8');
     
     def get_train_test_data_tag(self,tag_idx,is_verbose=False):
         # 1. create 2 classes match and not match
@@ -211,7 +221,7 @@ class RawData(object):
         frequency = defaultdict(int) # default = 0
 
         for text in train_text:
-            words = text.split(' ')
+            words = text[1].split(' ')
             for token in words:
                 frequency[token] += 1
         
@@ -228,12 +238,12 @@ class RawData(object):
         
         all_filtered_word_occur_count = 0
         for i in range(len(train_text)):
-            words = train_text[i].split(' ')
+            words = train_text[i][1].split(' ')
             tmp = [word for word in words if frequency[word] <= max_threshold and frequency[word] >= min_threshold]
             all_filtered_word_occur_count += len(tmp)
-            train_text[i] = " ".join(tmp) 
+            train_text[i] = (train_text[i][0]," ".join(tmp)) 
 
-        print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
+        #print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
         
         return train_text,train_tag,test_text,test_tag
         
@@ -249,7 +259,7 @@ class RawData(object):
             summary.append(("%s(%d)" % (name,idx),[idx in t for t in self.raw_paragraph_tag].count(True)))
             
         sorted_summary= sorted(summary, key=operator.itemgetter(1), reverse=True)
-        for tag, count in sorted_summary[:10]:
+        for tag, count in sorted_summary:
             print "%5d %s" % (count,tag)
     
     def get_all_tag_idx(self):
@@ -257,10 +267,10 @@ class RawData(object):
         
 if __name__ == '__main__':              
     raw = RawData()
-    raw.load(0 if len(sys.argv) < 2 else int(sys.argv[1]),True)
+    raw.load(0 if len(sys.argv) < 2 else int(sys.argv[1]),False)
     raw.show_tag_summary()
     
-    target_tag = 6;
+    target_tag = 31;
     text,tag,test_text,test_tag = raw.get_train_test_data_tag(target_tag,True)
     print "train = %d, test = %d" % (len(tag),len(test_tag))
     

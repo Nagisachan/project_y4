@@ -38,7 +38,7 @@ def predict(x_test_data,count_vect,tfidf_transformer,clf):
     return clf.predict(X_test_tfidf)
     
 def custom_preprocessor(str):
-	str = str.translate({ord(char): None for char in string.punctuation})
+	#str = str.translate({ord(char): None for char in string.punctuation})
 	return str
 	
 def custom_tokenizer(str):
@@ -103,7 +103,10 @@ for model_name,clf in models.iteritems():
         for target_tag in all_tag_idx:
             twenty_train_data,twenty_train_target, twenty_test_data, twenty_test_target = raw.get_train_test_data_tag(target_tag)
             
-            if len(twenty_train_target) < 100:
+            twenty_train_data = [data[1] for data in twenty_train_data]
+            twenty_test_data = [data[1] for data in twenty_test_data]
+            
+            if len(twenty_train_target) < 300:
                 continue
                    
             # show info
@@ -158,7 +161,7 @@ for model,scores in model_avg_score.iteritems():
     print "agv    recall = %.2f" % (avg_recall/count)
     print "agv        f1 = %.2f" % (avg_f1/count)
     print
-    
+        
 sys.exit()
 
 # view more info
@@ -176,3 +179,4 @@ if save.upper() == "Y":
     joblib.dump(clf, model_file_name)
     joblib.dump(count_vect, count_vect_file_name)
     joblib.dump(tfidf_transformer, tfidf_file_name)
+
