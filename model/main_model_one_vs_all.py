@@ -106,7 +106,7 @@ for model_name,clf in models.iteritems():
             twenty_train_data = [data[1] for data in twenty_train_data]
             twenty_test_data = [data[1] for data in twenty_test_data]
             
-            if len(twenty_train_target) < 300:
+            if len(twenty_train_target) < 200:
                 continue
                    
             # show info
