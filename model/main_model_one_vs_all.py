@@ -24,8 +24,10 @@ from sklearn.neighbors import NearestCentroid
 from sklearn.ensemble import RandomForestClassifier
 
 def train(x_train_data,y_train_data,count_vect,tfidf_transformer,clf,partial=False):
-    X_train_counts = count_vect.fit_transform(x_train_data)
-    X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+    #X_train_counts = count_vect.fit_transform(x_train_data)
+    #X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+    X_train_counts = count_vect.transform(x_train_data)
+    X_train_tfidf = tfidf_transformer.transform(X_train_counts)
     
     if partial:
         clf.partial_fit(X_train_tfidf, y_train_data)
@@ -46,8 +48,8 @@ def custom_tokenizer(str):
 
 ############### MAIN ###############    
     
-if len(argv) != 3:
-    print "Usage: main_model_one_vs_all <read model from file (0 or 1)> <skip train (0 or 1)>"
+if len(argv) != 2:
+    print "Usage: main_model_one_vs_all <read model from file (0 or 1)>"
     sys.exit()
     
 # read model from file
@@ -59,14 +61,12 @@ model_from_file = False
 
 if os.path.isfile(model_file_name) and len(argv) > 1 and argv[1] != "0":
     print "- read model from '%s'" % (model_file_name)
-    #text_clf = joblib.load(model_file_name) 
     count_vect = joblib.load(count_vect_file_name) 
     tfidf_transformer = joblib.load(tfidf_file_name) 
     clf = joblib.load(model_file_name)
     model_from_file = True
 else:
     print "[Main] ceate new model"
-    #text_clf = Pipeline([('vect', count_vect),('tfidf', tfidf_transformer),('clf', clf)])
     count_vect = CountVectorizer(tokenizer=custom_tokenizer,analyzer = 'word',preprocessor=custom_preprocessor)
     clf = SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)
     tfidf_transformer = TfidfTransformer()
@@ -74,10 +74,21 @@ else:
 print "[Main] reading data..."
     
 raw = RawData()
-raw.load(0)
+raw.load(10)
 
+# build transformer
+texts = raw.get_all_text()
+all_text = []
+
+for text in texts:
+    all_text.append(text[1])
+    
+tmp = count_vect.fit_transform(all_text)
+tfidf_transformer.fit(tmp)
+
+model_tags = dict()
 models = {
-    'SVM': SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
+    'SVM': clf,
     #'NB': MultinomialNB(alpha=.01),
     #'ANN' : MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1),
     #'KNN' : KNeighborsClassifier(n_neighbors=10),
@@ -113,14 +124,15 @@ for model_name,clf in models.iteritems():
             #print "train sample =",len(twenty_train_target)
             #print "test sample =",len(twenty_test_target)
             
-            # save model to file
-            if len(argv) > 2 and argv[2] != "0":
+            if model_from_file:
                 print "- skip train model..."
             else:
                 #print "- train model..."
                 #text_clf=text_clf.fit(twenty_train_data, twenty_train_target)
+                clf = SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)
                 train(twenty_train_data,twenty_train_target,count_vect,tfidf_transformer,clf,model_from_file)
-                   
+                model_tags[target_tag] = clf
+                
             #predicted = text_clf.predict(twenty_test_data)
             predicted = predict(twenty_test_data,count_vect,tfidf_transformer,clf)
             score = np.mean(predicted == twenty_test_target)
@@ -161,22 +173,21 @@ for model,scores in model_avg_score.iteritems():
     print "agv    recall = %.2f" % (avg_recall/count)
     print "agv        f1 = %.2f" % (avg_f1/count)
     print
-        
-sys.exit()
-
-# view more info
-print(metrics.classification_report(twenty_test_target, predicted, target_names=raw.get_target_names()))
-#print metrics.confusion_matrix(twenty_test_target, predicted)
-
-# save model to file
-print "save model? (y/N)"
-save = raw_input();
-
-if save.upper() == "Y":
+    
     print "- save model to file '%s'" % (model_file_name)
     print "- save count vect to file '%s'" % (count_vect_file_name)
     print "- save tfidf to file '%s'" % (tfidf_file_name)
     joblib.dump(clf, model_file_name)
     joblib.dump(count_vect, count_vect_file_name)
     joblib.dump(tfidf_transformer, tfidf_file_name)
+    
+    break
 
+"""
+text_id,text_content = raw.get_test_text()
+for tag_id,clf in model_tags.iteritems():
+    predicted = predict(text_content,count_vect,tfidf_transformer,clf)
+    for tid,result in predict,text_id:
+        if result != 0:
+            print "%s << %d" % (tid,result)
+"""

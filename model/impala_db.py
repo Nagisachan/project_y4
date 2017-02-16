@@ -37,7 +37,7 @@ class ImpalaDB(object):
         
         text_tag_str_uniq = dict()     
         for key in text_tag_list_uniq:
-            text_tag_str_uniq[key] = ",".join(text_tag_list_uniq[key])
+            text_tag_str_uniq[key] = ",".join(list(set(text_tag_list_uniq[key])))
                 
         result_text_id = []
         result_text_content = []
@@ -63,12 +63,38 @@ class ImpalaDB(object):
                 self.tag_dict[tag[0]] = tag[1]
             
         return self.tag_dict[tag_id]
+    
+    def read_test_text(self,print_result=False):
+        self.cursor.execute('select concat(cast(content_test.fileid as string),"-",cast(content_test.paragraph as string)) as paragraph_id, content from content_test left join train_status on content_test.fileid=train_status.fileid and content_test.paragraph = train_status.paragraph where train is null or not train')
+        texts_table = self.cursor.fetchall()
         
+        if print_result:
+            for texts in texts_table:
+                print "%5s %s" % (texts[0],texts[1][:20])
+                
+        result_text_id = []
+        result_text_content = []
+        
+        for texts in texts_table:
+            result_text_id.append(texts[0])
+            result_text_content.append(texts[1])
+        
+        return result_text_id,result_text_content
+     
+         
+    def write_result(self,paragraph_id,tag_list):
+        print "%s >> %s" % (paragraph_id,",".join([str(t) for t in tag_list]))            
+        
+        for tag in tag_list:
+            paragraph_ids = paragraph_id.split('-')
+            self.cursor.execute('INSERT INTO tag_test (fileid,paragraph,tag) VALUES(%d,%d,%d)' % (int(paragraph_ids[0]),int(paragraph_ids[1]),tag))
         
 if __name__ == '__main__':
     #ImpalaDB().get_all_text_tag(True)
     #ImpalaDB().read_text_tag(True)
+    ImpalaDB().read_test_text(True)
     
+    """
     from collections import defaultdict
     frequency = defaultdict(int)
     
@@ -82,4 +108,7 @@ if __name__ == '__main__':
     import operator
     sorted_frequency = sorted(frequency.items(), key=operator.itemgetter(1), reverse=True)
     for row in sorted_frequency:
-        print "%2d %4d %s" % (row[0],row[1],impala.get_tag_name(row[0]))
+        print "ID:%-2d   %4d %s" % (row[0],row[1],impala.get_tag_name(row[0]))
+    """
+    
+    #ImpalaDB().write_result("2-15",[1,2,3,4]);

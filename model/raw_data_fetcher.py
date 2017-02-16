@@ -149,6 +149,9 @@ class RawData(object):
             self.tag_table[unicode(tag[1],'utf-8')] = tag[0];
             self.tag_inverse_table[tag[0]] = unicode(tag[1],'utf-8');
     
+    def get_all_text(self):
+        return self.raw_paragraph_text
+    
     def get_train_test_data_tag(self,tag_idx,is_verbose=False):
         # 1. create 2 classes match and not match
         # 2. make classes balance (randomly select same number of sample from 2 classes)
@@ -264,6 +267,9 @@ class RawData(object):
     
     def get_all_tag_idx(self):
         return self.tag_inverse_table.iterkeys()
+    
+    def get_test_text(self):
+        return self.read.read_test_text()
         
 if __name__ == '__main__':              
     raw = RawData()
