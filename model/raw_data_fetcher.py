@@ -24,19 +24,14 @@ class RawData(object):
         self.tag_inverse_table = {0:'OTHER'}
         self.raw_paragraph_text = []
         self.raw_paragraph_tag = []
+        self.is_inited = False
+        self.test_text_id = False
+        self.test_text_result = False
         
-    def load(self,sample_n=0,is_verbose=False):
-        # 1. word segmentation
-        # 2. remove punctuation
-        # 3. remove stop words
-        # 4. convert tag to ID
-        # 5. create doc-tag(s) style
-
-        text = []
-        tag = []
-
         # read stop words list
         stopwords = codecs.open('stop_words.txt', 'r','utf-8').read().split()
+        self.stopwords = stopwords
+        
         for stopword in stopwords:
             print stopword.encode('utf-8'),
         print
@@ -53,7 +48,18 @@ class RawData(object):
                     
                     print "%s => %s" % (word,lemma)
         
+        self.lemma_dict = lemma_dict
         print "[Preprocess] all lemma = %d rows" % len(lemma_dict)
+        
+    def load(self,sample_n=0,is_verbose=False):
+        # 1. word segmentation
+        # 2. remove punctuation
+        # 3. remove stop words
+        # 4. convert tag to ID
+        # 5. create doc-tag(s) style
+
+        text = []
+        tag = []
 
         # read raw data
         text_id,text,tag = self.read.read_text_tag()
@@ -86,13 +92,13 @@ class RawData(object):
                 t = t.translate({ord(char): None for char in (string.punctuation + unicode('‘’“”…๑๒๓๔๕๖๗๘๙๐','utf-8'))})
                 
                 #Lemmatization
-                if t in lemma_dict:
+                if t in self.lemma_dict:
                     lemma_count += 1
                     if is_verbose:
                         print "change %s => %s" % (t.encode('utf-8'),lemma_dict[t])
                   
                 # remove stop word
-                if t not in stopwords and t.strip():
+                if t not in self.stopwords and t.strip():
                     filteredtext.append(t)
                 else:
                     stopword_count += 1
@@ -131,8 +137,6 @@ class RawData(object):
         print "[Preprocess]: apply lemma = %d pairs" % lemma_count
         print "[Preprocess]: remove stopword = %d words" % stopword_count
         
-        print len(self.raw_paragraph_text), len(self.raw_paragraph_tag)
-        
         # random sample order
         text = []
         tag = []
@@ -148,7 +152,8 @@ class RawData(object):
         for tag in self.read.get_all_tag():
             self.tag_table[unicode(tag[1],'utf-8')] = tag[0];
             self.tag_inverse_table[tag[0]] = unicode(tag[1],'utf-8');
-    
+        
+        self.is_inited = True;
     def get_all_text(self):
         return self.raw_paragraph_text
     
@@ -266,10 +271,60 @@ class RawData(object):
             print "%5d %s" % (count,tag)
     
     def get_all_tag_idx(self):
-        return self.tag_inverse_table.iterkeys()
+        ret = []
+        if self.is_inited:
+            for tag in self.tag_inverse_table.iterkeys():
+                ret.append(tag)
+        else:
+            for tag in self.read.get_all_tag():
+                ret.append(tag[0])
+                
+        return ret
+    
+    def load_test_text(self):
+        text_id, text = self.read.read_test_text()
+        text_result = [];
+        
+        lemma_count = 0
+        stopword_count = 0
+        
+        print "[[Preprocess]: process %d text" % len(text)
+        for i in range(0,len(text)):
+            filteredtext = []
+            tmp_text = self.tws.word_segment(unicode(text[i].strip(),'utf-8'))
+
+            # use dummy input which has already been segmented separate by ';' 
+            #tmp_text = text[i].split(';')
+
+            # preprocess
+            for t in tmp_text:
+                t = t.strip()
+                
+                # remove punctuation
+                t = t.translate({ord(char): None for char in (string.punctuation + unicode('‘’“”…๑๒๓๔๕๖๗๘๙๐','utf-8'))})
+                
+                #Lemmatization
+                if t in self.lemma_dict:
+                    lemma_count += 1
+                  
+                # remove stop word
+                if t not in self.stopwords and t.strip():
+                    filteredtext.append(t)
+                else:
+                    stopword_count += 1
+            
+            # we will do word segmentation using only a space.            
+            filteredtext = ' '.join([l for l in filteredtext])
+            text_result.append(filteredtext)
+        
+        self.test_text_id = text_id
+        self.test_text_result = text_result
     
     def get_test_text(self):
-        return self.read.read_test_text()
+        if not self.test_text_id:
+            self.load_test_text()
+            
+        return self.test_text_id, self.test_text_result
         
 if __name__ == '__main__':              
     raw = RawData()
