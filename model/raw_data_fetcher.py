@@ -257,8 +257,13 @@ class RawData(object):
         
     def get_target_names(self):
         tmp = []
-        for i in range(0,len(self.tag_inverse_table)):
-            tmp.append(self.tag_inverse_table[i])
+        if self.is_inited:
+            for i in range(0,len(self.tag_inverse_table)):
+                tmp.append(self.tag_inverse_table[i])
+        else:
+            for tag in self.read.get_all_tag():
+                tmp.append(tag[1])
+                
         return tmp
         
     def show_tag_summary(self):

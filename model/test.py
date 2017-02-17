@@ -24,6 +24,7 @@ from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.ensemble import RandomForestClassifier
+from impala_db import ImpalaDB
 
 def predict(X,count_vect,clf):
     X_count = count_vect.transform(X)
@@ -67,7 +68,9 @@ for tag in all_tag_idx:
     if os.path.isfile(filename):
         clf = joblib.load(filename)
         model_tags[tag] = clf
+        print "[Main] load model %s" % filename
 
+db = ImpalaDB()
 avg_score = []
 for target_tag in all_tag_idx:
     if target_tag not in model_tags.iterkeys():
@@ -76,4 +79,10 @@ for target_tag in all_tag_idx:
     text_id,text = raw.get_test_text()
         
     predicted = predict(text,count_vect,model_tags[target_tag])
-    print predicted
+    
+    for paragraph_id,target_class in zip(text_id,predicted):
+        if target_class != 0:
+            print "%s is %s" % (paragraph_id,raw.get_target_names()[target_class])
+            db.write_result(paragraph_id,[target_class]);
+                
+    

@@ -87,7 +87,7 @@ class ImpalaDB(object):
         
         for tag in tag_list:
             paragraph_ids = paragraph_id.split('-')
-            self.cursor.execute('INSERT INTO tag_test (fileid,paragraph,tag) VALUES(%d,%d,%d)' % (int(paragraph_ids[0]),int(paragraph_ids[1]),tag))
+            self.cursor.execute('INSERT INTO tag_test2 (fileid,paragraph,tag) VALUES(%d,%d,%d)' % (int(paragraph_ids[0]),int(paragraph_ids[1]),tag))
         
 if __name__ == '__main__':
     #ImpalaDB().get_all_text_tag(True)
