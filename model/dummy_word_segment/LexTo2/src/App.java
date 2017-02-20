@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +19,8 @@ public class App {
 
 	private static final Log log = LogFactory.getLog(App.class);
 
-	private File dictFile;
+	private File dictFile, unknownFile;
+	private List<String> exceptionList;
 	private Hashtable<Integer, String> cache;
 	private final int port = 6789;
 	Trie dict;
@@ -25,6 +28,24 @@ public class App {
 	public App(String[] args) {
 
 		dictFile = new File(args[0]);
+		unknownFile = new File(args[1]);
+		File exceptionFile = args.length >= 3 ? new File(args[2]) : null;
+		if(exceptionFile != null && exceptionFile.exists()){
+			try (BufferedReader br = new BufferedReader(new FileReader(exceptionFile))) {
+				String line;
+				exceptionList = new ArrayList<>();
+				while((line = br.readLine()) != null){
+					if(!line.trim().isEmpty()){
+						exceptionList.add(line.trim());
+					}
+				}
+				
+				log.info(exceptionList.size() + " exception words.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		dict = new Trie();
 		cache = new Hashtable<>();
 
@@ -65,8 +86,8 @@ public class App {
 	}
 
 	public static void main(String[] args) {
-		if (args.length != 1) {
-			System.err.println("Usage LongLexTo <dict-path>");
+		if (args.length < 2) {
+			System.err.println("Usage LongLexTo <dict-path> <unknown-path> [exception]");
 			System.exit(-1);
 		}
 
@@ -86,11 +107,6 @@ public class App {
 			try {
 				log.info("new connection from " + socket.getInetAddress() + "...");
 
-				LongLexTo tokenizer = new LongLexTo(dict);
-				File unknownFile = new File(dictFile.getParent(), "unknown.txt");
-				if (unknownFile.exists())
-					tokenizer.addDict(unknownFile);
-
 				String line;
 				int begin, end;
 
@@ -99,26 +115,49 @@ public class App {
 				line = br.readLine().trim();
 
 				String output;
-				int hashCode;
-
-				if (cache.containsKey((hashCode = line.hashCode()))) {
+				int hashCode = line.hashCode();
+				
+				if (cache.containsKey(hashCode)) {
 					output = cache.get(hashCode);
 					log.debug(hashCode + ": from cache");
 				} else {
+					LongLexTo tokenizer = new LongLexTo(dict);
+					File unknownFile = new File(dictFile.getParent(), "unknown.txt");
+					if (unknownFile.exists())
+						tokenizer.addDict(unknownFile);
+					
+					PrintWriter pwUnknown = new PrintWriter(new FileOutputStream(App.this.unknownFile, true));
+					
 					List<String> words = new ArrayList<>();
+					
 					if (!line.isEmpty()) {
-						tokenizer.wordInstance(line);
-						begin = tokenizer.first();
-
-						while (tokenizer.hasNext()) {
-							end = tokenizer.next();
-							String word = line.substring(begin, end);
-							if (!word.trim().isEmpty()) {
-								words.add("\"" + word + "\"");
+						if(isExceptionWord(line)){
+							words.add(line);
+						}
+						else{
+							tokenizer.wordInstance(line);
+							begin = tokenizer.first();
+							
+							Vector<Integer> typeList = tokenizer.getTypeList();
+							int i=0;
+							int type;
+							while (tokenizer.hasNext()) {
+								type=((Integer)typeList.elementAt(i++)).intValue();
+								
+								end = tokenizer.next();
+								String word = line.substring(begin, end);
+								if (!word.trim().isEmpty()) {
+									words.add("\"" + word + "\"");
+									if(type == 0){
+										pwUnknown.println(word);
+									}
+								}
+								begin = end;
 							}
-							begin = end;
 						}
 					}
+					
+					pwUnknown.close();
 					output = String.join(",", words);
 					cache.put(line.hashCode(), output);
 					log.debug(hashCode + ": from lexto");
@@ -128,7 +167,7 @@ public class App {
 				log.info(output);
 
 				pw.println(output);
-
+				
 				br.close();
 				pw.close();
 			} catch (Exception e) {
@@ -136,5 +175,18 @@ public class App {
 			}
 		}
 
+		private boolean isExceptionWord(String word){
+			if(exceptionList == null){
+				return false;
+			}
+			
+			for(String s : exceptionList){
+				if(s.equals(word)){
+					return true;
+				}
+			}
+			
+			return false;
+		}
 	}
 }
