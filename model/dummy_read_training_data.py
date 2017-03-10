@@ -20,7 +20,7 @@ class DummyN(object):
                 for line in f:
                     tag.append(unicode(line,"utf-8"))
 
-            return text,tag
+            return ['0-0' for i in range(0,len(text))],text,tag
 
     def rewrite_cache(self):
         text,tag = N().read_text_tag()
