@@ -1,10 +1,12 @@
 import os
 import sys
+import numpy as np
 
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.externals import joblib
 from collections import defaultdict
 from sklearn.model_selection import cross_val_score
+from sklearn import metrics
 
 #model
 from sklearn.linear_model import SGDClassifier
@@ -60,10 +62,28 @@ models = [
     ('ADA-SAMME.R', AdaBoostClassifier(n_estimators=100)),
 ]
 
-clf = VotingClassifier(estimators=models,weights=[0.2,0.14,0.14,0.14,0.14,0.1,0.14],voting='hard',n_jobs=-1)
+models = [
+    ('SVM',  SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42)),
+    ('NB',  MultinomialNB(alpha=.01)),
+    ('ANN' ,  MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1)),
+    ('KNN' ,  KNeighborsClassifier(n_neighbors=10)),
+    ('RDFOREST' , RandomForestClassifier(n_estimators=25)),
+    ('NC' ,  NearestCentroid()),
+    ('ADA-SAMME.R', AdaBoostClassifier(n_estimators=100)),
+]
+
+weights = [0.2,0.14,0.14,0.14,0.14,0.1,0.14]
+print sum(weights)
+clf = VotingClassifier(estimators=models,weights=weights,voting='hard',n_jobs=-1)
+
 
 scores = defaultdict(int)
-n_round = 100
+precision = defaultdict(int)
+recall = defaultdict(int)
+f1 = defaultdict(int)
+
+n_round = 1000
+n=0
 for i in range(n_round):
     X_train, y_train, X_test, y_test = raw.get_train_test_data_tag(7)
 
@@ -83,12 +103,17 @@ for i in range(n_round):
 
     clf.fit(X_tfidf_train,y_train)
     
-    score = clf.score(X_tfidf_test,y_test)
-    print "%s -> %f" % ("MAJOR",score)
+    predicted = clf.predict(X_tfidf_test)
+    score = np.mean(predicted == y_test)
+    matrix = metrics.precision_recall_fscore_support(y_test, predicted,average='binary',pos_label=7)
+    
+    #print "%s -> %f" % ("MAJOR",score)
     
     scores["MAJOR"] += score
-        
-    print "-------"
-        
-for model in scores:
-    print "AVG %s -> %f" % (model,scores[model]/n_round)
+    precision["MAJOR"] += matrix[0]
+    recall["MAJOR"] += matrix[1]
+    f1["MAJOR"] += matrix[2]
+    
+    n += 1    
+    for model in scores:
+        print "AVG %s -> %f (%f, %f, %f)" % (model,scores[model]/n,precision[model]/n,recall[model]/n,f1[model]/n)
