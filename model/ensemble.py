@@ -3,6 +3,7 @@ import sys
 
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.externals import joblib
+from collections import defaultdict
 
 #model
 from sklearn.linear_model import SGDClassifier
@@ -18,6 +19,8 @@ from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.ensemble import RandomForestClassifier
+
+from sklearn.ensemble import BaggingClassifier
 
 def custom_preprocessor(str):
     # Do not perform any preprocessing here.
@@ -67,10 +70,23 @@ models = {
     'KNN' : KNeighborsClassifier(n_neighbors=10),
     'RDFOREST' : RandomForestClassifier(n_estimators=100),
     'NC' : NearestCentroid(),
-    'Ridge': RidgeClassifier(tol=1e-2, solver="lsqr"),
+    'Ridge': RidgeClassifier(tol=1e-2, solver="sag"),
 }
 
-for model in models:
-    clf = models[model]
-    clf.fit(X_tfidf_train,y_train)
-    print "%s -> %f" % (model,clf.score(X_tfidf_test,y_test))
+scores = defaultdict(int)
+n_round = 10
+for i in range(10):
+    for model in models:
+        clf = models[model]
+        #clf.fit(X_tfidf_train,y_train)
+        bagging = BaggingClassifier(clf,max_samples=0.5, max_features=0.5,bootstrap_features=True)
+        bagging.fit(X_tfidf_train,y_train)
+        
+        #print "%s -> %f" % (model,clf.score(X_tfidf_test,y_test))
+        print "%s -> %f" % (model,bagging.score(X_tfidf_test,y_test))
+        
+        scores[model] += bagging.score(X_tfidf_test,y_test)
+    print "-------"
+        
+for model in scores:
+    print "AVG %s -> %f" % (model,scores[model]/n_round)
