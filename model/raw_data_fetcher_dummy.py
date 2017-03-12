@@ -331,12 +331,12 @@ class RawData(object):
         
 if __name__ == '__main__':              
     raw = RawData()
-    raw.load(0 if len(sys.argv) < 2 else int(sys.argv[1]),False)
+    raw.load()
     raw.show_tag_summary()
     
-    target_tag = 7;
+    target_tag = 7 if len(sys.argv) == 1 else int(sys.argv[1]);
     text,tag,test_text,test_tag = raw.get_train_test_data_tag(target_tag,True)
-    print "train = %d, test = %d" % (len(tag),len(test_tag))
+    print "%d: train = %d, test = %d" % (target_tag,len(tag),len(test_tag))
     
     sys.exit()
     
