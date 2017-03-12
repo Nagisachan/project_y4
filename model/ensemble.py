@@ -1,10 +1,12 @@
 import os
 import sys
+import numpy as np
 
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.externals import joblib
 from collections import defaultdict
 from sklearn.model_selection import cross_val_score
+from sklearn import metrics
 
 #model
 from sklearn.linear_model import SGDClassifier
@@ -56,14 +58,18 @@ models = {
     'KNN' : KNeighborsClassifier(n_neighbors=10),
     'RDFOREST' : RandomForestClassifier(n_estimators=25),
     'NC' : NearestCentroid(),
-    #'Ridge': RidgeClassifier(tol=1e-2, solver="sag"),
     'ADA-SAMME.R': AdaBoostClassifier(n_estimators=100),
-    'GBC': GradientBoostingClassifier(n_estimators=100, learning_rate=1.0,max_depth=1, random_state=0),
 }
 
 scores = defaultdict(int)
-n_round = 10
-for i in range(10):
+precision = defaultdict(int)
+recall = defaultdict(int)
+f1 = defaultdict(int)
+
+n_round = 1000
+n=1
+
+for i in range(n_round):
     for model in models:
         clf = models[model]
         
@@ -83,19 +89,18 @@ for i in range(10):
         X_count = count_vect.transform(X_test)
         X_tfidf_test = TfidfTransformer().fit_transform(X_count)
 
-        #clf.fit(X_tfidf_train,y_train)
-        #bagging = BaggingClassifier(clf,max_samples=0.5, max_features=0.5,bootstrap_features=True)
-        bagging = BaggingClassifier(clf,max_samples=0.75, max_features=0.75)
-        cv_score = cross_val_score(clf, X_tfidf_train.toarray(), y_train)
-        #bagging.fit(X_tfidf_train,y_train)
+        bagging = BaggingClassifier(clf,max_samples=0.5, max_features=0.5,bootstrap_features=True)
+        #bagging = BaggingClassifier(clf,max_samples=0.75, max_features=0.75)
+        bagging.fit(X_tfidf_train,y_train)
+        predicted = bagging.predict(X_tfidf_test)
+        score = np.mean(predicted == y_test)
+        matrix = metrics.precision_recall_fscore_support(y_test, predicted,average='binary',pos_label=7)
         
-        #print "%s -> %f" % (model,clf.score(X_tfidf_test,y_test))
-        #print "%s -> %f" % (model,bagging.score(X_tfidf_test,y_test))
-        print "%s -> %f" % (model, cv_score.mean())
+        scores[model] += score
+        precision[model] += matrix[0]
+        recall[model] += matrix[1]
+        f1[model] += matrix[2]
         
-        #scores[model] += bagging.score(X_tfidf_test,y_test)
-        scores[model] += cv_score.mean()
-    print "-------"
-        
-for model in scores:
-    print "AVG %s -> %f" % (model,scores[model]/n_round)
+        print "AVG %s -> %f (%f, %f, %f)" % (model,scores[model]/n,precision[model]/n,recall[model]/n,f1[model]/n)
+    print
+    n += 1
