@@ -70,6 +70,7 @@ n_round = 1000
 n=1
 
 for i in range(n_round):
+    print "# %d" % n
     for model in models:
         clf = models[model]
         
@@ -89,7 +90,7 @@ for i in range(n_round):
         X_count = count_vect.transform(X_test)
         X_tfidf_test = TfidfTransformer().fit_transform(X_count)
 
-        bagging = BaggingClassifier(clf,max_samples=0.5, max_features=0.5,bootstrap_features=True)
+        bagging = BaggingClassifier(clf,max_samples=0.5, max_features=0.5)
         #bagging = BaggingClassifier(clf,max_samples=0.75, max_features=0.75)
         bagging.fit(X_tfidf_train,y_train)
         predicted = bagging.predict(X_tfidf_test)

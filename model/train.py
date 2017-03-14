@@ -25,6 +25,12 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestCentroid
 from sklearn.ensemble import RandomForestClassifier
 
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import VotingClassifier
+
 def train(X,y,count_vect,clf,partial=False):
     X_count = count_vect.transform(X)
     X_tfidf = TfidfTransformer().fit_transform(X_count)
@@ -65,6 +71,16 @@ print "[Main] reading data..."
 raw = RawData()
 raw.load()
 
+model_major = [
+    ('SVM',  BaggingClassifier(SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),max_samples=0.5, max_features=0.5)),
+    ('NB',  BaggingClassifier(MultinomialNB(alpha=.01),max_samples=0.5, max_features=0.5)),
+    ('ANN' ,  BaggingClassifier(MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1),max_samples=0.5, max_features=0.5)),
+    ('KNN' ,  BaggingClassifier(KNeighborsClassifier(n_neighbors=10),max_samples=0.5, max_features=0.5)),
+    ('RDFOREST' , RandomForestClassifier(n_estimators=25)),
+    ('NC' ,  BaggingClassifier(NearestCentroid(),max_samples=0.5, max_features=0.5)),
+    ('ADA-SAMME.R', AdaBoostClassifier(n_estimators=100)),
+]
+
 models = {
     'SVM': SGDClassifier(loss='hinge', penalty='l2',alpha=1e-3, n_iter=5, random_state=42),
     'NB': MultinomialNB(alpha=.01),
@@ -72,6 +88,7 @@ models = {
     'KNN' : KNeighborsClassifier(n_neighbors=10),
     'RDFOREST' : RandomForestClassifier(n_estimators=25),
     'NC' : NearestCentroid(),
+    'MAJOR' : VotingClassifier(estimators=models,weights=weights,voting='soft',n_jobs=-1)
 }
 
 mode_name = "SVM"
