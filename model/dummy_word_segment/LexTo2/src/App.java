@@ -130,34 +130,42 @@ public class App {
 					
 					List<String> words = new ArrayList<>();
 					
+					String exceptionWord = null;
 					if (!line.isEmpty()) {
-						if(isExceptionWord(line)){
-							words.add(line);
+						
+						exceptionWord = isContainExceptionWord(line);
+						if(exceptionWord != null){
+							line = line.replaceAll(exceptionWord, "");
 						}
-						else{
-							tokenizer.wordInstance(line);
-							begin = tokenizer.first();
+						
+						System.out.println(line);
+						tokenizer.wordInstance(line);
+						begin = tokenizer.first();
+						
+						Vector<Integer> typeList = tokenizer.getTypeList();
+						int i=0;
+						int type;
+						while (tokenizer.hasNext()) {
+							type=((Integer)typeList.elementAt(i++)).intValue();
 							
-							Vector<Integer> typeList = tokenizer.getTypeList();
-							int i=0;
-							int type;
-							while (tokenizer.hasNext()) {
-								type=((Integer)typeList.elementAt(i++)).intValue();
-								
-								end = tokenizer.next();
-								String word = line.substring(begin, end);
-								if (!word.trim().isEmpty()) {
-									words.add("\"" + word + "\"");
-									if(type == 0){
-										pwUnknown.println(word);
-									}
+							end = tokenizer.next();
+							String word = line.substring(begin, end);
+							if (!word.trim().isEmpty()) {
+								words.add("\"" + word + "\"");
+								if(type == 0){
+									pwUnknown.println(word);
 								}
-								begin = end;
 							}
+							begin = end;
 						}
 					}
 					
 					pwUnknown.close();
+					
+					if(exceptionWord != null){
+						words.add(exceptionWord);
+					}
+					
 					output = String.join(",", words);
 					cache.put(line.hashCode(), output);
 					log.debug(hashCode + ": from lexto");
@@ -175,18 +183,21 @@ public class App {
 			}
 		}
 
-		private boolean isExceptionWord(String word){
+		private String isContainExceptionWord(String word){
 			if(exceptionList == null){
-				return false;
+				return null;
 			}
 			
+			String target = null;
 			for(String s : exceptionList){
-				if(s.equals(word)){
-					return true;
+				if(word.toLowerCase().contains(s.toLowerCase())){
+					int index = word.toLowerCase().indexOf(s.toLowerCase());
+					target = word.substring(index, index + s.length());
+					break;
 				}
 			}
 			
-			return false;
+			return target;
 		}
 	}
 }
