@@ -1,0 +1,35 @@
+{% extends 'fixed.html.twig' %}
+
+{% block title %}Admin Console{% endblock %}
+
+{% block css %}
+{{ parent() }}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
+<style type="text/css">
+    body {
+        background-color: #FFFFFF;
+    }
+    .ui.menu .item img.logo {
+        margin-right: 1.5em;
+    }
+    .main.container {
+        margin-top: 7em;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<div class="ui main container">
+    <div class="ui cards container stackable centered">
+        Dashboard
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/admin/upload.js') }}"></script>
+{% endblock %}

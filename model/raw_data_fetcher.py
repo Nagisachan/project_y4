@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 from dummy_read_training_data import DummyN
-from impala_db import ImpalaDB
+#from impala_db import ImpalaDB
+from hive_db import HiveDB
 from word_segmentation_insightera import Tws
 from sklearn.feature_extraction.text import CountVectorizer
 from read_training_data import N
@@ -17,7 +18,8 @@ class RawData(object):
     def __init__(self):
         #self.read = N()
         #self.read = DummyN()
-        self.read =ImpalaDB()
+        #self.read =ImpalaDB()
+        self.read = HiveDB()
         self.tws = Tws()
         self.train_text_ratio = 0.8
         self.tag_table = {'OTHER':0}

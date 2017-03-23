@@ -1,0 +1,153 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/site.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/container.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/grid.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/image.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/menu.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/divider.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/segment.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/form.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/input.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/button.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/list.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/message.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/icon.css') }}">
+    
+    <style type="text/css">
+        body {
+            background-color: #DADADA;
+        }
+        body > .grid {
+            height: 100%;
+        }
+        .image {
+            margin-top: -100px;
+        }
+        .column {
+            max-width: 450px;
+        }
+        .quote{
+            font-style: italic;
+            margin-bottom: 10px;
+            font-family: "Merriweather", "Georgia", serif;
+        }
+        .quote-content{
+            text-align: left;
+            font-size: 1.7em;
+        }
+        .quote-author{
+            text-align: right;
+            font-size: 0.9em;
+            margin-bottom: 26px;
+        }
+    </style>
+{% endblock %}
+
+{% block fos_user_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <p class="quote quote-content">
+                "No business can succeed in any great degree without being properly organized."
+            </p>
+            <p class="quote quote-author">
+                James Cash "J. C." Penney Jr.
+            </p>
+            {#<h2 class="ui teal image header">#}
+            {#<img src="{{ asset('assets/images/logo.png') }}" class="image">#}
+            {#<div class="content">
+                Please log in
+            </div>#}
+            </h2>
+            <form class="ui large form" action="{{ path("fos_user_security_check") }}" method="post">
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+
+            <div class="ui stacked segment">
+                <div class="field">
+                <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" placeholder="E-mail address" required="required">
+                </div>
+                </div>
+                <div class="field">
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" id="password" name="_password" class="form-control" placeholder="Password" required="required">
+                </div>
+                </div>
+                <label for="remember_me" style="display:none">
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" checked="chedked"/> {{ 'security.login.remember_me'|trans }}
+                </label>
+                <input type="submit" id="_submit" name="_submit" class="ui fluid large teal submit button" value="{{ 'security.login.submit'|trans }}" />
+                {% if error %}
+                    <div class="ui pointing red basic label">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                    <script>alert("For test use admin/admin")</script>
+                {% endif %}
+                <br/>
+            </div>
+
+            <div class="ui error message"></div>
+
+            </form>
+
+            {#<div class="ui message">
+            New to us? <a href="#">Sign Up</a>
+            </div>#}
+        </div>
+    </div>
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/components/form.js') }}"></script>
+<script src="{{ asset('assets/components/transition.js') }}"></script>
+<script>
+    $(document)
+    .ready(function() {
+        $('.ui.form')
+        .form({
+            fields: {
+            email: {
+                identifier  : 'email',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : 'Please enter your e-mail'
+                },
+                {
+                    type   : 'email',
+                    prompt : 'Please enter a valid e-mail'
+                }
+                ]
+            },
+            password: {
+                identifier  : 'password',
+                rules: [
+                {
+                    type   : 'empty',
+                    prompt : 'Please enter your password'
+                },
+                {
+                    type   : 'length[4]',
+                    prompt : 'Your password must be at least 4 characters'
+                }
+                ]
+            }
+            }
+        })
+        ;
+    });
+</script>
+{% endblock %}
+

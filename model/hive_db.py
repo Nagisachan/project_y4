@@ -1,14 +1,34 @@
 from impala.dbapi import connect
+import socket
 
-class ImpalaDB(object):
+class HiveDB(object):
     def __init__(self):
-        conn = connect(host='23.97.59.54', port=21050, database='thaiautotag')
-        self.cursor = conn.cursor()
         self.tag_dict = False
+        self.local_ws = ("localhost", 9999)
+    
+    def receive(self,sock):
+        chunks = []
+        bytes_recd = 0
+        while True:
+            chunk = sock.recv(4096)
+            if chunk == '':
+                break
+            chunks.append(chunk)
+        return ''.join(chunks)
+            
+    def get_all_tag(self,print_result=False): 
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(self.local_ws)
+        s.send("getalltags\r\n")
+        tags_table = self.receive(s)
+        tags_table = tags_table.split("\n")
         
-    def get_all_tag(self,print_result=False):            
-        self.cursor.execute('SELECT tagid, tagcontent FROM tag_data ORDER BY tagid')
-        tags_table = self.cursor.fetchall()
+        result = []
+        for line in tags_table:
+            if line:
+                result.append(tuple(line.split(",")))
+        
+        tags_table = result
         
         if print_result:
             for tag in tags_table:
@@ -17,12 +37,22 @@ class ImpalaDB(object):
         return tags_table
         
     def get_all_text_tag(self,print_result=False):            
-        self.cursor.execute('select concat(cast(content_train.filecontentid as string),"-",cast(content_train.paragraph as string)) as paragraph_id,tag, content from content_train left join file_train on content_train.filecontentid=file_train.filecontentid join tag_train on file_train.fileid=tag_train.fileid and content_train.paragraph=tag_train.paragraph order by paragraph_id,tag')
-        texttags_table = self.cursor.fetchall()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(self.local_ws)
+        s.send("getalltexttags\r\n")
+        texttags_table = self.receive(s)
+        texttags_table = texttags_table.split("\n")
+        
+        result = []
+        for line in texttags_table:
+            if line:
+                result.append(tuple(line.split(",")))
+        
+        texttags_table = result
         
         if print_result:
-            for texttag in texttags_table:
-                print "%5s %2d %s" % (texttag[0],texttag[1],texttag[2][:20])
+            for tag in texttags_table:
+                print "%5s %s %s" % tag
          
         return texttags_table
     
@@ -65,8 +95,18 @@ class ImpalaDB(object):
         return self.tag_dict[tag_id]
     
     def read_test_text(self,print_result=False):
-        self.cursor.execute('select concat(cast(content_test.fileid as string),"-",cast(content_test.paragraph as string)) as paragraph_id, content from content_test left join train_status on content_test.fileid=train_status.fileid and content_test.paragraph = train_status.paragraph where train is null or not train')
-        texts_table = self.cursor.fetchall()
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(self.local_ws)
+        s.send("readtesttext\r\n")
+        texts_table = self.receive(s)
+        texts_table = texts_table.split("\n")
+        
+        result = []
+        for line in texts_table:
+            if line:
+                result.append(tuple(line.split(",")))
+        
+        texts_table = result
         
         if print_result:
             for texts in texts_table:
@@ -87,12 +127,15 @@ class ImpalaDB(object):
         
         for tag in tag_list:
             paragraph_ids = paragraph_id.split('-')
-            self.cursor.execute('INSERT INTO tag_test2 (fileid,paragraph,tag) VALUES(%d,%d,%d)' % (int(paragraph_ids[0]),int(paragraph_ids[1]),tag))
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect(self.local_ws)
+            s.send("writeresult:%s:%d:%d\r\n" % (paragraph_id,tag['tag'],tag['score']))
         
 if __name__ == '__main__':
-    #ImpalaDB().get_all_text_tag(True)
-    #ImpalaDB().read_text_tag(True)
-    ImpalaDB().read_test_text(True)
+    #HiveDB().get_all_tag(True)
+    #HiveDB().get_all_text_tag(True)
+    #HiveDB().read_text_tag(True)
+    #HiveDB().read_test_text(True)
     
     """
     from collections import defaultdict
@@ -111,4 +154,4 @@ if __name__ == '__main__':
         print "ID:%-2d   %4d %s" % (row[0],row[1],impala.get_tag_name(row[0]))
     """
     
-    #ImpalaDB().write_result("2-15",[1,2,3,4]);
+    HiveDB().write_result("2-15",[{'tag':1,'score':95},{'tag':2,'score':81},{'tag':3,'score':75},{'tag':4,'score':50}]);

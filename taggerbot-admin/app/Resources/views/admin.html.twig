@@ -1,0 +1,148 @@
+{% extends 'fixed.html.twig' %}
+
+{% block title %}Admin Console{% endblock %}
+
+{% block css %}
+{{ parent() }}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
+<style type="text/css">
+    body {
+        background-color: #FFFFFF;
+        {% if background_image is defined %}
+            background-image: url('{{ background_image }}');
+        {% endif %}
+    }
+    .ui.menu .item img.logo {
+    margin-right: 0.5em;
+    }
+    .main.container {
+        margin-top: 7em;
+    }
+    .wireframe {
+        margin-top: 2em;
+    }
+    .ui.footer.segment {
+        margin: 5em 0em 0em;
+        padding: 5em 0em;
+    }
+    .ui.card, .ui.cards > .card{
+        width: 200px;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<div class="ui main container">
+    <div class="ui link cards stackable centered">
+        <div class="ui card purple">
+            <a class="image" href="{{ path('admin_upload') }}">
+                <img src="{{ asset('assets/images/upload.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_upload') }}">Upload</a>
+                <div class="meta">
+                <a>Import new documents</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui card red">
+            <a class="image" href="{{ path('admin_tag') }}">
+                <img src="{{ asset('assets/images/define_tag.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_tag') }}">Categories</a>
+                <div class="meta">
+                <a>42 categories</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui card green">
+            <a class="image" href="{{ path('admin_doc') }}">
+                <img src="{{ asset('assets/images/untrained_document.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_doc') }}">Untagged</a>
+                <div class="meta">
+                <a>3 unlabeled documents</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui card blue">
+            <a class="image" href="{{ path('admin_train') }}">
+                <img src="{{ asset('assets/images/machine_learning.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_train') }}">Train</a>
+                <div class="meta">
+                <a>8 untrained documents</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui card yellow">
+            <a class="image" href="{{ path('admin_dashboard') }}">
+                <img src="{{ asset('assets/images/dashboard.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_dashboard') }}">Dashboard</a>
+                <div class="meta">
+                <a>2 updated report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#<div class="ui inverted vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui stackable inverted divided grid">
+            <div class="three wide column">
+                <h4 class="ui inverted header">Group 1</h4>
+                <div class="ui inverted link list">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header">Group 2</h4>
+                <div class="ui inverted link list">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header">Group 3</h4>
+                <div class="ui inverted link list">
+                <a href="#" class="item">Link One</a>
+                <a href="#" class="item">Link Two</a>
+                <a href="#" class="item">Link Three</a>
+                <a href="#" class="item">Link Four</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header">Footer Header</h4>
+                <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+            </div>
+            </div>
+            <div class="ui inverted section divider"></div>
+            <img src="assets/images/logo.png" class="ui centered mini image">
+            <div class="ui horizontal inverted small divided link list">
+            <a class="item" href="#">Site Map</a>
+            <a class="item" href="#">Contact Us</a>
+            <a class="item" href="#">Terms and Conditions</a>
+            <a class="item" href="#">Privacy Policy</a>
+        </div>
+    </div>
+</div>#}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}

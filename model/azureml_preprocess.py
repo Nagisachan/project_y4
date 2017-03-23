@@ -49,4 +49,5 @@ y = y_train + y_test
 print data.shape
 with open('tfidf-7.csv','w') as f:
     for i in range(0,len(data)):
-        f.write("%s,%s\n" % (",".join(str(s) for s in data[i]),str(y[i])))
+        #f.write("%s,%s\n" % (",".join(str(s) for s in data[i]),str(y[i])))
+        f.write("%s,%s\n" % ((X_train + X_test)[i].replace(" ","").encode('UTF-8'),str(y[i])))
