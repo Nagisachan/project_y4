@@ -163,7 +163,7 @@ public class App {
 					pwUnknown.close();
 					
 					if(exceptionWord != null){
-						words.add(exceptionWord);
+						words.add("\"" + exceptionWord + "\"");
 					}
 					
 					output = String.join(",", words);
