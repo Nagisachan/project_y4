@@ -8,8 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Model\FilePreprocessor;
+use AppBundle\Model\DB;
+
 class AdminController extends Controller
 {
+    /* HTML Page */
     public function mainAction(Request $request)
     {
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
@@ -51,8 +55,40 @@ class AdminController extends Controller
         return $this->render('setting.html.twig');
     }
 
-    public function uploadFileAction(){
-        return new JsonResponse(array('success'=>true));
+    /* JSON service */
+
+    public function uploadFileAction(Request $request){
+        $success = true;
+        $files = array();
+        $preprocessor = new FIlePreprocessor();
+
+        foreach($_FILES as $key => $value){
+            if(gettype($value['name']) == "string"){
+                $output_file = $preprocessor->toText($value['tmp_name']);
+                $paragraphs = $preprocessor->toParagraph($output_file);
+                $name = $value['name'];
+
+                $files[] = array(
+                    'name' => $name,
+                    'text' => $paragraphs
+                );
+            }
+        }
+
+        $db = new DB($this->getDoctrine()->getManager());
+        foreach($files as $file){
+            $file_id = $db->writeToFileTable($file['name']);
+
+            for($i=0;$i<count($file['text']);$i++){
+                $db->writeToContentTable($file_id,$i,$file['text'][$i]);
+            }
+        }
+
+
+        return new JsonResponse(array(
+            'success' => $success,
+            'data' => $files
+        ));
     }
 
     public function queryAction()

@@ -56,7 +56,7 @@ if (isAdvancedUpload) {
                             return;
                         }
 
-                        ajaxData.append($input.attr('name'), file);
+                        ajaxData.append(file.name, file);
                     }
                 });
             }
