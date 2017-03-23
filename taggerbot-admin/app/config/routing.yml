@@ -1,0 +1,46 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+default:
+    path:      /
+    defaults:  { _controller: AppBundle:Default:index }
+
+admin:
+    path:      /admin
+    defaults:  { _controller: AppBundle:Admin:main }
+
+admin_upload:
+    path:      /admin/upload
+    defaults:  { _controller: AppBundle:Admin:upload }
+
+admin_upload_files:
+    path:      /admin/upload_files
+    defaults:  { _controller: AppBundle:Admin:uploadFile }
+
+admin_tag:
+    path:      /admin/tag
+    defaults:  { _controller: AppBundle:Admin:tag }
+
+admin_doc:
+    path:      /admin/doc
+    defaults:  { _controller: AppBundle:Admin:doc }
+
+admin_train:
+    path:      /admin/train
+    defaults:  { _controller: AppBundle:Admin:train }
+
+admin_dashboard:
+    path:      /admin/dashboard
+    defaults:  { _controller: AppBundle:Admin:dashboard }
+
+admin_setting:
+    path:      /admin/setting
+    defaults:  { _controller: AppBundle:Admin:setting }
+
+admin_query:
+    path:      /admin/query
+    defaults:  { _controller: AppBundle:Admin:query }    

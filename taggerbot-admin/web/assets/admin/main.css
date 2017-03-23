@@ -1,0 +1,13 @@
+body {
+    height: initial;
+}
+
+.ui.link.cards {
+    text-align: center;
+}
+
+.ui.card>.image>img,
+.ui.cards>.card>.image>img {
+    padding: 20%;
+    background: #FFF;
+}

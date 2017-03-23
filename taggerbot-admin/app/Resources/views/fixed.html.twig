@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Console{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/reset.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/site.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/container.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/grid.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/header.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/image.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/menu.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/divider.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/list.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/segment.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/dropdown.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/icon.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/components/popup.css') }}">
+<style>
+    .ui.menu.fixed{
+        opacity: 0.9;
+        {% if background_image_color is defined %}
+            background: {{ background_image_color }}
+        {% endif %}
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ui fixed inverted menu">
+    <div class="ui container">
+        <a href="{{ path('admin') }}" class="header item">
+            <img class="logo" src="{{ asset('assets/images/logo.png') }}">
+            TaggerBot
+        </a>
+        {#<a href="{{ path('admin') }}" class="item">Home</a>#}
+        <div class="ui simple dropdown item">
+            Tools <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" href="{{ path('admin_upload') }}">Upload</a>
+                <a class="item" href="{{ path('admin_tag') }}">Categories</a>
+                <a class="item" href="{{ path('admin_doc') }}">Untagged</a>
+                <a class="item" href="{{ path('admin_train') }}">Train</a>
+                <a class="item" href="{{ path('admin_dashboard') }}">Dashboard</a>
+                <a class="item" href="{{ path('admin_setting') }}">Setting</a>
+                <div class="divider"></div>
+                <div class="header">Quick feature</div>
+                <div class="item">
+                <i class="dropdown icon"></i>
+                Quick tag
+                <div class="menu">
+                    <a class="item" href="#">Classification</a>
+                    <a class="item" href="#">Clustering</a>
+                </div>
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('fos_user_security_logout') }}" class="item right ui" title="Log out">
+            Hi, {{ app.user }}
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/components/popup.js') }}"></script>
+{% endblock %}
