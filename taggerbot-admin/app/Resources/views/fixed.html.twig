@@ -20,10 +20,12 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/components/popup.css') }}">
 <style>
     .ui.menu.fixed{
-        opacity: 0.9;
         {% if background_image_color is defined %}
             background: {{ background_image_color }}
         {% endif %}
+    }
+    a{
+        color: initial;
     }
 </style>
 {% endblock %}
@@ -35,35 +37,43 @@
             <img class="logo" src="{{ asset('assets/images/logo.png') }}">
             TaggerBot
         </a>
-        {#<a href="{{ path('admin') }}" class="item">Home</a>#}
         <div class="ui simple dropdown item">
             Tools <i class="dropdown icon"></i>
             <div class="menu">
-                <a class="item" href="{{ path('admin_upload') }}">Upload</a>
-                <a class="item" href="{{ path('admin_tag') }}">Categories</a>
-                <a class="item" href="{{ path('admin_doc') }}">Untagged</a>
-                <a class="item" href="{{ path('admin_train') }}">Train</a>
-                <a class="item" href="{{ path('admin_dashboard') }}">Dashboard</a>
-                <a class="item" href="{{ path('admin_setting') }}">Setting</a>
+                <a class="item" href="{{ path('admin_upload') }}"><i class="upload icon"></i>Upload</a>
+                <a class="item" href="{{ path('admin_tag') }}"><i class="edit icon"></i>Categories</a>
+                <a class="item" href="{{ path('admin_doc') }}"><i class="file text outline icon"></i>Untagged</a>
+                <a class="item" href="{{ path('admin_train') }}"><i class="database icon"></i>Train</a>
+                <a class="item" href="{{ path('admin_dashboard') }}"><i class="line chart icon"></i>Dashboard</a>
+                <a class="item" href="{{ path('admin_setting') }}"><i class="setting icon"></i>Setting</a>
                 <div class="divider"></div>
                 <div class="header">Quick feature</div>
                 <div class="item">
                 <i class="dropdown icon"></i>
                 Quick tag
                 <div class="menu">
-                    <a class="item" href="#">Classification</a>
-                    <a class="item" href="#">Clustering</a>
+                    <a class="item" href="#"><i class="cubes icon"></i>Classification</a>
+                    <a class="item" href="#"><i class="cube icon"></i>Clustering</a>
                 </div>
                 </div>
             </div>
         </div>
-        <a href="{{ path('fos_user_security_logout') }}" class="item right ui" title="Log out">
+        <div class="ui item top right pointing dropdown">
             Hi, {{ app.user }}
-        </a>
+            <div class="menu">
+                <div class="item"><i class="remove circle icon red"></i><a class="ui" href="{{ path('fos_user_security_logout') }}">Logout</a></div>
+            </div>
+        </div>
+        {#<a href="{{ path('fos_user_security_logout') }}" class="item right ui" title="Log out">
+            Hi, {{ app.user }}
+        </a>#}
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{{ asset('assets/components/popup.js') }}"></script>
+<script>
+    $('.ui.dropdown').dropdown();
+</script>
 {% endblock %}

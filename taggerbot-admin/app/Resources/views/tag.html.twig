@@ -5,7 +5,8 @@
 {% block css %}
 {{ parent() }}
 
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
+{#<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap.min.css') }}">#}
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-tagsinput.css') }}">
 <style type="text/css">
     body {
         background-color: #FFFFFF;
@@ -16,6 +17,36 @@
     .main.container {
         margin-top: 7em;
     }
+
+    .bootstrap-tagsinput .tag {
+        margin-right: 2px;
+        color: white;
+        background: grey;
+    }
+    .label-info{
+        background-color: #5bc0de;
+    }
+    .label {
+        display: inline;
+        padding: .2em .6em .3em;
+        font-weight: 700;
+        line-height: 2.3;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+        padding: .5em;
+    }
+    .bootstrap-tagsinput{
+        width: 100%;
+        padding: 5px;
+    }
+
+    red .bootstrap-tagsinput .tag{
+        background: red;
+    }
+
 </style>
 
 {% endblock %}
@@ -25,11 +56,69 @@
 
 <div class="ui main container">
     <div class="ui cards container stackable centered">
-        Define tag
+        <div class="ui button" style="float:right;"><i class="add icon"></i> Add category</div>
+        <div class="ui text header" style="margin: 20px 0;">Current tag set</div>        
+        <div class="ui list">
+            <div class="item">
+                <div class="ui right labeled input">
+                    <input placeholder="Category name" type="text">
+                    <div class="ui dropdown label red">
+                        <div class="text">red</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item">red</div>
+                            <div class="item">green</div>
+                            <div class="item">blue</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 5px;"></div>
+                <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" />
+                <div style="margin: 20px;"></div>
+            </div>
+            <div class="item">
+                <div class="ui right labeled input">
+                    <input placeholder="Category name" type="text">
+                    <div class="ui dropdown label green">
+                        <div class="text">green</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                             <div class="item">red</div>
+                            <div class="item">green</div>
+                            <div class="item">blue</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 5px;"></div>
+                <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" />
+                <div style="margin: 20px;"></div>
+            </div>
+            <div class="item">
+                <div class="ui right labeled input">
+                    <input placeholder="Category name" type="text">
+                    <div class="ui dropdown label blue">
+                        <div class="text">blue</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                             <div class="item">red</div>
+                            <div class="item">green</div>
+                            <div class="item">blue</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 5px;"></div>
+                <input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" />
+                <div style="margin: 20px;"></div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
 <script src="{{ asset('assets/admin/upload.js') }}"></script>
+<script src="{{ asset('assets/bootstrap-tagsinput.min.js') }}"></script>
+<script>
+    $('.ui.dropdown').dropdown();
+</script>
 {% endblock %}
