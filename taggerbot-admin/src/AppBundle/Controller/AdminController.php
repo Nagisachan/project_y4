@@ -37,7 +37,19 @@ class AdminController extends Controller
 
     public function docAction()
     {
-        return $this->render('doc.html.twig');
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $docs = $db->getUntaggedDocument();
+        $targetDocs = array();
+        foreach($docs as $doc){
+            if($doc['tags'] == 0){
+                $doc['n'] = count($targetDocs);
+                $targetDocs[] = $doc;
+            }
+        }
+        
+        return $this->render('doc.html.twig',array(
+            'documents' => $targetDocs,
+        ));
     }
 
     public function trainAction()
@@ -53,6 +65,11 @@ class AdminController extends Controller
     public function settingAction()
     {
         return $this->render('setting.html.twig');
+    }
+
+    public function fileAction($fileId)
+    {
+        return $this->render('file.html.twig');
     }
 
     /* JSON service */
@@ -75,7 +92,7 @@ class AdminController extends Controller
             }
         }
 
-        $db = new DB($this->getDoctrine()->getManager());
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         foreach($files as $file){
             $file_id = $db->writeToFileTable($file['name']);
 

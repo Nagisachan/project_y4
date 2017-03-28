@@ -1,0 +1,79 @@
+{% extends 'fixed.html.twig' %}
+
+{% block title %}Admin Console{% endblock %}
+
+{% block css %}
+{{ parent() }}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
+<style type="text/css">
+    body {
+        background-color: #FFFFFF;
+    }
+    .ui.menu .item img.logo {
+        margin-right: 1.5em;
+    }
+    .main.container {
+        margin-top: 7em;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<div class="ui main container">
+    <div class="ui cards container stackable centered">
+        <table class="ui celled striped table">
+        <thead>
+            <tr><th colspan="3">
+            All document
+            </th>
+        </tr>
+        </thead>
+            <tbody>
+                <tr>
+                    <td class="collapsing">
+                        <i class="folder icon"></i> node_modules
+                    </td>
+                    <td>Initial commit</td>
+                    <td class="right aligned collapsing">10 hours ago</td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="folder icon"></i> test
+                    </td>
+                    <td>Initial commit</td>
+                    <td class="right aligned">10 hours ago</td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="folder icon"></i> build
+                    </td>
+                    <td>Initial commit</td>
+                    <td class="right aligned">10 hours ago</td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="file outline icon"></i> package.json
+                    </td>
+                    <td>Initial commit</td>
+                    <td class="right aligned">10 hours ago</td>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="file outline icon"></i> Gruntfile.js
+                    </td>
+                    <td>Initial commit</td>
+                    <td class="right aligned">10 hours ago</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/admin/upload.js') }}"></script>
+{% endblock %}

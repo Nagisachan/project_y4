@@ -16,6 +16,9 @@
     .main.container {
         margin-top: 7em;
     }
+    .item:hover{
+        {#cursor: pointer;#}
+    }
 </style>
 
 {% endblock %}
@@ -25,7 +28,27 @@
 
 <div class="ui main container">
     <div class="ui cards container stackable centered">
-        Untrained documents
+        <div id="untagged" class="ui large middle aligned divided list animated">
+            {% for document in documents %}
+                <div class="item" title="{{ document.content }}">
+                    <div class="right floated content">
+                        <div class="ui button blue tiny">Auto</div>
+                        <a href="{{ path('admin_file',{'fileId' : document.file_id}) }}"><div class="ui button gray tiny">Tag</div></a>
+                        <div class="ui button red tiny">Remove</div>
+                    </div>
+                    {#<img class="ui avatar image" src="{{ asset('assets/images/untagged_document.png') }}">#}
+                    <div class="content">
+                        <span>{{ document.n + 1 }}.</span>
+                        <div class="ui label large">
+                            {{ document.name }}
+                        </div>
+                        {#<span class="doc_content">
+                            {{ document.content }}
+                        </span>#}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

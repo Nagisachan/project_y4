@@ -41,6 +41,10 @@ admin_setting:
     path:      /admin/setting
     defaults:  { _controller: AppBundle:Admin:setting }
 
+admin_file:
+    path:      /admin/file/{fileId}
+    defaults:  { _controller: AppBundle:Admin:file }
+
 admin_query:
     path:      /admin/query
     defaults:  { _controller: AppBundle:Admin:query }    
