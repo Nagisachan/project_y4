@@ -36,20 +36,8 @@ class AdminController extends Controller
     }
 
     public function docAction()
-    {
-        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
-        $docs = $db->getUntaggedDocument();
-        $targetDocs = array();
-        foreach($docs as $doc){
-            if($doc['tags'] == 0){
-                $doc['n'] = count($targetDocs);
-                $targetDocs[] = $doc;
-            }
-        }
-        
-        return $this->render('doc.html.twig',array(
-            'documents' => $targetDocs,
-        ));
+    {   
+        return $this->render('doc.html.twig');
     }
 
     public function trainAction()
@@ -69,42 +57,13 @@ class AdminController extends Controller
 
     public function fileAction($fileId)
     {
-        return $this->render('file.html.twig');
-    }
-
-    /* JSON service */
-
-    public function uploadFileAction(Request $request){
-        $success = true;
-        $files = array();
-        $preprocessor = new FIlePreprocessor();
-
-        foreach($_FILES as $key => $value){
-            if(gettype($value['name']) == "string"){
-                $output_file = $preprocessor->toText($value['tmp_name']);
-                $paragraphs = $preprocessor->toParagraph($output_file);
-                $name = $value['name'];
-
-                $files[] = array(
-                    'name' => $name,
-                    'text' => $paragraphs
-                );
-            }
-        }
-
+        // get file name
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
-        foreach($files as $file){
-            $file_id = $db->writeToFileTable($file['name']);
+        $filename = $db->getFilename($fileId);
 
-            for($i=0;$i<count($file['text']);$i++){
-                $db->writeToContentTable($file_id,$i,$file['text'][$i]);
-            }
-        }
-
-
-        return new JsonResponse(array(
-            'success' => $success,
-            'data' => $files
+        return $this->render('file.html.twig',array(
+            'fileId' => $fileId,
+            'filename' => $filename,
         ));
     }
 

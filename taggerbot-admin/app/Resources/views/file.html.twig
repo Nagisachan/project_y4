@@ -5,7 +5,6 @@
 {% block css %}
 {{ parent() }}
 
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
 <style type="text/css">
     body {
         background-color: #FFFFFF;
@@ -25,11 +24,28 @@
 
 <div class="ui main container">
     <div class="ui cards container stackable centered">
-        Specific file...
+        <div class="ui center aligned header">{{ filename }}</div>
+        <table class="ui celled padded table">
+        <thead>
+            <tr>
+                <th class="single line">Paragraph ID</th>
+                <th>Content</th>
+                <th>Words</th>
+                <th style="text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/admin/upload.js') }}"></script>
+<script>
+    SERVICE_URL = "{{ path('service_untagged_file',{fileId : 'FILEID'}) }}";
+    FILE_ID = {{ fileId }}
+</script>
+<script src="{{ asset('assets/admin/file.js') }}"></script>
 {% endblock %}

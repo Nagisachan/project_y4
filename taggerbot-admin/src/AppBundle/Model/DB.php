@@ -34,4 +34,21 @@ class DB
 
         return $stmt->fetchAll();
     }
+
+    public function getUntaggedParagraph($fileId){
+        $stmt = $this->em->getConnection()->prepare("select paragraph_id, file_name, content, file_uploaded_date from content c join file f on c.file_id=f.file_id where c.file_id=:file_id");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public function getFilename($fileId){
+        $stmt = $this->em->getConnection()->prepare("select file_name from file where file_id=:file_id");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->execute();
+        $row = $stmt->fetchAll();
+
+        return ($row ? $row[0]['file_name'] : null);
+    }
 }

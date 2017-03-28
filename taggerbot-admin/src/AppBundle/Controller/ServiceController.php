@@ -1,0 +1,74 @@
+<?php
+
+namespace AppBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+
+use AppBundle\Model\FilePreprocessor;
+use AppBundle\Model\DB;
+
+class ServiceController extends Controller
+{
+    public function uploadFileAction(Request $request){
+        $success = true;
+        $files = array();
+        $preprocessor = new FIlePreprocessor();
+
+        foreach($_FILES as $key => $value){
+            if(gettype($value['name']) == "string"){
+                $output_file = $preprocessor->toText($value['tmp_name']);
+                $paragraphs = $preprocessor->toParagraph($output_file);
+                $name = $value['name'];
+
+                $files[] = array(
+                    'name' => $name,
+                    'text' => $paragraphs
+                );
+            }
+        }
+
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        foreach($files as $file){
+            $file_id = $db->writeToFileTable($file['name']);
+
+            for($i=0;$i<count($file['text']);$i++){
+                $db->writeToContentTable($file_id,$i,$file['text'][$i]);
+            }
+        }
+
+        return $this->buildSuccessJson($files);
+    }
+    
+    public function untaggedAction()
+    {
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $docs = $db->getUntaggedDocument();
+        $targetDocs = array();
+        foreach($docs as $doc){
+            if($doc['tags'] == 0){
+                $targetDocs[] = $doc;
+            }
+        }
+        
+        return $this->buildSuccessJson($targetDocs);
+    }
+
+    public function untaggedFileAction($fileId)
+    {
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $docs = $db->getUntaggedParagraph($fileId);
+        
+        return $this->buildSuccessJson($docs);
+    }
+
+    function buildSuccessJson($data){
+        return new JsonResponse(array(
+            'success' => true,
+            'data' => $data
+        ));
+    }
+}

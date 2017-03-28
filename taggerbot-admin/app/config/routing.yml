@@ -17,10 +17,6 @@ admin_upload:
     path:      /admin/upload
     defaults:  { _controller: AppBundle:Admin:upload }
 
-admin_upload_files:
-    path:      /admin/upload_files
-    defaults:  { _controller: AppBundle:Admin:uploadFile }
-
 admin_tag:
     path:      /admin/tag
     defaults:  { _controller: AppBundle:Admin:tag }
@@ -48,3 +44,15 @@ admin_file:
 admin_query:
     path:      /admin/query
     defaults:  { _controller: AppBundle:Admin:query }    
+
+service_upload_files:
+    path:      /service/upload_files
+    defaults:  { _controller: AppBundle:Service:uploadFile }
+
+service_untagged:
+    path:      /service/untagged
+    defaults:  { _controller: AppBundle:Service:untagged }
+
+service_untagged_file:
+    path:      /service/untagged_file/{fileId}
+    defaults:  { _controller: AppBundle:Service:untaggedFile }     

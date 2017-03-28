@@ -5,7 +5,6 @@
 {% block css %}
 {{ parent() }}
 
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
 <style type="text/css">
     body {
         background-color: #FFFFFF;
@@ -29,30 +28,16 @@
 <div class="ui main container">
     <div class="ui cards container stackable centered">
         <div id="untagged" class="ui large middle aligned divided list animated">
-            {% for document in documents %}
-                <div class="item" title="{{ document.content }}">
-                    <div class="right floated content">
-                        <div class="ui button blue tiny">Auto</div>
-                        <a href="{{ path('admin_file',{'fileId' : document.file_id}) }}"><div class="ui button gray tiny">Tag</div></a>
-                        <div class="ui button red tiny">Remove</div>
-                    </div>
-                    {#<img class="ui avatar image" src="{{ asset('assets/images/untagged_document.png') }}">#}
-                    <div class="content">
-                        <span>{{ document.n + 1 }}.</span>
-                        <div class="ui label large">
-                            {{ document.name }}
-                        </div>
-                        {#<span class="doc_content">
-                            {{ document.content }}
-                        </span>#}
-                    </div>
-                </div>
-            {% endfor %}
+            
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/admin/upload.js') }}"></script>
+<script>
+    SERVICE_URL = "{{ path('service_untagged') }}";
+    FILE_URL = "{{ path('admin_file',{fileId : 'FILEID'}) }}";
+</script>
+<script src="{{ asset('assets/admin/untagged.js') }}"></script>
 {% endblock %}
