@@ -51,4 +51,39 @@ class DB
 
         return ($row ? $row[0]['file_name'] : null);
     }
+
+    public function getTagStructure(){
+        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, c.id::text || i.item::text as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_id");
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        $res = array();
+
+        foreach($rows as $row){
+            for($i=0;$i<count($res);$i++){
+                if($res[$i]['category_id'] == $row['category_id']){
+                    break;
+                }
+            }
+
+            if($i == count($res)){
+                // not found
+                $res[] = array(
+                    'category_id' => $row['category_id'],
+                    'category_name' => $row['category_name'],
+                    'category_created_data' => $row['category_created_data'],
+                    'category_color' => $row['category_color'],
+                    'tags' => array(),
+                );
+            }
+
+            $res[$i]['tags'][] = array(
+                'tag_id' => $row['tag_id'],
+                'tag_name' => $row['tag_name'],
+                'tag_created_date' => $row['tag_created_date'],
+            );
+        }
+
+        return $res;
+    }
 }

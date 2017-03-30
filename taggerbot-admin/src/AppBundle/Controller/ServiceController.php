@@ -65,6 +65,14 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($docs);
     }
 
+    public function tagStructureAction()
+    {
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $tags = $db->getTagStructure();
+        
+        return $this->buildSuccessJson($tags);
+    }
+
     function buildSuccessJson($data){
         return new JsonResponse(array(
             'success' => true,

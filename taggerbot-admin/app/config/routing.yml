@@ -55,4 +55,8 @@ service_untagged:
 
 service_untagged_file:
     path:      /service/untagged_file/{fileId}
-    defaults:  { _controller: AppBundle:Service:untaggedFile }     
+    defaults:  { _controller: AppBundle:Service:untaggedFile }
+
+service_tag_structure:
+    path:      /service/tag_structure
+    defaults:  { _controller: AppBundle:Service:tagStructure }       
