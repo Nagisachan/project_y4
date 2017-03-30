@@ -36,7 +36,7 @@ class DB
     }
 
     public function getUntaggedParagraph($fileId){
-        $stmt = $this->em->getConnection()->prepare("select paragraph_id, file_name, content, file_uploaded_date from content c join file f on c.file_id=f.file_id where c.file_id=:file_id");
+        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name, c.paragraph_id, c.content, f.file_uploaded_date from content c join file f on c.file_id=f.file_id where c.file_id=:file_id");
         $stmt->bindValue(':file_id',$fileId);
         $stmt->execute();
 

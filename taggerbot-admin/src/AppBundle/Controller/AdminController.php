@@ -60,10 +60,12 @@ class AdminController extends Controller
         // get file name
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         $filename = $db->getFilename($fileId);
+        $categories = $db->getTagStructure();
 
         return $this->render('file.html.twig',array(
             'fileId' => $fileId,
             'filename' => $filename,
+            'categories' => $categories,
         ));
     }
 

@@ -15,6 +15,12 @@
     .main.container {
         margin-top: 7em;
     }
+    .choose-tag .ui.dropdown{
+        margin-bottom: 25px;
+    }
+    .actions{
+        margin-top: 50px;
+    }
 </style>
 
 {% endblock %}
@@ -38,6 +44,31 @@
             
         </tbody>
         </table>
+    </div>
+</div>
+<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Choose tags
+    </div>
+    <div class="content choose-tag">
+        {% for category in categories %}
+            <div class="ui text header {{ category.category_color }}">{{ category.category_name }}</div>
+            <select class="ui fluid search dropdown" multiple="" color="{{ category.category_color }}">
+                <option value="">State</option>
+                {% for tag in category.tags %}
+                    <option value="{{ tag.tag_name }}">{{ tag.tag_name }}</option>
+                {% endfor %}
+            </select>
+        {% endfor %}
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <div class="ui positive right labeled icon button">
+            Save
+            <i class="checkmark icon"></i>
+        </div>
     </div>
 </div>
 {% endblock %}

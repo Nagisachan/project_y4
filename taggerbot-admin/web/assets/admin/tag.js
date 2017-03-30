@@ -82,8 +82,18 @@ function htmlFromDoc(category) {
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item">red</div>
+                            <div class="item">orange</div>
+                            <div class="item">yellow</div>
+                            <div class="item">olive</div>
                             <div class="item">green</div>
+                            <div class="item">teal</div>
                             <div class="item">blue</div>
+                            <div class="item">violet</div>
+                            <div class="item">purple</div>
+                            <div class="item">pink</div>
+                            <div class="item">brown</div>
+                            <div class="item">grey</div>
+                            <div class="item">black</div>
                         </div>
                     </div>
                 </div>
