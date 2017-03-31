@@ -59,4 +59,10 @@ service_untagged_file:
 
 service_tag_structure:
     path:      /service/tag_structure
-    defaults:  { _controller: AppBundle:Service:tagStructure }       
+    defaults:  { _controller: AppBundle:Service:tagStructure }
+    methods:  [GET, HEAD]
+
+service_tag_structure_update:
+    path:      /service/tag_structure
+    defaults:  { _controller: AppBundle:Service:updateTagStructure }  
+    methods:  [POST]     

@@ -23,9 +23,10 @@ class DB
         $stmt->bindValue(':file_id',$file_id);
         $stmt->bindValue(':paragraph_id',$paragraph_id);
         $stmt->bindValue(':content',$content);
-        $content_id = $stmt->execute();
+        $stmt->execute();
+        $content_id = $stmt->fetchAll();
 
-        return $content_id;
+        return $content_id[0]['content_id'];
     }
 
     public function getUntaggedDocument(){
@@ -85,5 +86,52 @@ class DB
         }
 
         return $res;
+    }
+
+    public function createCategory($categoryName,$categoryIdColor=false,$categoryId=false){
+        $id = $categoryId ? ':id' : 'DEFAULT';
+        $color = $categoryIdColor ? ':color' : 'DEFAULT';
+
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag_category (id,name,color) VALUES($id,:name,$color) RETURNING id");
+        $stmt->bindValue(':name',$categoryName);
+        
+        if($categoryId){
+            $stmt->bindValue(':id',$categoryId);
+        }
+        
+        if($categoryIdColor){
+            $stmt->bindValue(':color',$categoryIdColor);
+        }
+
+        $stmt->execute();
+        $id = $stmt->fetchAll()[0]['id'];
+
+        return $id;
+    }
+
+    public function createTag($categoryId,$name){
+        // find current max nItem
+        $stmt = $this->em->getConnection()->prepare("SELECT max(item) AS max FROM tag_category_item WHERE category_id=:category_id");
+        $stmt->bindValue(':category_id',$categoryId);
+        $maxItem = $stmt->execute();
+        
+        if($maxItem){
+            $maxItem =  $stmt->fetchAll();
+            $maxItem = $maxItem[0]['max'];
+        }
+        else{
+            $maxItem = 0;
+        }
+
+        $maxItem += 1;
+
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag_category_item (category_id,item,name) VALUES(:category_id,:item,:name) RETURNING item");
+        $stmt->bindValue(':category_id',$categoryId);
+        $stmt->bindValue(':item',$maxItem);
+        $stmt->bindValue(':name',$name);
+        $stmt->execute();
+        $item = $stmt->fetchAll()[0]['item'];
+
+        return $item;
     }
 }

@@ -73,6 +73,39 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($tags);
     }
 
+    public function updateTagStructureAction(Request $request)
+    {
+        $data = $request->request->get('json_data', '{}');
+        $data = json_decode($data);
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+
+        foreach($data as $category){
+            $category = (array)$category;
+
+            // new category
+            if($category['category_id'] == null){
+                //create it and it's tags
+                if(isset($category['category_name']) && trim($category['category_name']) != ""){
+                    $categoryName = trim($category['category_name']);
+                    $categoryColor = isset($category['category_color']) && trim($category['category_color']) != "" ? trim($category['category_color']) : false;
+
+                    $categoryId = $db->createCategory($categoryName,$categoryColor);
+
+                    foreach($category['data'] as $tag){
+                        $tag = (array)$tag;
+                        $db->createTag($categoryId,$tag['text']);
+                    }
+                }
+                
+
+            }
+        }
+
+        
+        
+        return $this->buildSuccessJson($data);
+    }
+
     function buildSuccessJson($data){
         return new JsonResponse(array(
             'success' => true,

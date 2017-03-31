@@ -21,7 +21,7 @@
     .bootstrap-tagsinput .tag {
         margin-right: 2px;
         color: white;
-        background: grey;
+        background: gray;
     }
     .label-info{
         background-color: #5bc0de;
@@ -50,8 +50,19 @@
         margin-bottom: 2px;
     }
     .ui.input {
-        font-size: 1.1em;
         font-weight: bold;
+    }
+    .remove-category{
+        font-size: 1.2em;
+    }
+    .remove-category:hover{
+        cursor:pointer;
+    }
+    .ui.list .item.tag-block{
+        padding-top: 1em;
+    }
+    #no-category{
+        text-align: center;
     }
 </style>
 
@@ -62,11 +73,11 @@
 
 <div class="ui main container">
     <div class="ui cards container stackable centered">
-        <div id="add-category" class="ui button" style="float:right;"><i class="add icon"></i> Add category</div>
+        <div id="add-category" class="ui button loading" style="float:right;"><i class="add icon"></i> Add category</div>
         <div class="ui text header" style="margin: 20px 0;">Current tag structure</div>        
         <div class="ui list"></div>
-        <div id="add-category" class="ui button red" style="float:right;"><i class="cancel icon"></i> Cancel</div>
-        <div id="add-category" class="ui button teal" style="float:right;"><i class="save icon"></i> Save</div>
+        <a href="{{ path('admin') }}"><div id="cancel-category" class="ui button red" style="float:right;"><i class="cancel icon"></i> Cancel</div></a>
+        <div id="save-category" class="ui button teal" style="float:right;"><i class="save icon"></i> Save</div>
     </div>
 </div>
 {% endblock %}
@@ -74,6 +85,7 @@
 {% block javascripts %}
 <script>
     SERVICE_URL = "{{ path('service_tag_structure') }}";
+    SERVICE_URL_UPDATE= "{{ path('service_tag_structure_update') }}";
 </script>
 <script src="{{ asset('assets/bootstrap-tagsinput.min.js') }}"></script>
 <script src="{{ asset('assets/admin/tag.js') }}"></script>
