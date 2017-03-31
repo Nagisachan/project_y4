@@ -17,7 +17,7 @@ function htmlFromDoc(doc, i) {
                         <div class="ui floating dropdown icon button">
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item"><a href="` + FILE_URL.replace('FILEID', doc.file_id) + `"><i class="edit icon green"></i> Tag</a></div>
+                                <div class="item" onclick="javascript:filePage('` + FILE_URL.replace('FILEID', doc.file_id) + `')"><i class="edit icon green"></i> Tag</div>
                                 <div class="item"><a><i class="delete icon red"></i> Remove</a></div>
                             </div>
                         </div>
@@ -31,4 +31,8 @@ function htmlFromDoc(doc, i) {
                 </div>
             </div>`;
     return html;
+}
+
+function filePage(url) {
+    location = url;
 }
