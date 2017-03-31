@@ -1,3 +1,9 @@
+NO_CATEGORY_HTML = `<div id="no-doc" class="inline field">
+                        <div class="ui left pointing red basic label">
+                            You don't have any document, go to "Upload" page first.</div>
+                        </div>
+                    </div>`;
+
 $.ajax(SERVICE_URL, {
         dataType: 'json'
     })
@@ -6,7 +12,11 @@ $.ajax(SERVICE_URL, {
         for (var i = 0; i < data.data.length; i++) {
             $untagged.append(htmlFromDoc(data.data[i], i));
         }
-        $('.ui.dropdown').dropdown();
+        $('.actions.ui.dropdown').dropdown({ on: 'hover' });
+
+        if (data.data.length == 0) {
+            $untagged.append(NO_CATEGORY_HTML);
+        }
     })
 
 function htmlFromDoc(doc, i) {
@@ -14,7 +24,7 @@ function htmlFromDoc(doc, i) {
                 <div class="right floated content">
                     <div class="ui teal buttons tiny">
                         <div class="ui button">Auto</div>
-                        <div class="ui floating dropdown icon button">
+                        <div class="actions ui floating dropdown icon button">
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class="item" onclick="javascript:filePage('` + FILE_URL.replace('FILEID', doc.file_id) + `')"><i class="edit icon green"></i> Tag</div>

@@ -56,7 +56,7 @@
             <div class="content">
                 <a class="header" href="{{ path('admin_tag') }}">Categories</a>
                 <div class="meta">
-                <a>42 categories</a>
+                <a>{{ summary.n_category }} categories</a>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
             <div class="content">
                 <a class="header" href="{{ path('admin_doc') }}">Untagged</a>
                 <div class="meta">
-                <a>3 unlabeled documents</a>
+                <a>{{ summary.n_untagged }} unlabeled documents</a>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
             <div class="content">
                 <a class="header" href="{{ path('admin_train') }}">Train</a>
                 <div class="meta">
-                <a>8 untrained documents</a>
+                <a>{{ summary.n_untrained }} untrained documents</a>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
             <div class="content">
                 <a class="header" href="{{ path('admin_dashboard') }}">Dashboard</a>
                 <div class="meta">
-                <a>2 updated report</a>
+                <a>{{ summary.n_report }} updated report</a>
                 </div>
             </div>
         </div>

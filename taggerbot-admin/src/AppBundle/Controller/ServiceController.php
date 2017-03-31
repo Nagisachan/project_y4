@@ -16,13 +16,36 @@ class ServiceController extends Controller
     public function uploadFileAction(Request $request){
         $success = true;
         $files = array();
-        $preprocessor = new FIlePreprocessor();
+        $preprocessor = new FIlePreprocessor($this->get('logger'));
 
+        // inspect $_FILES structure
+        $this->get('logger')->debug(json_encode($_FILES));
+
+        // for uploading via drap-and-drop 
         foreach($_FILES as $key => $value){
             if(gettype($value['name']) == "string"){
+                $this->get('logger')->debug($value['tmp_name']);
                 $output_file = $preprocessor->toText($value['tmp_name']);
                 $paragraphs = $preprocessor->toParagraph($output_file);
                 $name = $value['name'];
+
+                $files[] = array(
+                    'name' => $name,
+                    'text' => $paragraphs
+                );
+            }
+        }
+
+        // for uploading via normal input
+        if(count($_FILES['files']['name']) > 0){
+            for($i=0;$i<count($_FILES['files']['name']);$i++){
+                if($_FILES['files']['name'][$i] == ""){
+                    continue;
+                }
+
+                $output_file = $preprocessor->toText($_FILES['files']['tmp_name'][$i]);
+                $paragraphs = $preprocessor->toParagraph($output_file);
+                $name = $_FILES['files']['name'][$i];
 
                 $files[] = array(
                     'name' => $name,

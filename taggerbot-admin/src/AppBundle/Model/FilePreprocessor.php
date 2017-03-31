@@ -4,8 +4,12 @@ namespace AppBundle\Model;
 
 class FilePreprocessor
 {
+    function __construct($logger) {
+        $this->logger = $logger;
+    }
+
     public function toText($file_path){
-        $output_file = "$file_path.out";
+        $output_file = "$file_path.txt";
         $pwd = realpath(dirname(__FILE__));
         $cmd = "java -jar $pwd/pdfbox.jar ExtractText $file_path $output_file";
 
@@ -14,20 +18,29 @@ class FilePreprocessor
         putenv('LC_ALL='.$locale);
 
         $output = shell_exec($cmd);
-
+        $this->logger->debug($cmd);
+        
         return $output_file;
     }
 
     public function toParagraph($file_path){
+        $output_file = "$file_path.paragraph";
+
         $pwd = realpath(dirname(__FILE__));
-        $cmd = "java -jar $pwd/ParagraphSplitter.jar $file_path";
+        $cmd = "java -cp $pwd PDFSplitter $file_path $output_file";
 
         $locale='en_US.UTF-8';
         setlocale(LC_ALL,$locale);
         putenv('LC_ALL='.$locale);
+        shell_exec($cmd);
+        $this->logger->debug($cmd);
 
-        $output = shell_exec($cmd);
+        $handle = fopen($output_file, "r");
+        $lines = array();
+        while (($line = fgets($handle)) !== false) {
+            $lines[] = $line;
+        }
 
-        return $output ? json_decode($output)->content : array();
+        return $lines;
     }
 }

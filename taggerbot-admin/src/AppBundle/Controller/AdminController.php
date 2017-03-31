@@ -19,9 +19,18 @@ class AdminController extends Controller
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
         $asseturl = "$baseurl/assets";
         
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+
+
         return $this->render('admin.html.twig',array(
             // 'background_image' => "$asseturl/bg/default.jpg",
-            // 'background_image_color' => "#457e79"
+            // 'background_image_color' => "#457e79",
+            'summary' => array(
+                'n_category' => count($db->getTagStructure()),
+                'n_untagged' => count($db->getUntaggedDocument()),
+                'n_untrained' => 0,
+                'n_report' => 0,
+            ),
         ));
     }
 
