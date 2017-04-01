@@ -70,14 +70,8 @@ class ServiceController extends Controller
     {
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         $docs = $db->getUntaggedDocument();
-        $targetDocs = array();
-        foreach($docs as $doc){
-            if($doc['tags'] == 0){
-                $targetDocs[] = $doc;
-            }
-        }
         
-        return $this->buildSuccessJson($targetDocs);
+        return $this->buildSuccessJson($docs);
     }
 
     public function untaggedFileAction($fileId)

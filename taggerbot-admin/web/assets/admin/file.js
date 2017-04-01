@@ -1,15 +1,36 @@
 CURRENT_SELECTED_FID = -1;
 CURRENT_SELECTED_PID = -1;
 
-$.ajax(SERVICE_URL.replace('FILEID', FILE_ID), {
-        dataType: 'json'
-    })
-    .done(function(data) {
-        $untagged = $('tbody');
-        for (var i = 0; i < data.data.length; i++) {
-            $untagged.append(htmlFromParagraph(data.data[i], i));
-        }
-    })
+function getUntaggedList() {
+    $.ajax(SERVICE_URL.replace('FILEID', FILE_ID), {
+            dataType: 'json'
+        })
+        .done(function(data) {
+            $untagged = $('tbody');
+            $untagged.html("");
+            $count = 0;
+            for (var i = 0; i < data.data.length; i++) {
+                if ((data.data[i]).tags == null) {
+                    $untagged.append(htmlFromParagraph(data.data[i], i));
+                    $count++;
+                }
+            }
+
+            if ($count == 0) {
+                $untagged.append(`
+            <tr>
+                <td colspan="10">
+                    <div class="table-error-msg ui negative message">
+                        <div class="header aligned center">
+                            No untagged paragraph
+                        </div>
+                        <p>You shouldn't see this document in untagged document list now</p>
+                    </div>
+                </td>
+            </tr>`);
+            }
+        })
+}
 
 function addTag(fid, pid) {
     CURRENT_SELECTED_FID = fid;
@@ -84,7 +105,9 @@ function updateTagWithServer(fid, pid, tags) {
         })
         .always(function() {
             $('#save-tag').removeClass('loading');
+            getUntaggedList();
         })
 }
 
+getUntaggedList();
 initDropDown();
