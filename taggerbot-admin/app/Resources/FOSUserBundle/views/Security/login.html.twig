@@ -23,6 +23,9 @@
     <style type="text/css">
         body {
             background-color: #DADADA;
+            {#background-image: url('{{ asset("assets/bg/login-bg.png") }}');#}
+            {#background-position: center center;#}
+            {#background-size: cover;#}
         }
         body > .grid {
             height: 100%;
@@ -52,7 +55,6 @@
 
 {% block fos_user_content %}
     {% trans_default_domain 'FOSUserBundle' %}
-
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             <p class="quote quote-content">

@@ -21,6 +21,9 @@
     .actions{
         margin-top: 50px;
     }
+    #save-tag-err{
+        display: none;
+    }
 </style>
 
 {% endblock %}
@@ -53,11 +56,10 @@
     </div>
     <div class="content choose-tag">
         {% for category in categories %}
-            <div class="ui text header {{ category.category_color }}">{{ category.category_name }}</div>
-            <select class="ui fluid search dropdown" multiple="" color="{{ category.category_color }}">
-                <option value="">State</option>
+            <div class="category ui text header {{ category.category_color }}">{{ category.category_name }}</div>
+            <select class="category-tag ui fluid search dropdown" multiple="" color="{{ category.category_color }}">
                 {% for tag in category.tags %}
-                    <option value="{{ tag.tag_name }}">{{ tag.tag_name }}</option>
+                    <option value="{{ tag.tag_id }}">{{ tag.tag_name }}</option>
                 {% endfor %}
             </select>
         {% endfor %}
@@ -65,9 +67,12 @@
         <div class="ui black deny button">
             Cancel
         </div>
-        <div class="ui positive right labeled icon button">
+        <div id="save-tag" class="ui green right labeled icon button" onclick="javascript:updateTag()">
             Save
             <i class="checkmark icon"></i>
+        </div>
+        <div id="save-tag-err" class="ui left pointing red basic label">
+            This paragraph have aleady been tagged!
         </div>
     </div>
 </div>
@@ -76,6 +81,7 @@
 {% block javascripts %}
 <script>
     SERVICE_URL = "{{ path('service_untagged_file',{fileId : 'FILEID'}) }}";
+    SERVICE_URL_UPDATE = "{{ path('service_untagged_file_update',{fileId : 'FILEID', paragraphId : 'PARAGRAPHID'}) }}";
     FILE_ID = {{ fileId }}
 </script>
 <script src="{{ asset('assets/admin/file.js') }}"></script>

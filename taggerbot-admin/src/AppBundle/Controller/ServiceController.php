@@ -88,6 +88,17 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($docs);
     }
 
+    public function untaggedParagraphUpdateAction(Request $request,$fileId,$paragraphId){
+        $tags = $request->request->get('tags', array());
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+
+        foreach($tags as $tag){
+            $db->addTagToParagraph($fileId,$paragraphId,$tag);
+        }
+
+        return $this->buildSuccessJson(array());
+    }
+
     public function tagStructureAction()
     {
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));

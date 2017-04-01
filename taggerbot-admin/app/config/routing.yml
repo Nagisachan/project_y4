@@ -57,6 +57,11 @@ service_untagged_file:
     path:      /service/untagged_file/{fileId}
     defaults:  { _controller: AppBundle:Service:untaggedFile }
 
+service_untagged_file_update:
+    path:      /service/untagged_file/{fileId}/{paragraphId}
+    defaults:  { _controller: AppBundle:Service:untaggedParagraphUpdate }
+    methods:  [POST]
+
 service_tag_structure:
     path:      /service/tag_structure
     defaults:  { _controller: AppBundle:Service:tagStructure }
@@ -65,4 +70,4 @@ service_tag_structure:
 service_tag_structure_update:
     path:      /service/tag_structure
     defaults:  { _controller: AppBundle:Service:updateTagStructure }  
-    methods:  [POST]     
+    methods:  [POST]

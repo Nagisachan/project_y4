@@ -44,6 +44,15 @@ class DB
         return $stmt->fetchAll();
     }
 
+    public function addTagToParagraph($fileId,$paragraphId,$tag,$isManual=true){
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag (file_id,paragraph_id,type,tag) VALUES(:file_id,:paragraph_id,:type,:tag)");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->bindValue(':paragraph_id',$paragraphId);
+        $stmt->bindValue(':type',$isManual ? 'M' : 'A');
+        $stmt->bindValue(':tag',$tag);
+        $stmt->execute();
+    }
+
     public function getFilename($fileId){
         $stmt = $this->em->getConnection()->prepare("select file_name from file where file_id=:file_id");
         $stmt->bindValue(':file_id',$fileId);
@@ -54,7 +63,7 @@ class DB
     }
 
     public function getTagStructure(){
-        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, c.id::text || i.item::text as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_id");
+        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, c.id::text || '-' || i.item::text as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_id");
         $stmt->execute();
         $rows = $stmt->fetchAll();
 

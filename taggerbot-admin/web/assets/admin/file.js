@@ -1,3 +1,6 @@
+CURRENT_SELECTED_FID = -1;
+CURRENT_SELECTED_PID = -1;
+
 $.ajax(SERVICE_URL.replace('FILEID', FILE_ID), {
         dataType: 'json'
     })
@@ -9,6 +12,10 @@ $.ajax(SERVICE_URL.replace('FILEID', FILE_ID), {
     })
 
 function addTag(fid, pid) {
+    CURRENT_SELECTED_FID = fid;
+    CURRENT_SELECTED_PID = pid;
+    $('#save-tag-err').hide();
+    $('.category-tag').dropdown('clear');
     $('.ui.modal').modal('show');
 }
 
@@ -38,10 +45,46 @@ function initDropDown() {
     for (var i = 0; i < $dropdowns.length; i++) {
         $dropdown = $($dropdowns[i]);
         $dropdown.dropdown({
-            allowAdditions: true,
+            //allowAdditions: true,
             className: { label: 'ui label ' + $dropdown.attr('color') }
         });
     }
+}
+
+function updateTag() {
+    tags = []
+    $caterogies = $('.category-tag');
+    $caterogies.each(function(i, e) {
+        $e = $(e);
+        if ($e.dropdown('get value') != null) {
+            $e.dropdown('get value').forEach(function(tag) {
+                tags.push(tag);
+            });
+        }
+    });
+
+    updateTagWithServer(CURRENT_SELECTED_FID, CURRENT_SELECTED_PID, tags);
+}
+
+function updateTagWithServer(fid, pid, tags) {
+    $('#save-tag').addClass('loading');
+    $('#save-tag-err').hide();
+    $.ajax(SERVICE_URL_UPDATE.replace('FILEID', fid).replace('PARAGRAPHID', pid), {
+            dataType: 'json',
+            type: 'post',
+            data: {
+                tags: tags,
+            }
+        })
+        .done(function(data) {
+            $('.ui.modal').modal('hide');
+        })
+        .error(function(err) {
+            $('#save-tag-err').css('display', 'inline');
+        })
+        .always(function() {
+            $('#save-tag').removeClass('loading');
+        })
 }
 
 initDropDown();
