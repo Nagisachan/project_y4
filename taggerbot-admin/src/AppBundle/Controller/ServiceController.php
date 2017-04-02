@@ -16,7 +16,7 @@ class ServiceController extends Controller
     public function uploadFileAction(Request $request){
         $success = true;
         $files = array();
-        $preprocessor = new FIlePreprocessor($this->get('logger'));
+        $this->preprocessor = new FIlePreprocessor($this->get('logger'));
 
         // inspect $_FILES structure
         // $this->get('logger')->debug(json_encode($_FILES));
@@ -24,8 +24,13 @@ class ServiceController extends Controller
         // for uploading via drap-and-drop 
         foreach($_FILES as $key => $value){
             if(gettype($value['name']) == "string"){
-                $output_file = $preprocessor->toText($value['tmp_name']);
-                $paragraphs = $preprocessor->toParagraph($output_file);
+                if($this->isHasExtension($value['name'],'PDF')){
+                    $paragraphs = $this->preprocess($value['tmp_name']);
+                }
+                else if($this->isHasExtension($value['name'],'DOCX')){
+                    $paragraphs = $this->preprocessDocx($value['tmp_name']);
+                }
+                
                 $name = $value['name'];
 
                 $files[] = array(
@@ -41,9 +46,14 @@ class ServiceController extends Controller
                 if($_FILES['files']['name'][$i] == ""){
                     continue;
                 }
+                
+                if($this->isHasExtension($_FILES['files']['name'][$i],'PDF')){
+                    $paragraphs = $this->preprocess($_FILES['files']['tmp_name'][$i]);
+                }
+                else if($this->isHasExtension($_FILES['files']['name'][$i],'DOCX')){
+                    $paragraphs = $this->preprocessDocx($_FILES['files']['tmp_name'][$i]);
+                }
 
-                $output_file = $preprocessor->toText($_FILES['files']['tmp_name'][$i]);
-                $paragraphs = $preprocessor->toParagraph($output_file);
                 $name = $_FILES['files']['name'][$i];
 
                 $files[] = array(
@@ -65,6 +75,20 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($files);
     }
     
+    public function preprocess($tmpName){
+        $outputFile = $this->preprocessor->toText($tmpName);
+        $paragraphs = $this->preprocessor->toParagraph($outputFile);
+
+        return $paragraphs;
+    }
+
+    public function preprocessDocx($tmpName){
+        $outputFile = $this->preprocessor->toTextDocx($tmpName);
+        $paragraphs = $this->preprocessor->toParagraphSimple($outputFile);
+
+        return $paragraphs;
+    }
+
     public function uploadCrawlAction(Request $request){
         $url = $request->request->get('url', "");
         if($url != ""){
@@ -172,5 +196,13 @@ class ServiceController extends Controller
             'success' => true,
             'data' => $data
         ));
+    }
+
+    function isHasExtension($file,$ext){
+        if($ext[0] !== '.'){
+            $ext = '.' . $ext;
+        }
+
+        return strtoupper(substr($file, -strlen($ext))) === strtoupper($ext);
     }
 }
