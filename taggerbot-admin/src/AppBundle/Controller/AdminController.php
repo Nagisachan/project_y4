@@ -51,7 +51,21 @@ class AdminController extends Controller
 
     public function trainAction()
     {
-        return $this->render('train.html.twig');
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $categories = $db->getTagStructure();
+        $tags = [];
+
+        foreach($categories as $category){
+            foreach($category['tags'] as $tag){
+                $tag['tag_color'] = $category['category_color'];
+                $tag['tag_category'] = $category['category_name'];
+                $tags[] = $tag;
+            }
+        }
+
+        return $this->render('train.html.twig',array(
+            'tags' => $tags,
+        ));
     }
 
     public function dashboardAction()

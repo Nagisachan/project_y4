@@ -191,6 +191,13 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($data);
     }
 
+    function tagParagraphAction($tagId){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $paragraphs = $db->getTagParagraph($tagId);
+        
+        return $this->buildSuccessJson($paragraphs);
+    }
+
     function buildSuccessJson($data){
         return new JsonResponse(array(
             'success' => true,

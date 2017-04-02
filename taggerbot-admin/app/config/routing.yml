@@ -76,3 +76,7 @@ service_tag_structure_update:
     path:      /service/tag_structure
     defaults:  { _controller: AppBundle:Service:updateTagStructure }  
     methods:  [POST]
+
+service_tag_paragraph:
+    path:      /service/tag_paragraph/{tagId}
+    defaults:  { _controller: AppBundle:Service:tagParagraph }

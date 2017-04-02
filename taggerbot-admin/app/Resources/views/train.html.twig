@@ -25,11 +25,82 @@
 
 <div class="ui main container">
     <div class="ui cards container stackable centered">
-        Train
+        <div id="target-tag" class="train ui floating dropdown labeled icon button">
+            <i class="filter icon"></i>
+            <span class="text">Choose a tag to train</span>
+            <div class="menu">
+                <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input placeholder="Search tags..." type="text">
+                </div>
+                <div class="divider"></div>
+                <div class="header">
+                    <i class="tags icon"></i>
+                        Tag name
+                </div>
+                <div class="scrolling menu">
+                {% for tag in tags %}
+                    <div class="item" tag="{{ tag.tag_id }}">
+                        <div class="ui empty circular label {{ tag.tag_color }}"></div>
+                        {{ tag.tag_name }} 
+                        {#({{ tag.tag_category }})#}
+                        </span>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div id="choose-tag-first" class="ui left pointing green basic label">
+            Choose a tag first
+        </div>
+        <div style="height:20px"></div>
+        <table class="ui compact celled definition table">
+            <thead>
+                <tr>
+                <th></th>
+                <th>Document</th>
+                <th>Paragraph</th>
+                <th>Tag</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="collapsing">
+                        <div class="ui fitted slider checkbox input disabled">
+                            <input type="checkbox"> <label></label>
+                        </div>
+                    </td>
+                    <td colspan="10" style="text-align: center">
+                        <div class="ui pointing red basic label large">
+                            Choose a tag to first.
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot class="full-width">
+                <tr>
+                <th></th>
+                <th colspan="4">
+                    <div class="ui right floated small green labeled icon button">
+                    <i class="checkmark icon"></i>Train
+                    </div>
+                    <div class="ui small button">
+                    Select all
+                    </div>
+                    <div class="ui small  disabled button">
+                    Deselect all
+                    </div>
+                </th>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/admin/upload.js') }}"></script>
+<script>
+    SERVICE_URL = "{{ path('service_tag_paragraph',{tagId:'TAGID'}) }}";
+</script>
+<script src="{{ asset('assets/admin/train.js') }}"></script>
 {% endblock %}
