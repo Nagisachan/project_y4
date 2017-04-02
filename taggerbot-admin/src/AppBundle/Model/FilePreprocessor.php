@@ -43,4 +43,12 @@ class FilePreprocessor
 
         return $lines;
     }
+
+    public function crawlUrl($url,$output_file){
+        $pwd = realpath(dirname(__FILE__));
+        $cmd = "$pwd/wiki.R $url $output_file 2>&1";
+        $output = shell_exec($cmd);
+        $this->logger->debug($cmd);
+        $this->logger->debug($output);
+    }
 }

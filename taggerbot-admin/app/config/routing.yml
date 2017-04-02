@@ -49,6 +49,11 @@ service_upload_files:
     path:      /service/upload_files
     defaults:  { _controller: AppBundle:Service:uploadFile }
 
+service_upload_crawl:
+    path:      /service/upload_crawl
+    defaults:  { _controller: AppBundle:Service:uploadCrawl }
+    methods:  [POST]
+
 service_untagged:
     path:      /service/untagged
     defaults:  { _controller: AppBundle:Service:untagged }

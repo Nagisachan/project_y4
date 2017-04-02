@@ -7,6 +7,23 @@ var $form = $('.box');
 var $input = $('#file');
 var $notSupport = $('.not-support');
 
+function crawUrl() {
+    $('#crawl-btn').addClass('loading');
+    $.ajax(SERVICE_URL, {
+            dataType: 'json',
+            type: 'post',
+            data: {
+                url: $("#crawl-url").val(),
+            }
+        })
+        .done(function(data) {
+            console.log(data);
+        })
+        .always(function() {
+            $('#crawl-btn').removeClass('loading');
+        })
+}
+
 if (isAdvancedUpload) {
     $form.addClass('has-advanced-upload');
 

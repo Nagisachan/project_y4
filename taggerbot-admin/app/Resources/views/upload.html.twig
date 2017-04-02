@@ -122,13 +122,16 @@
     <div class="url ui cards container stackable centered">
         <p id="url-desc">Or</p>
         <div class="ui action input">
-            <input placeholder="URL to crawl" type="text" value="https://en.wikipedia.org/wiki/Mazda_Demio">
-            <button class="ui button">Crawl</button>
+            <input id="crawl-url" placeholder="URL to crawl" type="text" value="https://en.wikipedia.org/wiki/Mazda_Demio">
+            <button id="crawl-btn" class="ui button" onclick="javascript:crawUrl()">Crawl</button>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
+<script>
+    SERVICE_URL = "{{ path('service_upload_crawl') }}";
+</script>
 <script src="{{ asset('assets/admin/upload.js') }}"></script>
 {% endblock %}

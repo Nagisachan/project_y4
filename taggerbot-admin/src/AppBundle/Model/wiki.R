@@ -2,13 +2,20 @@
 args = commandArgs(trailingOnly=TRUE)
 
 if (length(args) != 0) {
-    library(rvest)
-    library(stringr)
+    url <- args[1]
+    file_path <- args[2]
 
-    html <- read_html(args)
+    print("start crawling...")
+
+    library(stringr)
+    library(rvest)
+
+    html <- read_html(url)
     content <- html %>% html_node('#mw-content-text')
     content <- str_replace_all(content,"<.*?>","")
-    content <- str_replace_all(content,"\\n+"," ")
+    # content <- str_replace_all(content,"\\n+","|")
 
-    writeLines(content,file('/tmp/wili-crawl.txt'))   
+    writeLines(content,file(file_path))
+
+    print('done crawling...')   
 }

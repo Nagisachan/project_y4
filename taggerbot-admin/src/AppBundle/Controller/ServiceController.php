@@ -19,12 +19,11 @@ class ServiceController extends Controller
         $preprocessor = new FIlePreprocessor($this->get('logger'));
 
         // inspect $_FILES structure
-        $this->get('logger')->debug(json_encode($_FILES));
+        // $this->get('logger')->debug(json_encode($_FILES));
 
         // for uploading via drap-and-drop 
         foreach($_FILES as $key => $value){
             if(gettype($value['name']) == "string"){
-                $this->get('logger')->debug($value['tmp_name']);
                 $output_file = $preprocessor->toText($value['tmp_name']);
                 $paragraphs = $preprocessor->toParagraph($output_file);
                 $name = $value['name'];
@@ -66,6 +65,40 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($files);
     }
     
+    public function uploadCrawlAction(Request $request){
+        $url = $request->request->get('url', "");
+        if($url != ""){
+            set_time_limit(5*60);
+
+            $preprocessor = new FIlePreprocessor($this->get('logger'));
+            $output_file = "/tmp/crawl-" . date("YmdHis") . ".txt";
+            $preprocessor->crawlUrl($url,$output_file);
+
+            $handle = fopen($output_file, "r");
+            $lines = array();
+            while (($line = fgets($handle)) !== false) {
+                $lines[] = $line;
+            }
+
+            unlink($output_file);
+
+            $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+            
+            $file_id = $db->writeToFileTable($url);
+            $this->get('logger')->debug("[Crawler] fid=$file_id linenum=" . count($lines));
+
+            for($pid=0,$i=0;$i<count($lines);$i++){
+                if(strlen($lines[$i]) > 300){
+                    $this->get('logger')->debug("[Crawler] add fid=$file_id, pid=$i, strlen=" . strlen($lines[$i]));
+                    $db->writeToContentTable($file_id,$i,$lines[$i]);
+                    $pid++;
+                }
+            }
+        }
+
+        return $this->buildSuccessJson($lines);
+    }
+
     public function untaggedAction()
     {
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
