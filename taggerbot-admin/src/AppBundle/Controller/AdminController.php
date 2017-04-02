@@ -28,7 +28,7 @@ class AdminController extends Controller
             'summary' => array(
                 'n_category' => count($db->getTagStructure()),
                 'n_untagged' => count($db->getUntaggedDocument()),
-                'n_untrained' => 0,
+                'n_untrained' => $db->getTagCount(),
                 'n_report' => 0,
             ),
         ));

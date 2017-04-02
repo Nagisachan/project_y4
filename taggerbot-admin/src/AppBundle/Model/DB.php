@@ -151,8 +151,16 @@ class DB
         return $item;
     }
 
+    public function getTagCount(){
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n from tag_category_item");
+        $stmt->execute();
+        $item = $stmt->fetchAll()[0]['n'];
+
+        return $item;
+    }
+
     public function getTagParagraph($tagId){
-        $stmt = $this->em->getConnection()->prepare("select t.tag as tag_id, f.file_name as file_name, string_agg(i.name,', ') as tags, c.content as content from tag t join content c on t.file_id=c.file_id and t.paragraph_id=c.paragraph_id join file f on c.file_id=f.file_id join tag t2 on c.file_id=t2.file_id and c.paragraph_id=t2.paragraph_id join tag_category_item i on t2.tag = (i.category_id || '-' || i.item) where t.tag=:tag_id group by t.tag, f.file_name, c.content order by f.file_name");
+        $stmt = $this->em->getConnection()->prepare("select t.tag as tag_id, t.file_id as file_id, t.paragraph_id as paragraph_id, f.file_name as file_name, string_agg(i.name,', ') as tags, c.content as content from tag t join content c on t.file_id=c.file_id and t.paragraph_id=c.paragraph_id join file f on c.file_id=f.file_id join tag t2 on c.file_id=t2.file_id and c.paragraph_id=t2.paragraph_id join tag_category_item i on t2.tag = (i.category_id || '-' || i.item) where t.tag=:tag_id group by t.tag, f.file_name, t.file_id, t.paragraph_id, c.content order by f.file_name");
         $stmt->bindValue(':tag_id',$tagId);
         $stmt->execute();
         $item = $stmt->fetchAll();

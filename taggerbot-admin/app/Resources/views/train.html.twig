@@ -81,14 +81,14 @@
                 <tr>
                 <th></th>
                 <th colspan="4">
-                    <div class="ui right floated small green labeled icon button">
-                    <i class="checkmark icon"></i>Train
+                    <div id="train-tag" class="ui right floated small green labeled icon button" onclick="javascript:train()">
+                        <i class="checkmark icon"></i>Train
                     </div>
-                    <div class="ui small button">
-                    Select all
+                    <div class="ui small button select-all" onclick="javascript:selectAll()">
+                        Select all
                     </div>
-                    <div class="ui small  disabled button">
-                    Deselect all
+                    <div class="ui small  disabled button deselect-all" onclick="javascript:deselectAll()">
+                        Deselect all
                     </div>
                 </th>
                 </tr>
