@@ -217,7 +217,7 @@ class ServiceController extends Controller
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         $allText = $db->getAllText();
 
-        return new CsvResponse($allText);
+        return new CsvResponse($allText,array('text'));
     }
 
     /* Internal functions */

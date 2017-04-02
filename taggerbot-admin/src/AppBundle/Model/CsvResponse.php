@@ -10,17 +10,18 @@ class CsvResponse extends Response
 
     protected $filename = 'export.csv';
 
-    public function __construct($data = array(), $status = 200, $headers = array())
+    public function __construct($data = array(), $column = array(),$status = 200, $headers = array())
     {
         parent::__construct('', $status, $headers);
 
-        $this->setData($data);
+        $this->setData($data,$column);
     }
 
-    public function setData(array $data)
+    public function setData(array $data,array $column)
     {
         $output = fopen('php://temp', 'r+');
 
+        fputcsv($output, $column);
         foreach ($data as $row) {
             fputcsv($output, $row);
         }
