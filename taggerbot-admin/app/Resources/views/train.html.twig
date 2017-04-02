@@ -101,6 +101,7 @@
 {% block javascripts %}
 <script>
     SERVICE_URL = "{{ path('service_tag_paragraph',{tagId:'TAGID'}) }}";
+    SERVICE_TRAIN_URL = "{{ path('service_train',{tagId:'TAGID'}) }}";
 </script>
 <script src="{{ asset('assets/admin/train.js') }}"></script>
 {% endblock %}

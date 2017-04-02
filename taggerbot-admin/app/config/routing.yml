@@ -80,3 +80,12 @@ service_tag_structure_update:
 service_tag_paragraph:
     path:      /service/tag_paragraph/{tagId}
     defaults:  { _controller: AppBundle:Service:tagParagraph }
+
+service_train:
+    path:      /service/train/{tagId}
+    defaults:  { _controller: AppBundle:Service:train }
+    methods:  [POST]
+
+service_predict:
+    path:      /service/service_predict/{fileId}
+    defaults:  { _controller: AppBundle:Service:predict }

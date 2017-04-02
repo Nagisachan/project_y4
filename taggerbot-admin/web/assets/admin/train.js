@@ -85,9 +85,27 @@ function initCheckbox() {
 }
 
 function train() {
+    paragraphIds = [];
+    $('#train-tag').addClass('loading');
     $('table.table .checkbox.checked').each(function(i, e) {
-        console.log(e);
+        $e = $(e);
+        paragraphId = $e.attr('fid') + '-' + $(e).attr('pid');
+        paragraphIds.push(paragraphId);
     });
+
+    $.ajax(SERVICE_TRAIN_URL.replace('TAGID', SELECTED_TAG), {
+            dataType: 'json',
+            method: 'post',
+            data: {
+                paragraph_ids: paragraphIds,
+            }
+        })
+        .done(function(data) {
+            console.log(data);
+        })
+        .always(function() {
+            $('#train-tag').removeClass('loading');
+        })
 }
 
 init();

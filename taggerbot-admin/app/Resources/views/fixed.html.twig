@@ -24,6 +24,9 @@
             background: {{ background_image_color }}
         {% endif %}
     }
+    .ui.menu .item img#site-logo.logo {
+        margin-right: 0.5em;
+    }
     a{
         color: initial;
     }
@@ -34,7 +37,7 @@
 <div class="ui fixed inverted menu">
     <div class="ui container">
         <a href="{{ path('admin') }}" class="header item">
-            <img class="logo" src="{{ asset('assets/images/logo.png') }}">
+            <img id="site-logo" class="logo" src="{{ asset('assets/images/logo.png') }}">
             TaggerBot
         </a>
         <div id="admin-main-menu" class="ui simple dropdown item">
@@ -45,17 +48,17 @@
                 <a class="item" href="{{ path('admin_doc') }}"><i class="file text outline icon"></i>Untagged</a>
                 <a class="item" href="{{ path('admin_train') }}"><i class="database icon"></i>Train</a>
                 <a class="item" href="{{ path('admin_dashboard') }}"><i class="line chart icon"></i>Dashboard</a>
-                <a class="item" href="{{ path('admin_setting') }}"><i class="setting icon"></i>Setting</a>
+                {#<a class="item" href="{{ path('admin_setting') }}"><i class="setting icon"></i>Setting</a>
                 <div class="divider"></div>
                 <div class="header">Quick feature</div>
                 <div class="item">
-                <i class="dropdown icon"></i>
-                Quick tag
-                <div class="menu">
-                    <a class="item" href="#"><i class="cubes icon"></i>Classification</a>
-                    <a class="item" href="#"><i class="cube icon"></i>Clustering</a>
-                </div>
-                </div>
+                    <i class="dropdown icon"></i>
+                    Quick tag
+                    <div class="menu">
+                        <a class="item" href="#"><i class="cubes icon"></i>Classification</a>
+                        <a class="item" href="#"><i class="cube icon"></i>Clustering</a>
+                    </div>
+                </div>#}
             </div>
         </div>
         <div class="ui item top right pointing dropdown">

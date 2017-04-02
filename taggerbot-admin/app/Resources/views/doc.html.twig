@@ -44,6 +44,7 @@
 <script>
     SERVICE_URL = "{{ path('service_untagged') }}";
     FILE_URL = "{{ path('admin_file',{fileId : 'FILEID'}) }}";
+    PREDICT_URL = "{{ path('service_predict',{fileId : 'FILEID'}) }}";
 </script>
 <script src="{{ asset('assets/admin/untagged.js') }}"></script>
 {% endblock %}

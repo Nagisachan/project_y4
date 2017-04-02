@@ -194,9 +194,25 @@ class ServiceController extends Controller
     function tagParagraphAction($tagId){
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         $paragraphs = $db->getTagParagraph($tagId);
-        
+
         return $this->buildSuccessJson($paragraphs);
     }
+
+    public function trainAction(Request $request, $tagId){
+         sleep(3);
+        $paragraphIds = $request->request->get('paragraph_ids', '{}');
+        return $this->buildSuccessJson(array(
+            'tag_id' => $tagId,
+            'paragraph_ids' => $paragraphIds,
+        ));
+    }
+
+    public function predictAction($fileId){
+        sleep(3);
+        return $this->buildSuccessJson($fileId);
+    }
+
+    /* Internal functions */
 
     function buildSuccessJson($data){
         return new JsonResponse(array(
