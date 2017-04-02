@@ -89,3 +89,7 @@ service_train:
 service_predict:
     path:      /service/service_predict/{fileId}
     defaults:  { _controller: AppBundle:Service:predict }
+
+service_all_text:
+    path:      /service/all_text
+    defaults:  { _controller: AppBundle:Service:allText }

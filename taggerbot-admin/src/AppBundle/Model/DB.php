@@ -167,4 +167,18 @@ class DB
 
         return $item;
     }
+
+    public function getAllText(){
+        $stmt = $this->em->getConnection()->prepare("select content from content");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        $text = array();
+        foreach($items as $item){
+            $item['content'] = trim($item['content']);
+            $text[] = $item;
+        }
+
+        return $text;
+    }
 }

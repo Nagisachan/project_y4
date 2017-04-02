@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Model\FilePreprocessor;
 use AppBundle\Model\DB;
+use AppBundle\Model\CsvResponse;
 
 class ServiceController extends Controller
 {
@@ -210,6 +211,13 @@ class ServiceController extends Controller
     public function predictAction($fileId){
         sleep(3);
         return $this->buildSuccessJson($fileId);
+    }
+    
+    public function allTextAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $allText = $db->getAllText();
+
+        return new CsvResponse($allText);
     }
 
     /* Internal functions */
