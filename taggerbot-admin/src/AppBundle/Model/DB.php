@@ -181,4 +181,37 @@ class DB
 
         return $text;
     }
+
+    public function getContent($fileId,$paragraphId){
+        $stmt = $this->em->getConnection()->prepare("SELECT content FROM content WHERE status='A' AND file_id=:file_id AND paragraph_id=:paragraph_id");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->bindValue(':paragraph_id',$paragraphId);
+        $stmt->execute();
+        $item = $stmt->fetchAll();
+        
+        if($item){
+            return trim($item[0]['content']);
+        }
+        else{
+            return "";
+        }
+        
+    }
+
+    public function getContentsNotTag($tagId,$n){
+        $stmt = $this->em->getConnection()->prepare("SELECT c.content FROM content c left join tag t on t.file_id = c.file_id and t.paragraph_id=t.paragraph_id WHERE c.status='A' and t.tag != :tag_id group by c.content");
+        $stmt->bindValue(':tag_id',$tagId);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+        
+        $keys = array_rand($items,$n);
+
+        $text = array();
+        foreach($keys as $key){
+            $item = trim($items[$key]['content']);
+            $text[] = $item;
+        }
+
+        return $text;
+    }
 }

@@ -200,12 +200,31 @@ class ServiceController extends Controller
     }
 
     public function trainAction(Request $request, $tagId){
-         sleep(3);
         $paragraphIds = $request->request->get('paragraph_ids', '{}');
-        return $this->buildSuccessJson(array(
-            'tag_id' => $tagId,
-            'paragraph_ids' => $paragraphIds,
-        ));
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        
+        $rows = array();
+
+        foreach($paragraphIds as $paragraphId){
+            $tmp = preg_split('/-/',$paragraphId);
+            $rows[] = array(
+                $db->getContent($tmp[0],$tmp[1]),
+                floatval(preg_replace('/-/','.',$tagId)),
+            );
+        }
+
+        $nPos = count($rows);
+        $this->get('logger')->info("N = " . $nPos);
+
+        $nagativeText = $db->getContentsNotTag($tagId,$nPos);
+        foreach($nagativeText as $text){
+            $rows[] = array(
+                $text,
+                0,
+            );
+        }
+
+        return new CsvResponse($rows,array('text','tag'));
     }
 
     public function predictAction($fileId){

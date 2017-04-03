@@ -94,14 +94,16 @@ function train() {
     });
 
     $.ajax(SERVICE_TRAIN_URL.replace('TAGID', SELECTED_TAG), {
-            dataType: 'json',
+            //dataType: 'json',
+            async: false,
             method: 'post',
             data: {
                 paragraph_ids: paragraphIds,
             }
         })
         .done(function(data) {
-            console.log(data);
+            var uri = 'data:application/csv;charset=UTF-8,' + encodeURIComponent(data);
+            window.open(uri);
         })
         .always(function() {
             $('#train-tag').removeClass('loading');
