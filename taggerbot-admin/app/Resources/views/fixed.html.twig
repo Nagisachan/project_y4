@@ -25,7 +25,10 @@
         {% endif %}
     }
     .ui.menu .item img#site-logo.logo {
-        margin-right: 0.5em;
+        {#margin-right: 0.5em;#}
+    }
+    .ui.menu .item > img:not(.ui){
+        width: 5.5em;
     }
     a{
         color: initial;
@@ -38,7 +41,7 @@
     <div class="ui container">
         <a href="{{ path('admin') }}" class="header item">
             <img id="site-logo" class="logo" src="{{ asset('assets/images/logo.png') }}">
-            TaggerBot
+            {#TaggerBot#}
         </a>
         <div id="admin-main-menu" class="ui simple dropdown item">
             Tools <i class="dropdown icon"></i>

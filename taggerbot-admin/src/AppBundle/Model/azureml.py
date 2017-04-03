@@ -8,10 +8,10 @@ data = {
 
     "Inputs": {
 
-        "text":
+        "input1":
         {
             "ColumnNames": ["text", "tag"],
-            "Values": [["value", "0"], ["value", "0"], ]
+            "Values": [["The 13-SkyActiv model includes the first SkyActiv engine, a 1.3-liter with 83hp (62kW) and 83lbft (113 Nm), intelligent-Drive Master (i-DM), CVT transmission, 14-inch alloy wheels, Aquatic Blue Mica exterior body color option, dynamic stability control with brake assist, traction control. ", "0"], ["wha about bird, is it flying, can it scree, what is it's sound", "0"], ]
         }, },
     "GlobalParameters": {
     }

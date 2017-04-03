@@ -13,7 +13,7 @@ Morris.Bar({
     xkey: 'tag',
     ykeys: ['f1'],
     labels: ['F1'],
-    barColors: ['#DB2828']
+    barColors: ['#0E6EB8']
 });
 
 Morris.Line({
