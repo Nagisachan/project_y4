@@ -248,9 +248,21 @@ class ServiceController extends Controller
 
         $ret = array();
         foreach($scores as $score){
-            $tagId = $score['tagId'];
-            $score = $score['scores'][0]->Results->output1->value->Values;
+            $this->get('logger')->debug(json_encode($score['scores']));
 
+            $tagId = $score['tagId'];
+
+            if(gettype($score['scores']) == 'array'){
+                $score = $score['scores'][0]->Results->output1->value->Values;
+            }
+            else if(gettype($score['scores']) == 'object'){
+                $score = $score['scores']->Results->output1->value->Values;
+            }
+            else{
+                $this->get('logger')->error('invalid format: ' . gettype($score['scores']));
+                continue;
+            }
+            
             for($i=0;$i<count($score);$i++){
                 $tag = $score[$i][0];
                 $fileId = $paragraphs[$i]['file_id'];
