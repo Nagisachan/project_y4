@@ -61,7 +61,7 @@ function predictDoc(fileId, e) {
             getUntaggedDoc();
         })
         .always(function() {
-
+            $(e).removeClass('loading');
         })
 }
 

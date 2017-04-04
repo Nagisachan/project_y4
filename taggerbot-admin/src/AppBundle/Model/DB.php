@@ -57,6 +57,7 @@ class DB
         $stmt->bindValue(':paragraph_id',$paragraphId);
         $stmt->bindValue(':type',$isManual ? 'M' : 'A');
         $stmt->bindValue(':tag',$tag);
+        
         $stmt->execute();
     }
 
@@ -168,6 +169,15 @@ class DB
         return $item;
     }
 
+    public function getAllParagraph($fileId){
+        $stmt = $this->em->getConnection()->prepare("select * from content where file_id=:file_id and status='A'");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
+
     public function getAllText(){
         $stmt = $this->em->getConnection()->prepare("select content from content");
         $stmt->execute();
@@ -213,5 +223,13 @@ class DB
         }
 
         return $text;
+    }
+
+    public function getModels(){
+        $stmt = $this->em->getConnection()->prepare("select * from model where status='A'");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
     }
 }

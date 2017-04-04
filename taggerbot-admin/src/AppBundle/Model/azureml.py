@@ -5,7 +5,7 @@ import json
 import sys
 
 values = list()
-for i in range(1, len(sys.argv)):
+for i in range(3, len(sys.argv)):
     values.append([sys.argv[i], "0"])
 
 data = {
@@ -22,9 +22,8 @@ data = {
 
 body = str.encode(json.dumps(data))
 
-url = 'https://ussouthcentral.services.azureml.net/workspaces/f246802ed5b34ff0b72af5a953d0e46a/services/8ee1e141353443419f9e64c58c0f07da/execute?api-version=2.0&details=true'
-# Replace this with the API key for the web service
-api_key = 'l4ip3lMQvviOlbQPM/T6p1St1FjHK9n7vUDvOFw16q0Fje7GnDeWbFw8ZTaRwHTTNBfXkalFU3m9r2nsuy59bw=='
+url = sys.argv[1]
+api_key = sys.argv[2]
 headers = {
     'Content-Type': 'application/json',
     'Authorization': ('Bearer ' + api_key)

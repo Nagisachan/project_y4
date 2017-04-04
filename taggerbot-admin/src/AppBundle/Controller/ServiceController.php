@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Model\FilePreprocessor;
 use AppBundle\Model\DB;
+use AppBundle\Model\ML;
 use AppBundle\Model\CsvResponse;
 
 class ServiceController extends Controller
@@ -228,8 +229,47 @@ class ServiceController extends Controller
     }
 
     public function predictAction($fileId){
-        sleep(3);
-        return $this->buildSuccessJson($fileId);
+        set_time_limit(10*60);
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $models = $db->getModels();
+        $paragraphs = $db->getAllParagraph($fileId);
+        $ml = new ML($this->get('logger'));
+        $scores = array();
+
+        foreach($models as $model){
+            $url = $model['url'];
+            $key = $model['key'];
+
+            $scores[] = array(
+                'tagId' => $model['tag_id'],
+                'scores' => $ml->azureml_predict($url,$key,$paragraphs),
+            );
+        }
+
+        $ret = array();
+        foreach($scores as $score){
+            $tagId = $score['tagId'];
+            $score = $score['scores'][0]->Results->output1->value->Values;
+
+            for($i=0;$i<count($score);$i++){
+                $tag = $score[$i][0];
+                $fileId = $paragraphs[$i]['file_id'];
+                $paragraphId = $paragraphs[$i]['paragraph_id'];
+
+                if($tag != 0){
+                    $tag = preg_replace('/\./','-',$tag);
+                    $ret[] = array(
+                        'tag' => $tag,
+                        'fileId' => $fileId,
+                        'paragraphId' => $paragraphId,
+                    );
+
+                    $db->addTagToParagraph($fileId,$paragraphId,$tag,false);
+                }
+            }
+        }
+
+        return $this->buildSuccessJson($ret);
     }
     
     public function allTextAction(){
