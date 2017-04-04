@@ -3,9 +3,9 @@ SELECTED_TAG = null;
 function init() {
     $('.train.dropdown').dropdown({
         on: 'hover',
-        onChange: function(a, b, e) {
+        onChange: function(a, b, $e) {
             $('#choose-tag-first').hide();
-            tag = $(e).attr('tag');
+            tag = $e.attr('tag');
             SELECTED_TAG = tag;
             getTagParagraph(tag);
         },
@@ -102,12 +102,17 @@ function train() {
             }
         })
         .done(function(data) {
-            var uri = 'data:application/csv;charset=UTF-8,' + encodeURIComponent(data);
-            window.open(uri);
+            //var uri = 'data:application/csv;charset=UTF-8,' + encodeURIComponent(data);
+            //window.open(uri);
         })
         .always(function() {
-            $('#train-tag').removeClass('loading');
+            setTimeout(function(){
+                $('#train-tag').removeClass('loading');
+            },3000);
         })
 }
 
+setTimeout(function(){
+    init();
+},500);
 init();
