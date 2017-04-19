@@ -24,7 +24,7 @@ function getUntaggedDoc() {
 }
 
 function htmlFromDoc(doc, i) {
-    html = `<div class="item" title="` + doc.content.replace('"', "'") + `">
+    html = `<div class="item" title="` + doc.content.replace(/"/g, "'") + `">
                 <div class="right floated content">
                     <div class="ui teal buttons tiny">
                         <div class="ui button" onclick="javascript:predictDoc(` + doc.file_id + `,this)">Auto</div>
