@@ -53,6 +53,7 @@ function getTagParagraph(tagId) {
             }
 
             initCheckbox();
+            deselectAll();
         });
 }
 
@@ -102,17 +103,17 @@ function train() {
             }
         })
         .done(function(data) {
-            //var uri = 'data:application/csv;charset=UTF-8,' + encodeURIComponent(data);
-            //window.open(uri);
+            var uri = 'data:application/csv;charset=UTF-8,' + encodeURIComponent(data);
+            window.open(uri);
         })
         .always(function() {
-            setTimeout(function(){
+            setTimeout(function() {
                 $('#train-tag').removeClass('loading');
-            },3000);
+            }, 3000);
         })
 }
 
-setTimeout(function(){
+setTimeout(function() {
     init();
-},500);
+}, 500);
 init();
