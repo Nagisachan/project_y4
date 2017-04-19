@@ -278,7 +278,12 @@ class ServiceController extends Controller
                         'paragraphId' => $paragraphId,
                     );
 
-                    $db->addTagToParagraph($fileId,$paragraphId,$tag,false);
+                    try{
+                        $db->addTagToParagraph($fileId,$paragraphId,$tag,false);
+                    }
+                    catch(Exception $e){
+                        $this->get('logger')->debug($e->getMessage());
+                    }
                 }
             }
         }
