@@ -232,4 +232,32 @@ class DB
 
         return $items;
     }
+
+    public function getModelInfo(){
+        $stmt = $this->em->getConnection()->prepare("select tag_id, name, information from model m join tag_category_item t on t.category_id::text=split_part(tag_id, '-', 1) and t.item::text=split_part(tag_id, '-', 2)"); /*  where m.status='A' */
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        for($i=0;$i<count($items);$i++){
+            $items[$i]['information'] = json_decode($items[$i]['information']);
+        }
+
+        return $items;
+    }
+
+    public function getAllTagTypeCount(){
+        $stmt = $this->em->getConnection()->prepare("select type, count(*) from tag where status='A' group by type");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
+
+    public function getTagAssocDataCount(){
+        $stmt = $this->em->getConnection()->prepare("select name, count(*) from tag join tag_category_item t on t.category_id::text=split_part(tag, '-', 1) and t.item::text=split_part(tag, '-', 2) where tag.status='A' group by name, file_id");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
 }

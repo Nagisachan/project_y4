@@ -93,3 +93,15 @@ service_predict:
 service_all_text:
     path:      /service/all_text
     defaults:  { _controller: AppBundle:Service:allText }
+
+service_model_info:
+    path:      /service/models_info
+    defaults:  { _controller: AppBundle:Service:modelInfo }
+
+all_tag_type_count:
+    path:      /service/all_tag_type_count
+    defaults:  { _controller: AppBundle:Service:allTagTypeCount }
+
+tag_assoc_data:
+    path:      /service/tag_assoc_data
+    defaults:  { _controller: AppBundle:Service:tagAssocData }

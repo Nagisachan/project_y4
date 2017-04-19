@@ -298,6 +298,27 @@ class ServiceController extends Controller
         return new CsvResponse($allText,array('text'));
     }
 
+    public function modelInfoAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $models = $db->getModelInfo();
+
+        return $this->buildSuccessJson($models);
+    }
+
+    public function allTagTypeCountAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $tags = $db->getAllTagTypeCount();
+
+        return $this->buildSuccessJson($tags);
+    }
+
+    public function tagAssocDataAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $tags = $db->getTagAssocDataCount();
+
+        return $this->buildSuccessJson($tags);
+    }
+
     /* Internal functions */
 
     function buildSuccessJson($data){
