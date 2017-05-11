@@ -9,9 +9,10 @@ class DB
         $this->logger = $logger;
     }
 
-    public function writeToFileTable($file_name){
-        $stmt = $this->em->getConnection()->prepare("INSERT INTO file (file_name) VALUES(:file_name) RETURNING file_id");
+    public function writeToFileTable($file_name,$school=null){
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO file (file_name,school) VALUES(:file_name,:school) RETURNING file_id");
         $stmt->bindValue(':file_name',$file_name);
+        $stmt->bindValue(':school',$school);
         $stmt->execute();
         $file_id = $stmt->fetchAll();
 
@@ -255,6 +256,14 @@ class DB
 
     public function getTagAssocDataCount(){
         $stmt = $this->em->getConnection()->prepare("select name, count(*) from tag join tag_category_item t on t.category_id::text=split_part(tag, '-', 1) and t.item::text=split_part(tag, '-', 2) where tag.status='A' group by name, file_id");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
+
+    public function getSchool(){
+        $stmt = $this->em->getConnection()->prepare("select * from school where status='A'");
         $stmt->execute();
         $items = $stmt->fetchAll();
 

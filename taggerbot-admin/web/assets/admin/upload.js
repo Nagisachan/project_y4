@@ -1,3 +1,9 @@
+$('#school-selector').dropdown({
+    onChange: function(value, text, $selectedItem) {
+        $('form').find('input[name=school]').val(value);
+    }
+});
+
 var isAdvancedUpload = function() {
     var div = document.createElement('div');
     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
@@ -7,13 +13,27 @@ var $form = $('.box');
 var $input = $('#file');
 var $notSupport = $('.not-support');
 
+function checkSchool() {
+    let school = $('#school-selector').dropdown('get value');
+    if (school == null || school == "") {
+        alert("Please choose a school.");
+        return false;
+    }
+
+    return true;
+}
+
 function crawUrl() {
+    if (!checkSchool()) {
+        return;
+    }
     $('#crawl-btn').addClass('loading');
     $.ajax(SERVICE_URL, {
             dataType: 'json',
             type: 'post',
             data: {
                 url: $("#crawl-url").val(),
+                school: $('#school-selector').dropdown('get value')
             }
         })
         .done(function(data) {
@@ -40,11 +60,19 @@ if (isAdvancedUpload) {
             $form.removeClass('is-dragover');
         })
         .on('drop', function(e) {
+            if (!checkSchool()) {
+                return;
+            }
+
             droppedFiles = e.originalEvent.dataTransfer.files;
             $form.trigger('submit');
         });
 
     $input.on('change', function(e) { // when drag & drop is NOT supported
+        if (!checkSchool()) {
+            return;
+        }
+
         $form.trigger('submit');
     });
 

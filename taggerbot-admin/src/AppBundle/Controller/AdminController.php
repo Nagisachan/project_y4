@@ -36,7 +36,10 @@ class AdminController extends Controller
 
     public function uploadAction()
     {
-        return $this->render('upload.html.twig');
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        return $this->render('upload.html.twig',array(
+            'schools' => $db->getSchool()
+        ));
     }
 
     public function tagAction()

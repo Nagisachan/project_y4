@@ -20,6 +20,8 @@ class ServiceController extends Controller
         $files = array();
         $this->preprocessor = new FIlePreprocessor($this->get('logger'));
 
+        $school = $request->request->get('school', null);
+
         // inspect $_FILES structure
         // $this->get('logger')->debug(json_encode($_FILES));
 
@@ -67,7 +69,7 @@ class ServiceController extends Controller
 
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         foreach($files as $file){
-            $file_id = $db->writeToFileTable($file['name']);
+            $file_id = $db->writeToFileTable($file['name'],$school);
 
             for($i=0;$i<count($file['text']);$i++){
                 $db->writeToContentTable($file_id,$i,$file['text'][$i]);
@@ -93,6 +95,8 @@ class ServiceController extends Controller
 
     public function uploadCrawlAction(Request $request){
         $url = $request->request->get('url', "");
+        $school = $request->request->get('school', null);
+
         if($url != ""){
             set_time_limit(5*60);
 
@@ -110,7 +114,7 @@ class ServiceController extends Controller
 
             $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
             
-            $file_id = $db->writeToFileTable($url);
+            $file_id = $db->writeToFileTable($url,$school);
             $this->get('logger')->debug("[Crawler] fid=$file_id linenum=" . count($lines));
 
             for($pid=0,$i=0;$i<count($lines);$i++){
