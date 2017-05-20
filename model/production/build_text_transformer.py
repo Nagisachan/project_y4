@@ -1,5 +1,5 @@
 from sklearn.feature_extraction.text import CountVectorizer
-from raw_data_fetcher import RawData
+from preprocess import Preprocessor
 from sklearn.externals import joblib
 
 def custom_preprocessor(str):
@@ -14,13 +14,14 @@ def custom_tokenizer(str):
 count_vect = CountVectorizer(analyzer = 'word',tokenizer=custom_tokenizer,preprocessor=custom_preprocessor)
 
 # load all text
-raw = RawData()
-raw.load(0)
+prep = Preprocessor()
+prep.load(0)
 
 # fit transformers
-texts = raw.get_all_text()
-count_vect.fit_transform([ text[1] for text in texts])
+print "[Transformer]: transform all text to global CountVectorizer"
+texts = prep.get_all_text()
+count_vect.fit_transform([text[1] for text in texts])
 
 # export transformer
 joblib.dump(count_vect, "core_model/count_vectorizer.model")
-
+print "[Transformer]: saved"
