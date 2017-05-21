@@ -24,6 +24,10 @@ class DB:
             tag.append(record[2])
         
         return id,text,tag
+    
+    def add_model_info(self,tag_id,location,score):
+        self.cur.execute("INSERT INTO model (tag_id,url,key,status,information) VALUES ('%s','%s',NULL,'A','{\"accuracy\":%f}')" % (tag_id,location,score))
+        return self.conn.commit()
 
 if __name__ == "__main__":
     tags = DB().get_all_tag()

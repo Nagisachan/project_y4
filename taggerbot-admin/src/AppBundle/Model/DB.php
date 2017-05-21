@@ -235,7 +235,7 @@ class DB
     }
 
     public function getModelInfo(){
-        $stmt = $this->em->getConnection()->prepare("select tag_id, name, information from model m join tag_category_item t on t.category_id::text=split_part(tag_id, '-', 1) and t.item::text=split_part(tag_id, '-', 2)"); /*  where m.status='A' */
+        $stmt = $this->em->getConnection()->prepare("select tag_id, name, information from model m left join tag_category_item t on t.category_id::text=split_part(tag_id, '-', 1) and t.item::text=split_part(tag_id, '-', 2) where m.status='A'");
         $stmt->execute();
         $items = $stmt->fetchAll();
 

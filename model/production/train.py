@@ -8,6 +8,7 @@ from sys import argv
 
 import numpy as np
 from preprocess import Preprocessor
+from pgdb_data import DB
 from sklearn import metrics
 from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
                               GradientBoostingClassifier,
@@ -99,8 +100,8 @@ class model_trainer:
                 X_train = [data[1] for data in X_train]
                 X_test = [data[1] for data in X_test]
                 
-                if len(y_train) < 200:
-                    print "[Train] not enough (%3d less than 200) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
+                if len(y_train) < 100:
+                    print "[Train]1not enough (%3d less than 100) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
                     continue
                 
                 train_tag_list.append(target_tag)
@@ -122,10 +123,12 @@ class model_trainer:
                     heightest_score[target_tag] = f1
                     heightest_model[target_tag] = self.models[model_name]
 
+        db = DB()
         for tag in set(train_tag_list):
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
             print "[Train] save model '%s' (%s) with f1 = %.2f" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_score[tag])
             joblib.dump(heightest_model[tag], output_filename)
+            db.add_model_info(tag,output_filename,heightest_score[tag])
 
 if __name__ == "__main__":
     if len(argv) < 3 or argv[2] not in ('new','old'):
