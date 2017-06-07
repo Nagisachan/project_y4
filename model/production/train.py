@@ -63,7 +63,7 @@ class model_trainer:
             # 'KNN' : KNeighborsClassifier(n_neighbors=10),
             'RDFOREST' : RandomForestClassifier(n_estimators=25),
             'NC' : NearestCentroid(),
-            'MAJOR' : VotingClassifier(estimators=self.model_major,voting='soft',n_jobs=-1)
+            # 'MAJOR' : VotingClassifier(estimators=self.model_major,voting='soft',n_jobs=-1)
         }
 
     def load_data(self,size=0):
@@ -86,6 +86,7 @@ class model_trainer:
     def train_all_tag(self):
         train_tag_list = []
         heightest_score = defaultdict(float)
+        heightest_info = {}
         heightest_model = {}
         all_tag_idx = self.prep.get_all_tag_idx()
 
@@ -93,16 +94,17 @@ class model_trainer:
             for model_name in self.models:
                 X_train, y_train, X_test, y_test = self.prep.get_train_test_data_tag(target_tag)
 
-                if len(X_train)  < 10 or len(X_test)  < 10:
+                if len(X_train)  < 4 or len(X_test)  < 4:
+                    print "***** SKIP ****** %s >> %d" % (target_tag,len(X_test))
                     continue
 
                 # use only content from (paragraph_id,content)
                 X_train = [data[1] for data in X_train]
                 X_test = [data[1] for data in X_test]
                 
-                if len(y_train) < 100:
-                    print "[Train]1not enough (%3d less than 100) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
-                    continue
+                # if len(y_train) < 100:
+                    # print "[Train]1not enough (%3d less than 100) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
+                    # continue
                 
                 train_tag_list.append(target_tag)
                 self.train(X_train,y_train,self.count_vect,self.models[model_name],False)
@@ -115,20 +117,23 @@ class model_trainer:
                 recall = matrix[1]
                 f1 = matrix[2]
                 
-                print "%s score %.2f (%s)-[%d/%d]" % (model_name,score,self.prep.get_target_names()[target_tag].encode('utf-8'),len(y_train),len(y_test))
-                print "precision=%.2f, recall=%.2f, *** f1=%.2f ***" % (precision,recall,f1)
-                print
+                # print "%s score %.2f (%s)-[%d/%d]" % (model_name,score,self.prep.get_target_names()[target_tag].encode('utf-8'),len(y_train),len(y_test))
+                # print "precision=%.2f, recall=%.2f, *** f1=%.2f ***" % (precision,recall,f1)
+                # print
 
                 if heightest_score[target_tag] < f1:
                     heightest_score[target_tag] = f1
+                    heightest_info[target_tag] = (f1,precision,recall,score,model_name)
                     heightest_model[target_tag] = self.models[model_name]
-
+        
         db = DB()
         for tag in set(train_tag_list):
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
-            print "[Train] save model '%s' (%s) with f1 = %.2f" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_score[tag])
+            print "[Train] save model '%s' (%s) with score = %.2f, %.2f, %.2f, %.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
             joblib.dump(heightest_model[tag], output_filename)
-            db.add_model_info(tag,output_filename,heightest_score[tag])
+            #db.add_model_info(tag,output_filename,heightest_score[tag])
+        
+        return heightest_info
 
 if __name__ == "__main__":
     if len(argv) < 3 or argv[2] not in ('new','old'):
@@ -137,4 +142,30 @@ if __name__ == "__main__":
 
 my_model = model_trainer()
 my_model.load_data()
-my_model.train_all_tag()
+
+avg_acc = defaultdict(float)
+avg_f1 = defaultdict(float)
+avg_pre = defaultdict(float)
+avg_rec = defaultdict(float)
+
+n = 50
+for i in range(0,n):
+    info = my_model.train_all_tag()
+
+    for tag in info:
+        avg_acc[tag] += info[tag][3]
+        avg_f1[tag] += info[tag][0]
+        avg_pre[tag] += info[tag][1]
+        avg_rec[tag] += info[tag][2]
+
+for key in avg_acc:
+    print key, avg_acc[key]/n
+
+for key in avg_f1:
+    print key, avg_f1[key]/n
+
+for key in avg_pre:
+    print key, avg_pre[key]/n
+
+for key in avg_rec:
+    print key, avg_rec[key]/n

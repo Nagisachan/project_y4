@@ -237,8 +237,9 @@ class Preprocessor(object):
         max_threshold = int(0.6*all_word_count)
         sorted_frequency = sorted(frequency.items(), key=operator.itemgetter(1), reverse=True)
         
+        print "*** zipf's rule ***"
         if is_verbose:
-            for fword,fvalue in sorted_frequency[:10] + sorted_frequency[-5:]:
+            for fword,fvalue in sorted_frequency[:20] + sorted_frequency[-20:]:
                 print fword,fvalue
         
         all_filtered_word_occur_count = 0
@@ -248,7 +249,7 @@ class Preprocessor(object):
             all_filtered_word_occur_count += len(tmp)
             train_text[i] = (train_text[i][0]," ".join(tmp)) 
 
-        #print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
+        print "min=%d max=%d before=%d/%d after=%d" % (min_threshold,max_threshold,all_word_occur_count,all_word_count,all_filtered_word_occur_count)
         
         return train_text,train_tag,test_text,test_tag
         
@@ -326,9 +327,9 @@ class Preprocessor(object):
         
 if __name__ == '__main__':              
     prep = Preprocessor()
-    prep.load(0 if len(sys.argv) < 2 else int(sys.argv[1]),False)
+    prep.load(0 if len(sys.argv) < 2 else int(sys.argv[1]),True)
     prep.show_tag_summary()
     
-    target_tag = '42-1'
+    target_tag = '44-3'
     text,tag,test_text,test_tag = prep.get_train_test_data_tag(target_tag,True)
     print "train = %d, test = %d" % (len(tag),len(test_tag))

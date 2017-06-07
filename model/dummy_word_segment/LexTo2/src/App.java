@@ -112,8 +112,15 @@ public class App {
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-				line = br.readLine().trim();
-
+				line = br.readLine();
+				
+				if(line == null){
+					pw.println("");
+					br.close();
+					pw.close();
+				}
+				
+				line = line.trim();
 				String output;
 				int hashCode = line.hashCode();
 				
