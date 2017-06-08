@@ -94,7 +94,7 @@ class model_trainer:
             for model_name in self.models:
                 X_train, y_train, X_test, y_test = self.prep.get_train_test_data_tag(target_tag)
 
-                if len(X_train)  < 4 or len(X_test)  < 4:
+                if len(X_train)  < 50 or len(X_test)  < 50:
                     print "***** SKIP ****** %s >> %d" % (target_tag,len(X_test))
                     continue
 
@@ -102,9 +102,9 @@ class model_trainer:
                 X_train = [data[1] for data in X_train]
                 X_test = [data[1] for data in X_test]
                 
-                # if len(y_train) < 100:
-                    # print "[Train]1not enough (%3d less than 100) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
-                    # continue
+                if len(y_train) < 50:
+                    print "[Train]1not enough (%3d less than 100) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
+                    continue
                 
                 train_tag_list.append(target_tag)
                 self.train(X_train,y_train,self.count_vect,self.models[model_name],False)
@@ -117,9 +117,9 @@ class model_trainer:
                 recall = matrix[1]
                 f1 = matrix[2]
                 
-                # print "%s score %.2f (%s)-[%d/%d]" % (model_name,score,self.prep.get_target_names()[target_tag].encode('utf-8'),len(y_train),len(y_test))
-                # print "precision=%.2f, recall=%.2f, *** f1=%.2f ***" % (precision,recall,f1)
-                # print
+                print "%s score %.2f (%s)-[%d/%d]" % (model_name,score,self.prep.get_target_names()[target_tag].encode('utf-8'),len(y_train),len(y_test))
+                print "precision=%.2f, recall=%.2f, *** f1=%.2f ***" % (precision,recall,f1)
+                print
 
                 if heightest_score[target_tag] < f1:
                     heightest_score[target_tag] = f1
@@ -131,41 +131,41 @@ class model_trainer:
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
             print "[Train] save model '%s' (%s) with score = %.2f, %.2f, %.2f, %.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
             joblib.dump(heightest_model[tag], output_filename)
-            #db.add_model_info(tag,output_filename,heightest_score[tag])
+            db.add_model_info(tag,output_filename,heightest_score[tag])
         
         return heightest_info
 
 if __name__ == "__main__":
-    if len(argv) < 3 or argv[2] not in ('new','old'):
-        print "Usage: train <model name> <new/old>"
-        sys.exit()
+    # if len(argv) < 3 or argv[2] not in ('new','old'):
+    #     print "Usage: train <model name> <new/old>"
+    #     sys.exit()
 
-my_model = model_trainer()
-my_model.load_data()
+    my_model = model_trainer()
+    my_model.load_data()
 
-avg_acc = defaultdict(float)
-avg_f1 = defaultdict(float)
-avg_pre = defaultdict(float)
-avg_rec = defaultdict(float)
+    avg_acc = defaultdict(float)
+    avg_f1 = defaultdict(float)
+    avg_pre = defaultdict(float)
+    avg_rec = defaultdict(float)
 
-n = 50
-for i in range(0,n):
-    info = my_model.train_all_tag()
+    n = 1
+    for i in range(0,n):
+        info = my_model.train_all_tag()
 
-    for tag in info:
-        avg_acc[tag] += info[tag][3]
-        avg_f1[tag] += info[tag][0]
-        avg_pre[tag] += info[tag][1]
-        avg_rec[tag] += info[tag][2]
+        for tag in info:
+            avg_acc[tag] += info[tag][3]
+            avg_f1[tag] += info[tag][0]
+            avg_pre[tag] += info[tag][1]
+            avg_rec[tag] += info[tag][2]
 
-for key in avg_acc:
-    print key, avg_acc[key]/n
+    for key in avg_acc:
+        print key, avg_acc[key]/n
 
-for key in avg_f1:
-    print key, avg_f1[key]/n
+    for key in avg_f1:
+        print key, avg_f1[key]/n
 
-for key in avg_pre:
-    print key, avg_pre[key]/n
+    for key in avg_pre:
+        print key, avg_pre[key]/n
 
-for key in avg_rec:
-    print key, avg_rec[key]/n
+    for key in avg_rec:
+        print key, avg_rec[key]/n
