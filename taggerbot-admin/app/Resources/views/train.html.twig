@@ -26,19 +26,18 @@
             <i class="filter icon"></i>
             <span class="text">Choose a tag to train</span>
             <div class="menu">
-                <div class="ui icon search input">
+                <!--<div class="ui icon search input">
                     <i class="search icon"></i>
                     <input placeholder="Search tags..." type="text">
                 </div>
                 <div class="divider"></div>
                 <div class="header">
-                    <i class="tags icon"></i>
-                        Tag name
-                </div>
+                    <i class="tags icon"></i> Tag name
+                </div>-->
                 <div class="scrolling menu">
                 {% for tag in tags %}
                     <div class="item" tag="{{ tag.tag_id }}">
-                        <div class="ui empty circular label {{ tag.tag_color }}"></div>
+                        <!--<div class="ui empty circular label {{ tag.tag_color }}"></div>-->
                         {{ tag.tag_name }} 
                         {#({{ tag.tag_category }})#}
                         </span>
@@ -79,7 +78,7 @@
                 <th></th>
                 <th colspan="4">
                     <div id="train-tag" class="ui right floated small green labeled icon button" onclick="javascript:train()">
-                        <i class="checkmark icon"></i>Train
+                        <i class="checkmark icon"></i>Save
                     </div>
                     <div class="ui small button select-all" onclick="javascript:selectAll()">
                         Select all

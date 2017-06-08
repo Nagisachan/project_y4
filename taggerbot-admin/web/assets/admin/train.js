@@ -13,12 +13,13 @@ function init() {
 }
 
 function getTagParagraph(tagId) {
-    $('#train-tag').addClass('loading');
+    console.log("getTagParagraph...");
+    $('#target-tag').addClass('loading');
     $.ajax(SERVICE_URL.replace('TAGID', tagId), {
             dataType: 'json',
         })
         .done(function(data) {
-            $('#train-tag').removeClass('loading');
+            $('#target-tag').removeClass('loading');
             $('tbody').html('');
             data.data.forEach(function(e) {
                 $('tbody').append(
