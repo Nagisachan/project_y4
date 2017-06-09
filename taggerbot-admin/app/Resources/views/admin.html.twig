@@ -14,7 +14,7 @@
         {% endif %}
     }
     .main.container {
-        margin-top: 7em;
+        margin-top: 5em;
     }
     .wireframe {
         margin-top: 2em;
@@ -35,6 +35,17 @@
 
 <div class="ui main container">
     <div class="ui link cards stackable centered">
+        <div class="ui card orange">
+            <a class="image" href="{{ path('admin_school') }}">
+                <img src="{{ asset('assets/images/school.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_school') }}">School</a>
+                <div class="meta">
+                <a>{{ summary.n_school }} schools</a>
+                </div>
+            </div>
+        </div>
         <div class="ui card purple">
             <a class="image" href="{{ path('admin_upload') }}">
                 <img src="{{ asset('assets/images/upload.png') }}">
@@ -79,17 +90,6 @@
                 </div>
             </div>
         </div>
-        <div class="ui card yellow">
-            <a class="image" href="{{ path('admin_dashboard') }}">
-                <img src="{{ asset('assets/images/dashboard.png') }}">
-            </a>
-            <div class="content">
-                <a class="header" href="{{ path('admin_dashboard') }}">Dashboard</a>
-                <div class="meta">
-                <a>{{ summary.n_report }} reports</a>
-                </div>
-            </div>
-        </div>
         <div class="ui card orange">
             <a class="image" href="{{ path('admin_dashboard') }}">
                 <img src="{{ asset('assets/images/machine_learning.png') }}">
@@ -98,6 +98,17 @@
                 <a class="header" href="{{ path('admin_dashboard') }}">Train all</a>
                 <div class="meta">
                 <a>{{ summary.n_valid_tag }} tags</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui card yellow">
+            <a class="image" href="{{ path('admin_dashboard') }}">
+                <img src="{{ asset('assets/images/dashboard.png') }}">
+            </a>
+            <div class="content">
+                <a class="header" href="{{ path('admin_dashboard') }}">Dashboard</a>
+                <div class="meta">
+                <a>{{ summary.n_report }} reports</a>
                 </div>
             </div>
         </div>

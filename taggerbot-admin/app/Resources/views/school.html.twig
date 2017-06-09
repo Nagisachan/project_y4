@@ -1,0 +1,83 @@
+{% extends 'fixed.html.twig' %}
+
+{% block title %}School management{% endblock %}
+
+{% block css %}
+{{ parent() }}
+
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
+<style type="text/css">
+    body {
+        background-color: #FFFFFF;
+        {% if background_image is defined %}
+            background-image: url('{{ background_image }}');
+        {% endif %}
+    }
+    .main.container {
+        margin-top: 5em;
+    }
+    #school-container,
+    #map{
+        margin: 5px;
+        width: 540px;
+        display: inline-block;
+        vertical-align: top;
+        height: 540px;
+    }
+    #school-list{
+        overflow-y: auto;
+        height: 490px;
+    }
+    #map{
+        
+    }
+    #school-button-container{
+        text-align: right;
+    }
+    button .icon{
+        margin: 0px !important;
+    }
+    #school-list .item:hover{
+        cursor: pointer;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<div class="ui main container">
+    <div id="school-container">
+        <div id="school-list" class="ui middle aligned divided list">
+            {% for school in schools %}
+                <div class="item" onclick="clickSchool({{ school.gid }});">
+                    <div class="right floated content">
+                        <button class="ui teal button">
+                            <i class="edit icon"></i>
+                        </button>
+                        <button class="ui red button">
+                            <i class="remove icon"></i>
+                        </button>
+                    </div>
+                    <div class="header">{{ school.name }}</div>
+                    {{ school.location }}
+                </div>
+            {% endfor %}
+        </div>
+        <div id="school-button-container">
+            <button class="ui green button">Add</button>
+        </div>
+    </div>
+    <div id="map"></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://api.longdo.com/map/?key=a6052df7ce7016f7eefb7315fd76fff1"></script>
+<script>
+    var schools = JSON.parse('{{ data|raw }}'); 
+    var SCHOOL_PIN = "{{ asset('assets/images/school-pin.png') }}";
+</script>
+<script src="{{ asset('assets/admin/school.js') }}"></script>
+{% endblock %}

@@ -31,6 +31,7 @@ class AdminController extends Controller
                 'n_untrained' => $db->getTagCount(),
                 'n_valid_tag' => 'xxx',
                 'n_report' => 4,
+                'n_school' => $db->getSchoolCount(),
             ),
         ));
     }
@@ -93,6 +94,17 @@ class AdminController extends Controller
             'fileId' => $fileId,
             'filename' => $filename,
             'categories' => $categories,
+        ));
+    }
+
+    public function schoolAction()
+    {
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $schools = $db->getSchool();
+
+        return $this->render('school.html.twig',array(
+            'schools' => $schools,
+            'data' => json_encode($schools),
         ));
     }
 

@@ -37,6 +37,10 @@ admin_setting:
     path:      /admin/setting
     defaults:  { _controller: AppBundle:Admin:setting }
 
+admin_school:
+    path:      /admin/school
+    defaults:  { _controller: AppBundle:Admin:school }
+
 admin_file:
     path:      /admin/file/{fileId}
     defaults:  { _controller: AppBundle:Admin:file }

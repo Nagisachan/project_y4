@@ -263,10 +263,18 @@ class DB
     }
 
     public function getSchool(){
-        $stmt = $this->em->getConnection()->prepare("select * from school where status='A'");
+        $stmt = $this->em->getConnection()->prepare("select gid,name,status,st_x(the_geom) as lon, st_y(the_geom) as lat, location, tel, website, information from school where status='A'");
         $stmt->execute();
         $items = $stmt->fetchAll();
 
         return $items;
+    }
+
+    public function getSchoolCount(){
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n from school where status='A'");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items[0]['n'];
     }
 }
