@@ -277,4 +277,13 @@ class DB
 
         return $items[0]['n'];
     }
+
+    public function deleteSchool($id){
+        $stmt = $this->em->getConnection()->prepare("update school set status='I' where gid=:id returning gid");
+        $stmt->bindValue(':id',$id);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items[0]['gid'];
+    }
 }

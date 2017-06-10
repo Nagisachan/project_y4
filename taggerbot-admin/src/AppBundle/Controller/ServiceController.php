@@ -323,6 +323,18 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($tags);
     }
 
+    public function getSchoolsAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $data = $db->getSchool();
+        return $this->buildSuccessJson($data);
+    }
+
+    public function deleteSchoolAction($id){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $id = $db->deleteSchool($id);
+        return $this->buildSuccessJson($id);
+    }
+
     /* Internal functions */
 
     function buildSuccessJson($data){

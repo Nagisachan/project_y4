@@ -109,3 +109,11 @@ all_tag_type_count:
 tag_assoc_data:
     path:      /service/tag_assoc_data
     defaults:  { _controller: AppBundle:Service:tagAssocData }
+
+service_get_schools:
+    path:      /service/get_schools
+    defaults:  { _controller: AppBundle:Service:getSchools }
+
+service_delete_school:
+    path:      /service/delete_school/{id}
+    defaults:  { _controller: AppBundle:Service:deleteSchool }    

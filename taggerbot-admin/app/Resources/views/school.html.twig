@@ -40,6 +40,12 @@
     #school-list .item:hover{
         cursor: pointer;
     }
+    .ui.modal{
+        text-align: center;
+    }
+    h3{
+        text-align: center;
+    }
 </style>
 
 {% endblock %}
@@ -49,26 +55,32 @@
 <div class="ui main container">
     <div id="school-container">
         <div id="school-list" class="ui middle aligned divided list">
-            {% for school in schools %}
-                <div class="item" onclick="clickSchool({{ school.gid }});">
-                    <div class="right floated content">
-                        <button class="ui teal button">
-                            <i class="edit icon"></i>
-                        </button>
-                        <button class="ui red button">
-                            <i class="remove icon"></i>
-                        </button>
-                    </div>
-                    <div class="header">{{ school.name }}</div>
-                    {{ school.location }}
-                </div>
-            {% endfor %}
+            
         </div>
         <div id="school-button-container">
             <button class="ui green button">Add</button>
         </div>
     </div>
     <div id="map"></div>
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="trash outline icon"></i>
+            <div id="delete-school-content">Delete school?</div>
+        </div>
+        <div class="content">
+            <p>Are you sure you want to remove this school?</p>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+            <i class="remove icon"></i>
+            cancel
+            </div>
+            <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            Yes
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -76,8 +88,9 @@
 {{ parent() }}
 <script src="https://api.longdo.com/map/?key=a6052df7ce7016f7eefb7315fd76fff1"></script>
 <script>
-    var schools = JSON.parse('{{ data|raw }}'); 
     var SCHOOL_PIN = "{{ asset('assets/images/school-pin.png') }}";
+    var SERVICE_URL = "{{ path('service_get_schools') }}";
+    var SERVICE_DELETE_URL = "{{ path('service_delete_school',{id : 'SCHOOLID'}) }}";
 </script>
 <script src="{{ asset('assets/admin/school.js') }}"></script>
 {% endblock %}

@@ -99,12 +99,12 @@ class AdminController extends Controller
 
     public function schoolAction()
     {
-        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
-        $schools = $db->getSchool();
+        //$db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        //$schools = $db->getSchool();
 
         return $this->render('school.html.twig',array(
-            'schools' => $schools,
-            'data' => json_encode($schools),
+            //'schools' => $schools,
+            //'data' => json_encode($schools),
         ));
     }
 
