@@ -38,6 +38,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
     SERVICE_URL = "{{ path('service_untagged') }}";
     FILE_URL = "{{ path('admin_file',{fileId : 'FILEID'}) }}";

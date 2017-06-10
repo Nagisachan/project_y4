@@ -82,6 +82,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
     SERVICE_URL = "{{ path('service_untagged_file',{fileId : 'FILEID'}) }}";
     SERVICE_URL_UPDATE = "{{ path('service_untagged_file_update',{fileId : 'FILEID', paragraphId : 'PARAGRAPHID'}) }}";

@@ -125,6 +125,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
     SERVICE_MODEL_INFO = "{{ path('service_model_info') }}";
     SERVICE_ASSOC_DATA_SIZE = "{{ path('tag_assoc_data') }}";

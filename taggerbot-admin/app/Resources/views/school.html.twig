@@ -40,11 +40,23 @@
     #school-list .item:hover{
         cursor: pointer;
     }
-    .ui.modal{
+    #delete-school-modal.ui.modal{
         text-align: center;
     }
     h3{
         text-align: center;
+    }
+    #edit-map{
+        width: 450px;
+        height: 400px;
+        padding-right: 15px;
+    }
+    #input-school-detail{
+        height: 7em !important;
+        min-height: 7em !important;
+    }
+    #map-remark{
+        font-size: 0.8em;
     }
 </style>
 
@@ -58,11 +70,11 @@
             
         </div>
         <div id="school-button-container">
-            <button class="ui green button">Add</button>
+            <button id="add-school" class="ui green button" onclick="addSchool()">Add</button>
         </div>
     </div>
     <div id="map"></div>
-    <div class="ui basic modal">
+    <div id="delete-school-modal" class="ui basic modal">
         <div class="ui icon header">
             <i class="trash outline icon"></i>
             <div id="delete-school-content">Delete school?</div>
@@ -81,6 +93,55 @@
             </div>
         </div>
     </div>
+    <div id="edit-school-modal" class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            <div id="edit-school-name">School information</div>
+        </div>
+        <div class="image content">
+            <div id="edit-map"></div>
+            <div class="description">
+            <div class="ui header">School information</div>
+                <form class="ui form">
+                    <div class="field">
+                        <label>Name</label>
+                        <div class="field">
+                            <input id="input-school-name" placeholder="School name" type="text">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Location</label>
+                        <div class="field">
+                            <input id="input-school-location" placeholder="School location" type="text">
+                        </div>
+                    </div>
+                    <label>Contact</label>
+                    <div class="two fields">
+                        <div class="field">
+                            <input id="input-school-tel" placeholder="tel no." type="text">
+                        </div>
+                        <div class="field">
+                            <input id="input-school-website" placeholder="www.school.com" type="text">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Detail</label>
+                        <textarea id="input-school-detail" placeholder="More detail" ></textarea>
+                    </div>
+                    <label id="map-remark">*Move a map so that red plus sign matches school location.</label>
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+            Cancel
+            </div>
+            <div id="input-school-id" class="ui positive right labeled icon button">
+                <span>Update</span>
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+        </div>
 </div>
 {% endblock %}
 
@@ -91,6 +152,8 @@
     var SCHOOL_PIN = "{{ asset('assets/images/school-pin.png') }}";
     var SERVICE_URL = "{{ path('service_get_schools') }}";
     var SERVICE_DELETE_URL = "{{ path('service_delete_school',{id : 'SCHOOLID'}) }}";
+    var SERVICE_UPDATE_URL = "{{ path('service_update_school',{id : 'SCHOOLID'}) }}";
+    var SERVICE_ADD_URL = "{{ path('service_add_school') }}";
 </script>
 <script src="{{ asset('assets/admin/school.js') }}"></script>
 {% endblock %}

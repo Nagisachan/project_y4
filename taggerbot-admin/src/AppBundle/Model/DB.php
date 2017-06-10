@@ -286,4 +286,35 @@ class DB
 
         return $items[0]['gid'];
     }
+
+    public function updateSchool($id,$name,$lat,$lon,$location,$tel,$website,$information){
+        $stmt = $this->em->getConnection()->prepare("update school set name=:name,the_geom=st_setsrid(st_makepoint(:lon,:lat),4326), location=:location, tel=:tel, website=:website, information=:information where gid=:id returning gid");
+        $stmt->bindValue(':name',$name);
+        $stmt->bindValue(':lon',$lon);
+        $stmt->bindValue(':lat',$lat);
+        $stmt->bindValue(':location',$location);
+        $stmt->bindValue(':tel',$tel);
+        $stmt->bindValue(':website',$website);
+        $stmt->bindValue(':information',$information);
+        $stmt->bindValue(':id',$id);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items[0]['gid'];
+    }
+
+    public function addSchool($name,$lat,$lon,$location,$tel,$website,$information){
+        $stmt = $this->em->getConnection()->prepare("insert into school values(DEFAULT,:name,DEFAULT,st_setsrid(st_makepoint(:lon,:lat),4326),:location,:tel,:website,:information) returning gid");
+        $stmt->bindValue(':name',$name);
+        $stmt->bindValue(':lon',$lon);
+        $stmt->bindValue(':lat',$lat);
+        $stmt->bindValue(':location',$location);
+        $stmt->bindValue(':tel',$tel);
+        $stmt->bindValue(':website',$website);
+        $stmt->bindValue(':information',$information);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items[0]['gid'];
+    }
 }

@@ -335,11 +335,56 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($id);
     }
 
+    public function updateSchoolAction(Request $request, $id){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+
+        $name = $request->request->get('name', null);
+        $lat = $request->request->get('lat', 0);
+        $lon = $request->request->get('lon', 0);
+        $location = $request->request->get('location', '');
+        $tel = $request->request->get('tel', '');
+        $website = $request->request->get('website', '');
+        $information = $request->request->get('information', '');
+
+        if($name == null){
+            return $this->buildErrorJson('Need at least a school name.');
+        }
+
+        $id = $db->updateSchool($id,$name,$lat,$lon,$location,$tel,$website,$information);
+        return $this->buildSuccessJson($id);
+    }
+
+    public function addSchoolAction(Request $request){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+
+        $name = $request->request->get('name', null);
+        $lat = $request->request->get('lat', 0);
+        $lon = $request->request->get('lon', 0);
+        $location = $request->request->get('location', '');
+        $tel = $request->request->get('tel', '');
+        $website = $request->request->get('website', '');
+        $information = $request->request->get('information', '');
+
+        if($name == null){
+            return $this->buildErrorJson('Need at least a school name.');
+        }
+
+        $id = $db->addSchool($name,$lat,$lon,$location,$tel,$website,$information);
+        return $this->buildSuccessJson($id);
+    }
+
     /* Internal functions */
 
     function buildSuccessJson($data){
         return new JsonResponse(array(
             'success' => true,
+            'data' => $data
+        ));
+    }
+
+    function buildErrorJson($data){
+        return new JsonResponse(array(
+            'success' => false,
             'data' => $data
         ));
     }

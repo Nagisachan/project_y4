@@ -81,6 +81,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
     SERVICE_URL = "{{ path('service_tag_structure') }}";
     SERVICE_URL_UPDATE= "{{ path('service_tag_structure_update') }}";

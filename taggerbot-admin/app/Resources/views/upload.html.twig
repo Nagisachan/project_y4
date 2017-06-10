@@ -143,6 +143,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script>
     SERVICE_URL = "{{ path('service_upload_crawl') }}";
 </script>

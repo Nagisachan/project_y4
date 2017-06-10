@@ -117,3 +117,11 @@ service_get_schools:
 service_delete_school:
     path:      /service/delete_school/{id}
     defaults:  { _controller: AppBundle:Service:deleteSchool }    
+
+service_update_school:
+    path:      /service/update_school/{id}
+    defaults:  { _controller: AppBundle:Service:updateSchool } 
+
+service_add_school:
+    path:      /service/add_school
+    defaults:  { _controller: AppBundle:Service:addSchool }    

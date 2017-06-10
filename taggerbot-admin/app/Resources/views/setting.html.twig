@@ -31,5 +31,6 @@
 {% endblock %}
 
 {% block javascripts %}
+{{ parent() }}
 <script src="{{ asset('assets/admin/upload.js') }}"></script>
 {% endblock %}
