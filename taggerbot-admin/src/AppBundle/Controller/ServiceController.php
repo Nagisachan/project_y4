@@ -423,7 +423,8 @@ class ServiceController extends Controller
 
     function findTagById($tags,$id){
         foreach($tags as $tag){
-            if(((array)($tag))['category_id'] == $id){
+            $ary = (array)$tag;
+            if($ary['category_id'] == $id){
                 return (array)$tag;
             }
         }
