@@ -166,7 +166,7 @@ function dataToJson() {
         value = [];
 
         $select.val().forEach(function(tag_text) {
-            $e = $select.find('option[value=' + tag_text + ']');
+            $e = $select.find('option[value="' + tag_text + '"]');
             tag_value = $e.html();
             value.push({
                 text: tag_text,
