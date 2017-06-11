@@ -27,7 +27,7 @@ class AdminController extends Controller
             // 'background_image_color' => "#457e79",
             'summary' => array(
                 'n_category' => count($db->getTagStructure()),
-                'n_untagged' => count($db->getUntaggedDocument()),
+                'n_document' => $db->getDocumentCount(),
                 'n_untrained' => $db->getTagCount(),
                 'n_valid_tag' => 'xxx',
                 'n_report' => 4,

@@ -37,6 +37,14 @@ class DB
         return $stmt->fetchAll();
     }
 
+    public function getDocumentCount(){
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n from file where status='A'");
+        $stmt->execute();
+        $n = intval($stmt->fetchAll()[0]['n']);
+        
+        return $n;
+    }
+
     public function getUntaggedParagraph($fileId){
         $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name, c.paragraph_id, string_agg(t.tag,',') as tags, c.content, f.file_uploaded_date from content c join file f on c.file_id=f.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id where c.file_id=:file_id group by f.file_id, c.paragraph_id, c.content order by c.paragraph_id");
         $stmt->bindValue(':file_id',$fileId);
