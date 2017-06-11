@@ -175,7 +175,8 @@ class ServiceController extends Controller
         foreach($tags as $tag){
             $found = false;
             for($i=0;$i<count($data);$i++){
-                if($tag['category_id'] == ((array)$data[$i])['category_id']){
+                $newTag = (array)$data[$i];
+                if($tag['category_id'] == $newTag['category_id']){
                     $found = true;
                     break;
                 }
