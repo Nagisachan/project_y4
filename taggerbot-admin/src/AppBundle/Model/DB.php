@@ -72,7 +72,7 @@ class DB
     }
 
     public function getTagStructure(){
-        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, c.id::text || '-' || i.item::text as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_id");
+        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, c.id::text || '-' || i.item::text as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_created_date");
         $stmt->execute();
         $rows = $stmt->fetchAll();
 
@@ -113,6 +113,26 @@ class DB
 
         $stmt = $this->em->getConnection()->prepare("update tag_category_item set status='I' where category_id=:id");
         $stmt->bindValue(':id',$id);
+        $stmt->execute();
+    }
+
+    public function disableTagItem($categoryId,$itemId){
+        $stmt = $this->em->getConnection()->prepare("update tag_category_item set status='I' where category_id=:id and item=:item_id");
+        $stmt->bindValue(':id',$categoryId);
+        $stmt->bindValue(':item_id',$itemId);
+        $stmt->execute();
+    }
+
+    public function addTagItem($categoryId,$itemName){
+        $stmt = $this->em->getConnection()->prepare("select max(item) as n from tag_category_item where category_id=:id");
+        $stmt->bindValue(':id',$categoryId);
+        $stmt->execute();
+        $maxItem = intval($stmt->fetchAll()[0]['n']);
+
+        $stmt = $this->em->getConnection()->prepare("insert into tag_category_item values(:id,:item,:name,DEFAULT,DEFAULT)");
+        $stmt->bindValue(':id',$categoryId);
+        $stmt->bindValue(':item',$maxItem+1);
+        $stmt->bindValue(':name',$itemName);
         $stmt->execute();
     }
 

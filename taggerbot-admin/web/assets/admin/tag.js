@@ -133,6 +133,10 @@ function initListener() {
     $("#save-category").click(function() {
         save();
     });
+
+    $("#cancel-category").click(function() {
+        getTagStructure();
+    });
 }
 
 function initDynamicListener() {

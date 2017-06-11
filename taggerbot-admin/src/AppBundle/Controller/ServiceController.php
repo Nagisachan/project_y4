@@ -171,8 +171,8 @@ class ServiceController extends Controller
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
 
         // check missing, then set status as inactive
-        $tags = $db->getTagStructure();
-        foreach($tags as $tag){
+        $dbTags = $db->getTagStructure();
+        foreach($dbTags as $tag){
             $found = false;
             for($i=0;$i<count($data);$i++){
                 $newTag = (array)$data[$i];
@@ -210,9 +210,54 @@ class ServiceController extends Controller
             else{
                 $id = $category['category_id'];
                 $color = $category['category_color'];
-                $tag = $this->findTagById($tags,$id);
-                if($tag['category_color'] != $color){
+                $dbTag = $this->findTagById($dbTags,$id);
+                
+                // check color
+                if($dbTag['category_color'] != $color){
                     $db->updateTagColor($id,$color);
+                }
+
+                // add tag item if it is not exist
+                foreach($category['data'] as $tagItem){
+                    $tagItem = (array)$tagItem;
+                    
+                    if(count(preg_split('/-/',$tagItem['value'])) != 2){
+                        $db->addTagItem($id,$tagItem['text']);
+                    }
+                }
+
+                // check missing tag item of this category
+                $dbTagItems = $dbTag['tags'];
+                $this->get('logger')->debug(json_encode($dbTagItems));
+                for($i=0;$i<count($dbTagItems);$i++){
+                    //  extracy tag item id from combination of tag caegory and tag item id, eg. 44-1 
+                    $dbTagItemId = preg_split('/-/',$dbTagItems[$i]['tag_id'])[1];
+                    $this->get('logger')->debug("DB TO CHECK:" . $dbTagItemId);
+
+                    // compare tag items from user with tag item in database
+                    $found = false;
+                    foreach($category['data'] as $tag){
+                        $tag = (array)$tag;
+                        $tmp = preg_split('/-/',$tag['value']);
+                        
+                        if(count($tmp) != 2){
+                            // new tag item
+                            continue;
+                        }
+                        
+                        $tagItemId = $tmp[1];
+
+                        $this->get('logger')->debug("COMPARE:" . $dbTagItemId . "," . $tagItemId);
+                        if($dbTagItemId == $tagItemId){
+                            $found = true;
+                            break;
+                        }
+                    }
+
+                    if(!$found){
+                        $this->get('logger')->debug("REMOVE:" . $id . "," . $dbTagItemId);
+                        $db->disableTagItem($id,$dbTagItemId);
+                    }
                 }
             }            
         }
