@@ -41,6 +41,10 @@ admin_school:
     path:      /admin/school
     defaults:  { _controller: AppBundle:Admin:school }
 
+admin_train_all:
+    path:      /admin/train_all
+    defaults:  { _controller: AppBundle:Admin:trainAll }
+
 admin_file:
     path:      /admin/file/{fileId}
     defaults:  { _controller: AppBundle:Admin:file }

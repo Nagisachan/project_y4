@@ -29,7 +29,7 @@ class AdminController extends Controller
                 'n_category' => count($db->getTagStructure()),
                 'n_document' => $db->getDocumentCount(),
                 'n_untrained' => $db->getTagCount(),
-                'n_valid_tag' => 'xxx',
+                'n_valid_tag' => count($db->getModels()),
                 'n_report' => 4,
                 'n_school' => $db->getSchoolCount(),
             ),
@@ -103,6 +103,18 @@ class AdminController extends Controller
         //$schools = $db->getSchool();
 
         return $this->render('school.html.twig',array(
+            //'schools' => $schools,
+            //'data' => json_encode($schools),
+        ));
+    }
+
+
+    public function trainAllAction()
+    {
+        //$db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        //$schools = $db->getSchool();
+
+        return $this->render('train_all.html.twig',array(
             //'schools' => $schools,
             //'data' => json_encode($schools),
         ));
