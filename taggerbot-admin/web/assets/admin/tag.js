@@ -186,7 +186,7 @@ function save() {
 
     $save = $('#save-category');
     $save.addClass('loading');
-    $.ajax(SERVICE_URL, {
+    $.ajax(SERVICE_URL_UPDATE, {
             dataType: 'json',
             type: 'post',
             data: {
@@ -198,6 +198,7 @@ function save() {
         })
         .always(function() {
             $save.removeClass('loading');
+            getTagStructure();
         })
 }
 

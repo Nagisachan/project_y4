@@ -170,6 +170,23 @@ class ServiceController extends Controller
         $data = json_decode($data);
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
 
+        // check missing, then set status as inactive
+        $tags = $db->getTagStructure();
+        foreach($tags as $tag){
+            $found = false;
+            for($i=0;$i<count($data);$i++){
+                if($tag['category_id'] == ((array)$data[$i])['category_id']){
+                    $found = true;
+                    break;
+                }
+            }
+
+            if(!$found){
+                $this->get('logger')->debug("Not found (deleted) tag: " . $tag['category_id']);
+                $db->disableTag($tag['category_id']);
+            }
+        }
+
         foreach($data as $category){
             $category = (array)$category;
 
@@ -187,12 +204,18 @@ class ServiceController extends Controller
                         $db->createTag($categoryId,$tag['text']);
                     }
                 }
-                
-
             }
+            // existing tag
+            else{
+                $id = $category['category_id'];
+                $color = $category['category_color'];
+                $tag = $this->findTagById($tags,$id);
+                if($tag['category_color'] != $color){
+                    $db->updateTagColor($id,$color);
+                }
+            }            
         }
 
-        
         
         return $this->buildSuccessJson($data);
     }
@@ -395,5 +418,15 @@ class ServiceController extends Controller
         }
 
         return strtoupper(substr($file, -strlen($ext))) === strtoupper($ext);
+    }
+
+    function findTagById($tags,$id){
+        foreach($tags as $tag){
+            if(((array)($tag))['category_id'] == $id){
+                return (array)$tag;
+            }
+        }
+
+        return false;
     }
 }

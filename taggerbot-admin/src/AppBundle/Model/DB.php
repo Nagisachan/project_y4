@@ -106,6 +106,33 @@ class DB
         return $res;
     }
 
+    public function disableTag($id){
+        $stmt = $this->em->getConnection()->prepare("update tag_category set status='I' where id=:id");
+        $stmt->bindValue(':id',$id);
+        $stmt->execute();
+
+        $stmt = $this->em->getConnection()->prepare("update tag_category_item set status='I' where category_id=:id");
+        $stmt->bindValue(':id',$id);
+        $stmt->execute();
+    }
+
+    public function updateTagColor($id,$color){
+        $stmt = $this->em->getConnection()->prepare("update tag_category set color=:color where id=:id");
+        $stmt->bindValue(':id',$id);
+        $stmt->bindValue(':color',$color);
+        $stmt->execute();
+    }
+
+    public function updateTagItem($id){
+        $stmt = $this->em->getConnection()->prepare("update tag_category set status='I' where id=:id");
+        $stmt->bindValue(':id',$id);
+        $stmt->execute();
+
+        $stmt = $this->em->getConnection()->prepare("update tag_category_item set status='I' where category_id=:id");
+        $stmt->bindValue(':id',$id);
+        $stmt->execute();
+    }
+
     public function createCategory($categoryName,$categoryIdColor=false,$categoryId=false){
         $id = $categoryId ? ':id' : 'DEFAULT';
         $color = $categoryIdColor ? ':color' : 'DEFAULT';
