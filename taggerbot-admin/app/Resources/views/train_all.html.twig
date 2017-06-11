@@ -55,7 +55,8 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-    SERVICE_URL = "{{ path('service_untagged') }}";
+    SERVICE_TRAIN_URL = "{{ path('service_train_all') }}";
+    SERVICE_CORPUS_URL = "{{ path('service_corpus') }}";
 </script>
 <script src="{{ asset('assets/admin/train_all.js') }}"></script>
 {% endblock %}

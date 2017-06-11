@@ -41,7 +41,7 @@ class DB
         $stmt = $this->em->getConnection()->prepare("select count(*) as n from file where status='A'");
         $stmt->execute();
         $n = intval($stmt->fetchAll()[0]['n']);
-        
+
         return $n;
     }
 
@@ -371,5 +371,41 @@ class DB
         $items = $stmt->fetchAll();
 
         return $items[0]['gid'];
+    }
+
+    public function lockTrain($lock=true){
+        $key = "train-model-lock";
+
+        $stmt = $this->em->getConnection()->prepare("select * from setting where key='$key'");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        if($lock){
+            if(count($items) == 0){
+                $stmt = $this->em->getConnection()->prepare("insert into setting values('$key','true')");
+                $stmt->execute();
+                return true;
+            }
+            else if($items[0]['value'] == 'false'){
+                $stmt = $this->em->getConnection()->prepare("update setting set value='true' where key = '$key'");
+                $stmt->execute();
+                return true;
+            }   
+            else{
+                return false;
+            }
+        }
+        else{
+            if(count($items) == 0){
+                $stmt = $this->em->getConnection()->prepare("insert into setting values('$key','false')");
+                $stmt->execute();
+                return true;
+            }
+            else if($items[0]['value'] == 'true'){
+                $stmt = $this->em->getConnection()->prepare("update setting set value='false' where key = '$key'");
+                $stmt->execute();
+                return true;
+            }   
+        }
     }
 }

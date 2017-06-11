@@ -442,6 +442,32 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($id);
     }
 
+    public function trainAllAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        if($db->lockTrain(true) === false){
+            return $this->buildErrorJson('can not lock');
+        }
+
+        $cmd = 'python production/train.py 2>&1';
+        $output = array();
+        exec($cmd,$output);
+        $db->lockTrain(false);
+        return $this->buildSuccessJson($output);
+    }
+
+    public function buildCorpusAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        if($db->lockTrain(true) === false){
+            return $this->buildErrorJson('can not lock');
+        }
+
+        $cmd = 'python production/build_text_transformer.py 2>&1';
+        $output = array();
+        exec($cmd,$output);
+        $db->lockTrain(false);
+        return $this->buildSuccessJson($output);
+    }
+
     /* Internal functions */
 
     function buildSuccessJson($data){

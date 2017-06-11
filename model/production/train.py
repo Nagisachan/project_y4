@@ -127,28 +127,22 @@ class model_trainer:
                     heightest_model[target_tag] = self.models[model_name]
         
         db = DB()
+        db.clear_model_score()
         for tag in set(train_tag_list):
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
-            print "[Train] save model '%s' (%s) with score = %.2f, %.2f, %.2f, %.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
+            print "[Train] save model '%s' (%s) with F1=%.2f, precision=%.2f, recall=%.2f, score=%.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
             joblib.dump(heightest_model[tag], output_filename)
             db.add_model_info(tag,output_filename,heightest_score[tag])
         
         return heightest_info
 
-if __name__ == "__main__":
-    # if len(argv) < 3 or argv[2] not in ('new','old'):
-    #     print "Usage: train <model name> <new/old>"
-    #     sys.exit()
-
-    my_model = model_trainer()
-    my_model.load_data()
-
+def train_avg(my_model,n_round=10):
     avg_acc = defaultdict(float)
     avg_f1 = defaultdict(float)
     avg_pre = defaultdict(float)
     avg_rec = defaultdict(float)
 
-    n = 1
+    n = n_round
     for i in range(0,n):
         info = my_model.train_all_tag()
 
@@ -169,3 +163,16 @@ if __name__ == "__main__":
 
     for key in avg_rec:
         print key, avg_rec[key]/n
+
+
+if __name__ == "__main__":
+    # if len(argv) < 3 or argv[2] not in ('new','old'):
+    #     print "Usage: train <model name> <new/old>"
+    #     sys.exit()
+
+    my_model = model_trainer()
+    my_model.load_data()
+
+    info = my_model.train_all_tag()
+
+    # train_avg(my_model,50)

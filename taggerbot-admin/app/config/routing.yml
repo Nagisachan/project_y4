@@ -128,4 +128,12 @@ service_update_school:
 
 service_add_school:
     path:      /service/add_school
-    defaults:  { _controller: AppBundle:Service:addSchool }    
+    defaults:  { _controller: AppBundle:Service:addSchool }
+
+service_train_all:
+    path:      /service/train_all
+    defaults:  { _controller: AppBundle:Service:trainAll }  
+
+service_corpus:
+    path:      /service/build_corpus
+    defaults:  { _controller: AppBundle:Service:buildCorpus }    

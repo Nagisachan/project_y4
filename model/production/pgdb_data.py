@@ -29,6 +29,10 @@ class DB:
         self.cur.execute("INSERT INTO model (tag_id,url,key,status,information) VALUES ('%s','%s',NULL,'A','{\"accuracy\":%f}')" % (tag_id,location,score))
         return self.conn.commit()
 
+    def clear_model_score(self):
+        self.cur.execute("delete from model")
+        return self.conn.commit()
+
 if __name__ == "__main__":
     tags = DB().get_all_tag()
     for tag in tags:

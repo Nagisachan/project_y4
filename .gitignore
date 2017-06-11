@@ -1,2 +1,6 @@
 __pycache__
 *.pyc
+
+taggerbot-admin/web/core_model
+taggerbot-admin/web/dicts
+taggerbot-admin/web/production
