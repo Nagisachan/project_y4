@@ -66,6 +66,14 @@ service_untagged:
     path:      /service/untagged
     defaults:  { _controller: AppBundle:Service:untagged }
 
+service_all_document:
+    path:      /service/all_doc
+    defaults:  { _controller: AppBundle:Service:allDocument }
+
+service_remove_document:
+    path:      /service/remove_doc/{id}
+    defaults:  { _controller: AppBundle:Service:removeDocument }
+
 service_untagged_file:
     path:      /service/untagged_file/{fileId}
     defaults:  { _controller: AppBundle:Service:untaggedFile }
@@ -88,6 +96,10 @@ service_tag_structure_update:
 service_tag_paragraph:
     path:      /service/tag_paragraph/{tagId}
     defaults:  { _controller: AppBundle:Service:tagParagraph }
+
+service_remove_paragraph:
+    path:      /service/remove_paragraph/{fid}/{pid}
+    defaults:  { _controller: AppBundle:Service:removeParagraph }
 
 service_train:
     path:      /service/train/{tagId}

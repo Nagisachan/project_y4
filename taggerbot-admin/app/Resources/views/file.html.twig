@@ -85,6 +85,7 @@
 {{ parent() }}
 <script>
     SERVICE_URL = "{{ path('service_untagged_file',{fileId : 'FILEID'}) }}";
+    REMOVE_URL = "{{ path('service_remove_paragraph',{fid : 'FILEID',pid : 'PARAGRAPHID'}) }}";
     SERVICE_URL_UPDATE = "{{ path('service_untagged_file_update',{fileId : 'FILEID', paragraphId : 'PARAGRAPHID'}) }}";
     FILE_ID = {{ fileId }}
 </script>

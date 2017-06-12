@@ -11,6 +11,7 @@
     }
     .main.container {
         margin-top: 7em;
+        margin-bottom: 2em;
     }
     .item:hover{
         {#cursor: pointer;#}
@@ -20,6 +21,9 @@
     }
     #no-doc{
         text-align: center;
+    }
+    .inline.loader{
+        padding: 2em;
     }
 </style>
 
@@ -40,9 +44,10 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-    SERVICE_URL = "{{ path('service_untagged') }}";
+    SERVICE_URL = "{{ path('service_all_document') }}";
     FILE_URL = "{{ path('admin_file',{fileId : 'FILEID'}) }}";
     PREDICT_URL = "{{ path('service_predict',{fileId : 'FILEID'}) }}";
+    REMOVE_URL = "{{ path('service_remove_document',{id : 'FILEID'}) }}";
 </script>
 <script src="{{ asset('assets/admin/untagged.js') }}"></script>
 {% endblock %}

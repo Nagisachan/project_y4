@@ -2,18 +2,21 @@ CURRENT_SELECTED_FID = -1;
 CURRENT_SELECTED_PID = -1;
 
 function getUntaggedList() {
+    $untagged = $('tbody');
+    $untagged.prepend(`<tr><td colspan="10"><div class="ui active centered inline loader"></div></td></tr>`);
     $.ajax(SERVICE_URL.replace('FILEID', FILE_ID), {
             dataType: 'json'
         })
         .done(function(data) {
-            $untagged = $('tbody');
             $untagged.html("");
             $count = 0;
             for (var i = 0; i < data.data.length; i++) {
-                if ((data.data[i]).tags == null) {
-                    $untagged.append(htmlFromParagraph(data.data[i], i));
-                    $count++;
-                }
+                // if ((data.data[i]).tags == null) {
+                //     $untagged.append(htmlFromParagraph(data.data[i], i));
+                //     $count++;
+                // }
+                $untagged.append(htmlFromParagraph(data.data[i], i));
+                $count++;
             }
 
             if ($count == 0) {
@@ -53,8 +56,8 @@ function htmlFromParagraph(paragraph, i) {
                 </td>
                 <td>
                     <div class="single line content ui center aligned">
-                        <div class="ui button gray tiny" onclick="javascript:addTag(` + paragraph.file_id + `,` + paragraph.paragraph_id + `);">Tag</div>
-                        <div class="ui button red tiny">Remove</div>
+                        <div class="ui button ` + (paragraph.tags ? 'blue' : 'gray') + ` tiny" title="` + (paragraph.tags ? 'Has tag(s)' : 'No tag') + `" onclick="javascript:addTag(` + paragraph.file_id + `,` + paragraph.paragraph_id + `);">Tag</div>
+                        <div class="ui button red tiny" onclick="removeParagraph(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,this)">Remove</div>
                     </div>
                 </td>
             </tr>`;
@@ -106,6 +109,21 @@ function updateTagWithServer(fid, pid, tags) {
         .always(function() {
             $('#save-tag').removeClass('loading');
             getUntaggedList();
+        })
+}
+
+function removeParagraph(fid,pid,e){
+    $(e).addClass('loading');
+    $.ajax(REMOVE_URL.replace('FILEID', fid).replace('PARAGRAPHID', pid), {
+            dataType: 'json',
+        })
+        .done(function(data) {
+           getUntaggedList();
+        })
+        .error(function(err) {
+        })
+        .always(function() {
+            $(e).removeClass('loading');
         })
 }
 

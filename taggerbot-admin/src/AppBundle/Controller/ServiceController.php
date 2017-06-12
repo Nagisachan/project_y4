@@ -137,6 +137,22 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($docs);
     }
 
+    public function allDocumentAction()
+    {
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $docs = $db->getDocument();
+        
+        return $this->buildSuccessJson($docs);
+    }
+
+    public function removeDocumentAction($id)
+    {
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $doc = $db->removeDocument($id);
+        
+        return $this->buildSuccessJson($doc);
+    }
+
     public function untaggedFileAction($fileId)
     {
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
@@ -465,7 +481,15 @@ class ServiceController extends Controller
         $output = array();
         exec($cmd,$output);
         $db->lockTrain(false);
+
         return $this->buildSuccessJson($output);
+    }
+
+    public function removeParagraphAction($fid,$pid){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $id = $db->removeParagraph($fid,$pid);
+
+        return $this->buildSuccessJson($id);
     }
 
     /* Internal functions */

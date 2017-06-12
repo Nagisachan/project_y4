@@ -5,11 +5,12 @@ NO_CATEGORY_HTML = `<div id="no-doc" class="inline field">
                     </div>`;
 
 function getUntaggedDoc() {
+    $untagged = $('#untagged');
+    $untagged.prepend(`<div class="ui active centered inline loader"></div>`);
     $.ajax(SERVICE_URL, {
             dataType: 'json'
         })
         .done(function(data) {
-            $untagged = $('#untagged');
             $untagged.html('');
 
             for (var i = 0; i < data.data.length; i++) {
@@ -24,15 +25,15 @@ function getUntaggedDoc() {
 }
 
 function htmlFromDoc(doc, i) {
-    html = `<div class="item" title="` + doc.content.replace(/"/g, "'") + `">
+    html = `<div class="item" title="` + (doc.content ? doc.content.replace(/"/g, "'") : "") + `">
                 <div class="right floated content">
                     <div class="ui teal buttons tiny">
-                        <div class="ui button" onclick="javascript:predictDoc(` + doc.file_id + `,this)">Auto</div>
+                        <div class="ui button ld" onclick="predictDoc(` + doc.file_id + `,this)">Auto</div>
                         <div class="actions ui floating dropdown icon button">
                             <i class="dropdown icon"></i>
                             <div class="menu">
-                                <div class="item" onclick="javascript:filePage('` + FILE_URL.replace('FILEID', doc.file_id) + `')"><i class="edit icon green"></i> Tag</div>
-                                <div class="item"><a><i class="delete icon red"></i> Remove</a></div>
+                                <div class="item" onclick="filePage('` + FILE_URL.replace('FILEID', doc.file_id) + `')"><i class="edit icon green"></i> Tag</div>
+                                <div class="item" onclick="removeDocument(` + doc.file_id + `,this)"><i class="delete icon red"></i> Remove</div>
                             </div>
                         </div>
                     </div>
@@ -57,11 +58,25 @@ function predictDoc(fileId, e) {
             dataType: 'json',
         })
         .done(function(data) {
-            console.log(data);
             getUntaggedDoc();
         })
         .always(function() {
             $(e).removeClass('loading');
+        })
+}
+
+function removeDocument(fileId,e){
+    $e = $(e).parents('.actions').parent().find('.ld');
+
+    $e.addClass('loading');
+    $.ajax(REMOVE_URL.replace('FILEID', fileId), {
+            dataType: 'json',
+        })
+        .done(function(data) {
+            getUntaggedDoc();
+        })
+        .always(function() {
+            $e.removeClass('loading');
         })
 }
 

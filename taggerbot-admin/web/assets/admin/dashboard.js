@@ -14,6 +14,10 @@ function modelInfo() {
                 });
             }, this);
 
+            tags.sort(function(a,b){
+                return b.f1 - a.f1;
+            });
+
             Morris.Bar({
                 element: 'model-vs-f1',
                 data: tags,
@@ -92,6 +96,10 @@ function tagAssocData() {
                 });
             });
 
+            data.sort(function(a,b){
+                return b.paragraph - a.paragraph;
+            });
+
             Morris.Bar({
                 element: 'tag-vs-parag',
                 data: data,
@@ -131,20 +139,20 @@ tagAssocData();
 //     barColors: ['#0E6EB8']
 // });
 
-Morris.Line({
-    element: 'doc-vs-parag',
-    data: [
-        { year: '2008', document: 5, paragraph: 50 },
-        { year: '2009', document: 10, paragraph: 150 },
-        { year: '2010', document: 30, paragraph: 300 },
-        { year: '2011', document: 35, paragraph: 350 },
-        { year: '2012', document: 50, paragraph: 450 }
-    ],
-    xkey: 'year',
-    ykeys: ['document', 'paragraph'],
-    labels: ['#Document', '#Paragraph'],
-    lineColors: ['#008080', '#0E6EB8']
-});
+// Morris.Line({
+//     element: 'doc-vs-parag',
+//     data: [
+//         { year: '2008', document: 5, paragraph: 50 },
+//         { year: '2009', document: 10, paragraph: 150 },
+//         { year: '2010', document: 30, paragraph: 300 },
+//         { year: '2011', document: 35, paragraph: 350 },
+//         { year: '2012', document: 50, paragraph: 450 }
+//     ],
+//     xkey: 'year',
+//     ykeys: ['document', 'paragraph'],
+//     labels: ['#Document', '#Paragraph'],
+//     lineColors: ['#008080', '#0E6EB8']
+// });
 
 // Morris.Bar({
 //     element: 'tag-vs-parag',
