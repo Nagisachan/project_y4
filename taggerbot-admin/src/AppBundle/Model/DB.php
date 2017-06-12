@@ -62,14 +62,23 @@ class DB
     }
 
     public function getUntaggedParagraph($fileId){
-        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name, c.paragraph_id, string_agg(t.tag,',') as tags, c.content, f.file_uploaded_date from content c join file f on c.file_id=f.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id where c.status='A' and c.file_id=:file_id group by f.file_id, c.paragraph_id, c.content order by c.paragraph_id");
+        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name, c.paragraph_id, string_agg(t.tag,',') as tags, string_agg(item.name,',') as tag_texts, c.content, f.file_uploaded_date from content c join file f on c.file_id=f.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id left join tag_category_item item on t.tag = item.category_id || '-' || item.item where c.status='A' and c.file_id=:file_id group by f.file_id, c.paragraph_id, c.content order by c.paragraph_id");
         $stmt->bindValue(':file_id',$fileId);
         $stmt->execute();
 
         $data = $stmt->fetchAll();
+
+        // tag id (string) to array eg. "44-1,44-2" => ["44-1","44-2"]
         for($i=0;$i<count($data);$i++){
             if($data[$i]['tags'] != null){
                 $data[$i]['tags'] = preg_split('/,/',$data[$i]['tags']);
+            }
+        }
+
+        // tag name (string) to array "A,B" => ["A","B"]
+        for($i=0;$i<count($data);$i++){
+            if($data[$i]['tag_texts'] != null){
+                $data[$i]['tag_texts'] = preg_split('/,/',$data[$i]['tag_texts']);
             }
         }
 

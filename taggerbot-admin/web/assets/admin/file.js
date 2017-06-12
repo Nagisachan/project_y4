@@ -35,12 +35,16 @@ function getUntaggedList() {
         })
 }
 
-function addTag(fid, pid) {
+function addTag(fid, pid, tags) {
     CURRENT_SELECTED_FID = fid;
     CURRENT_SELECTED_PID = pid;
     $('#save-tag-err').hide();
     $('.category-tag').dropdown('clear');
     $('.ui.modal').modal('show');
+
+    if (tags) {
+        loadValue(tags.split(","));
+    }
 }
 
 function htmlFromParagraph(paragraph, i) {
@@ -48,15 +52,15 @@ function htmlFromParagraph(paragraph, i) {
                 <td>
                     <div class="ui center aligned">` + paragraph.paragraph_id + `</div>
                 </td>
-                <td>
+                <td title="` + (paragraph.tags ? paragraph.tags : '') + `">
                     ` + paragraph.content + `
                 </td>
                 <td class="right aligned">
-                    <div class="ui center aligned">` + (paragraph.content ? paragraph.content.trim().split(' ').length : '-') + `</div>
+                    <div class="ui left aligned">` + (paragraph.tags ? paragraph.tag_texts.join(",<br/>") : '') + `</div>
                 </td>
                 <td>
                     <div class="single line content ui center aligned">
-                        <div class="ui button ` + (paragraph.tags ? 'blue' : 'gray') + ` tiny" title="` + (paragraph.tags ? 'Has tag(s)' : 'No tag') + `" onclick="javascript:addTag(` + paragraph.file_id + `,` + paragraph.paragraph_id + `);">Tag</div>
+                        <div class="ui button ` + (paragraph.tags ? 'blue' : 'gray') + ` tiny" title="` + (paragraph.tags ? 'Has tag(s)' : 'No tag') + `" onclick="addTag(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,'` + paragraph.tags + `');">` + (paragraph.tags ? 'Edit' : 'Tag') + `</div>
                         <div class="ui button red tiny" onclick="removeParagraph(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,this)">Remove</div>
                     </div>
                 </td>
@@ -112,19 +116,26 @@ function updateTagWithServer(fid, pid, tags) {
         })
 }
 
-function removeParagraph(fid,pid,e){
+function removeParagraph(fid, pid, e) {
     $(e).addClass('loading');
     $.ajax(REMOVE_URL.replace('FILEID', fid).replace('PARAGRAPHID', pid), {
             dataType: 'json',
         })
         .done(function(data) {
-           getUntaggedList();
+            getUntaggedList();
         })
-        .error(function(err) {
-        })
+        .error(function(err) {})
         .always(function() {
             $(e).removeClass('loading');
         })
+}
+
+function loadValue(tags) {
+    $caterogies = $('.category-tag');
+    $caterogies.each(function(i, e) {
+        $e = $(e);
+        $e.dropdown('set exactly', tags)
+    });
 }
 
 getUntaggedList();
