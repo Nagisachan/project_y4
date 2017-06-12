@@ -85,6 +85,14 @@ class DB
         return $data;
     }
 
+    public function clearTagOfParagraph($fileId,$paragraphId){
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM tag WHERE file_id=:file_id AND paragraph_id=:paragraph_id");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->bindValue(':paragraph_id',$paragraphId);
+        
+        $stmt->execute();
+    }
+
     public function addTagToParagraph($fileId,$paragraphId,$tag,$isManual=true){
         $stmt = $this->em->getConnection()->prepare("INSERT INTO tag (file_id,paragraph_id,type,tag) VALUES(:file_id,:paragraph_id,:type,:tag)");
         $stmt->bindValue(':file_id',$fileId);

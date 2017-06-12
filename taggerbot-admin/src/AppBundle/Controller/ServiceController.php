@@ -165,6 +165,7 @@ class ServiceController extends Controller
         $tags = $request->request->get('tags', array());
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
 
+        $db->clearTagOfParagraph($fileId,$paragraphId);
         foreach($tags as $tag){
             $db->addTagToParagraph($fileId,$paragraphId,$tag);
         }
