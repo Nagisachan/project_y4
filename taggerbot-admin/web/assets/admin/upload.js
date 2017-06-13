@@ -9,7 +9,7 @@ var isAdvancedUpload = function() {
     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 }();
 
-var $form = $('.box');
+var $form = $('form.box');
 var $input = $('#file');
 var $notSupport = $('.not-support');
 

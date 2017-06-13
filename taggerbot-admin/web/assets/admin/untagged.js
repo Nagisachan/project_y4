@@ -25,7 +25,7 @@ function getUntaggedDoc() {
 }
 
 function htmlFromDoc(doc, i) {
-    html = `<div class="item" title="` + (doc.content ? doc.content.replace(/"/g, "'") : "") + `">
+    html = `<div class="item" title="` + (doc.content != null ? doc.content.replace(/"/g, "'") : "") + `">
                 <div class="right floated content">
                     <div class="ui teal buttons tiny">
                         <div class="ui button ld" onclick="predictDoc(` + doc.file_id + `,this)">Auto</div>
@@ -65,7 +65,7 @@ function predictDoc(fileId, e) {
         })
 }
 
-function removeDocument(fileId,e){
+function removeDocument(fileId, e) {
     $e = $(e).parents('.actions').parent().find('.ld');
 
     $e.addClass('loading');

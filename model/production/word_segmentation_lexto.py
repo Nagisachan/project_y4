@@ -27,11 +27,11 @@ class Tws(object):
 
         if r.status_code == 200:
             j_output = json.loads(r.text)
-            sys.stdout.write('.')
-            sys.stdout.flush()
+            # sys.stdout.write('.')
+            # sys.stdout.flush()
             return j_output
         else:
-            print "error input=%s status=%d reason=%s" % (sentence, r.status_code, r.reason)
+            # print "error input=%s status=%d reason=%s" % (sentence, r.status_code, r.reason)
             return []
 
 if __name__ == '__main__':

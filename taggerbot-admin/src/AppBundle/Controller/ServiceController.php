@@ -326,6 +326,67 @@ class ServiceController extends Controller
         $ml = new ML($this->get('logger'));
         $scores = array();
 
+        $paragraphsIds = [];
+        foreach($paragraphs as $paragraph){
+            $paragraphsIds[] = $paragraph['fpid'];
+        }
+
+        foreach($models as $model){
+            $url = $model['url'];
+            $key = $model['key'];
+
+            $classes = $ml->predict($url,$paragraphs);
+            for($i=0;$i<count($classes);$i++){
+                $classes[$i] = $classes[$i] == "0" ? 0 : 1;
+            }
+
+            $scores[] = array(
+                'tagId' => $model['tag_id'],
+                'class' => $classes, //array_combine($paragraphsIds,$classes),
+            );
+        }
+
+        $ret = array();
+
+        foreach($scores as $score){
+            $tagId = $score['tagId'];
+            $score = $score['class'];
+
+            for($i=0;$i<count($score);$i++){
+                $tag = $score[$i];
+                $fileId = $paragraphs[$i]['file_id'];
+                $paragraphId = $paragraphs[$i]['paragraph_id'];
+
+                if($tag != 0){
+                    $tag = preg_replace('/\./','-',$tag);
+                    $tag = $tagId;
+                    $ret[] = array(
+                        'tag' => $tag,
+                        'fileId' => $fileId,
+                        'paragraphId' => $paragraphId,
+                    );
+
+                    try{
+                        $db->addTagToParagraph($fileId,$paragraphId,$tag,false);
+                    }
+                    catch(Exception $e){
+                        $this->get('logger')->debug($e->getMessage());
+                    }
+                }
+            }
+        }
+
+        return $this->buildSuccessJson($scores);
+    }
+
+    public function predictAzureAction($fileId){
+        set_time_limit(10*60);
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $models = $db->getModels();
+        $paragraphs = $db->getAllParagraph($fileId);
+        $ml = new ML($this->get('logger'));
+        $scores = array();
+
         foreach($models as $model){
             $url = $model['url'];
             $key = $model['key'];

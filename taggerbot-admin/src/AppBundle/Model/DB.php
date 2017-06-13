@@ -259,7 +259,7 @@ class DB
     }
 
     public function getAllParagraph($fileId){
-        $stmt = $this->em->getConnection()->prepare("select * from content where file_id=:file_id and status='A'");
+        $stmt = $this->em->getConnection()->prepare("select *, file_id || '-' || paragraph_id as fpid from content where file_id=:file_id and status='A'");
         $stmt->bindValue(':file_id',$fileId);
         $stmt->execute();
         $items = $stmt->fetchAll();

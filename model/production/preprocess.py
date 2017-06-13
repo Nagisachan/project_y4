@@ -101,6 +101,7 @@ class Preprocessor(object):
                 #Lemmatization
                 if t in self.lemma_dict:
                     lemma_count += 1
+                    filteredtext.append(unicode(self.lemma_dict[t],'utf-8'))
                     if is_verbose:
                         print "change %s => %s" % (t.encode('utf-8'),self.lemma_dict[t])
                   
@@ -305,6 +306,7 @@ class Preprocessor(object):
                 #Lemmatization
                 if t in self.lemma_dict:
                     lemma_count += 1
+                    filteredtext.append(unicode(self.lemma_dict[t],'utf-8'))
                   
                 # remove stop word
                 if t not in self.stopwords and t.strip():

@@ -29,7 +29,21 @@ class ML
         return $ret;
     }
 
-    public function predict(){
+    public function predict($modelPath,$paragraphs){
+        $newParagraphs = array();
+        foreach($paragraphs as $paragraph){
+            $newParagraphs[] = '"' . preg_replace('/"/',"'",$paragraph['fpid']) . '"';
+        }
+        $newParagraphs = implode(' ',$newParagraphs);
 
+        $cmd = 'python production/predict.py core_model/count_vectorizer.model ' . $modelPath . ' ' . $newParagraphs . ' ' . '2>&1';
+
+        $this->logger->info($cmd);
+        $raw = shell_exec($cmd);
+
+        $ret = json_decode($raw);
+        $this->logger->info($raw);
+
+        return $ret;
     }
 }

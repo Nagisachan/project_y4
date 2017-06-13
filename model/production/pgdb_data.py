@@ -33,6 +33,15 @@ class DB:
         self.cur.execute("delete from model")
         return self.conn.commit()
 
+    def get_paragraph_text(self,fid,pid):
+        self.cur.execute("select content from content where file_id=%s and paragraph_id=%s" % (fid,pid))
+
+        records = self.cur.fetchall()
+        if len(records) > 0:
+            return records[0][0]
+        else:
+            return False
+
 if __name__ == "__main__":
     tags = DB().get_all_tag()
     for tag in tags:
