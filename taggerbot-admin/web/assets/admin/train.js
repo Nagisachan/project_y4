@@ -13,7 +13,6 @@ function init() {
 }
 
 function getTagParagraph(tagId) {
-    console.log("getTagParagraph...");
     $('#target-tag').addClass('loading');
     $.ajax(SERVICE_URL.replace('TAGID', tagId), {
             dataType: 'json',
@@ -54,7 +53,7 @@ function getTagParagraph(tagId) {
             }
 
             initCheckbox();
-            deselectAll();
+            selectAll();
         });
 }
 
@@ -84,6 +83,30 @@ function initCheckbox() {
             clearSelectAll();
         }
     });
+}
+
+function updateTag() {
+    paragraphIds = [];
+    $('#train-tag').addClass('loading');
+    $('table.table .checkbox').not('.checked').each(function(i, e) {
+        $e = $(e);
+        paragraphId = $e.attr('fid') + '-' + $(e).attr('pid');
+        paragraphIds.push(paragraphId);
+    });
+
+    $.ajax(SERVICE_UPDATE_URL.replace('TAGID', SELECTED_TAG), {
+            dataType: 'json',
+            method: 'post',
+            data: {
+                paragraph_ids: paragraphIds,
+            }
+        })
+        .done(function(data) {
+            getTagParagraph(SELECTED_TAG);
+        })
+        .always(function() {
+            $('#train-tag').removeClass('loading');
+        })
 }
 
 function train() {

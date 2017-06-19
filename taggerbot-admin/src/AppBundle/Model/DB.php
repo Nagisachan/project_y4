@@ -103,6 +103,20 @@ class DB
         $stmt->execute();
     }
 
+    public function removeTagByParagraphIds($tagId,$paragraphIds){
+        foreach($paragraphIds as $id){
+            $tmp = preg_split('/-/',$id);
+            $fid = $tmp[0];
+            $pid = $tmp[1];
+
+            $stmt = $this->em->getConnection()->prepare("update tag set status='I' where file_id=:file_id and paragraph_id=:paragraph_id and tag=:tag_id");
+            $stmt->bindValue(':file_id',$fid);
+            $stmt->bindValue(':paragraph_id',$pid);
+            $stmt->bindValue(':tag_id',$tagId);
+            $stmt->execute();
+        }
+    }
+
     public function getFilename($fileId){
         $stmt = $this->em->getConnection()->prepare("select file_name from file where file_id=:file_id");
         $stmt->bindValue(':file_id',$fileId);
@@ -250,7 +264,7 @@ class DB
     }
 
     public function getTagParagraph($tagId){
-        $stmt = $this->em->getConnection()->prepare("select t.tag as tag_id, t.file_id as file_id, t.paragraph_id as paragraph_id, f.file_name as file_name, string_agg(i.name,', ') as tags, c.content as content from tag t join content c on t.file_id=c.file_id and t.paragraph_id=c.paragraph_id join file f on c.file_id=f.file_id join tag t2 on c.file_id=t2.file_id and c.paragraph_id=t2.paragraph_id join tag_category_item i on t2.tag = (i.category_id || '-' || i.item) where t.tag=:tag_id group by t.tag, f.file_name, t.file_id, t.paragraph_id, c.content order by f.file_name");
+        $stmt = $this->em->getConnection()->prepare("select t.tag as tag_id, t.file_id as file_id, t.paragraph_id as paragraph_id, f.file_name as file_name, string_agg(i.name,', ') as tags, c.content as content from tag t join content c on t.file_id=c.file_id and t.paragraph_id=c.paragraph_id join file f on c.file_id=f.file_id join tag t2 on c.file_id=t2.file_id and c.paragraph_id=t2.paragraph_id join tag_category_item i on t2.tag = (i.category_id || '-' || i.item) where t.tag=:tag_id and t.status='A' group by t.tag, f.file_name, t.file_id, t.paragraph_id, c.content order by f.file_name");
         $stmt->bindValue(':tag_id',$tagId);
         $stmt->execute();
         $item = $stmt->fetchAll();

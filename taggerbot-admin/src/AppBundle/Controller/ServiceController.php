@@ -181,6 +181,14 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($tags);
     }
 
+    public function updateTagsAction(Request $request,$tagId){
+        $data = $request->request->get('paragraph_ids', '[]');
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $db->removeTagByParagraphIds($tagId,$data);
+
+        return $this->buildSuccessJson('done');
+    }
+
     public function updateTagStructureAction(Request $request)
     {
         $data = $request->request->get('json_data', '{}');

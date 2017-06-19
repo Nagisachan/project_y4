@@ -97,6 +97,11 @@ service_tag_paragraph:
     path:      /service/tag_paragraph/{tagId}
     defaults:  { _controller: AppBundle:Service:tagParagraph }
 
+service_update_tags:
+    path:      /service/update_tags/{tagId}
+    defaults:  { _controller: AppBundle:Service:updateTags }  
+    methods:  [POST]
+
 service_remove_paragraph:
     path:      /service/remove_paragraph/{fid}/{pid}
     defaults:  { _controller: AppBundle:Service:removeParagraph }

@@ -77,7 +77,7 @@
                 <tr>
                 <th></th>
                 <th colspan="4">
-                    <div id="train-tag" class="ui right floated small green labeled icon button" onclick="javascript:train()">
+                    <div id="train-tag" class="ui right floated small green labeled icon button" onclick="javascript:updateTag()">
                         <i class="checkmark icon"></i>Save
                     </div>
                     <div class="ui small button select-all" onclick="javascript:selectAll()">
@@ -99,6 +99,7 @@
 <script>
     SERVICE_URL = "{{ path('service_tag_paragraph',{tagId:'TAGID'}) }}";
     SERVICE_TRAIN_URL = "{{ path('service_train',{tagId:'TAGID'}) }}";
+    SERVICE_UPDATE_URL = "{{ path('service_update_tags',{tagId:'TAGID'}) }}";
 </script>
 <script src="{{ asset('assets/admin/train.js') }}"></script>
 {% endblock %}
