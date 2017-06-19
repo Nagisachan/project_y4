@@ -370,11 +370,7 @@ class DB
     }
 
     public function getSchoolCount(){
-        $stmt = $this->em->getConnection()->prepare("select count(*) as n from school where status='A'");
-        $stmt->execute();
-        $items = $stmt->fetchAll();
-
-        return $items[0]['n'];
+        return count($this->getSchool());
     }
 
     public function deleteSchool($id){
