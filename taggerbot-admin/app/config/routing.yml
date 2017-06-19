@@ -26,7 +26,7 @@ admin_doc:
     defaults:  { _controller: AppBundle:Admin:doc }
 
 admin_train:
-    path:      /admin/train
+    path:      /admin/review_tag
     defaults:  { _controller: AppBundle:Admin:train }
 
 admin_dashboard:

@@ -361,7 +361,8 @@ class DB
     }
 
     public function getSchool(){
-        $stmt = $this->em->getConnection()->prepare("select gid,name,status,st_x(the_geom) as lon, st_y(the_geom) as lat, location, tel, website, information from school where status='A'");
+        // $stmt = $this->em->getConnection()->prepare("select gid,name,status,st_x(the_geom) as lon, st_y(the_geom) as lat, location, tel, website, information from school where status='A'");
+        $stmt = $this->em->getConnection()->prepare("select id as gid, name,st_x(the_geom) as lon, st_y(the_geom) as lat, subdistrict as location, telephone as tel, website, type as information from school_all a left join file f on a.id=f.school where f.school is not null group by gid");
         $stmt->execute();
         $items = $stmt->fetchAll();
 
