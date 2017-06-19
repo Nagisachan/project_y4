@@ -413,6 +413,12 @@ class DB
         return $items[0]['gid'];
     }
 
+    public function clearAutoTag($fileId){
+        $stmt = $this->em->getConnection()->prepare("DELETE FROM tag WHERE type='A' AND file_id = :file_id");
+        $stmt->bindValue(':file_id',$fileId);
+        $stmt->execute();
+    }
+
     public function lockTrain($lock=true){
         $key = "train-model-lock";
 

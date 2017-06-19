@@ -321,6 +321,7 @@ class ServiceController extends Controller
     public function predictAction($fileId){
         set_time_limit(10*60);
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $db->clearAutoTag($fileId);
         $models = $db->getModels();
         $paragraphs = $db->getAllParagraph($fileId);
         $ml = new ML($this->get('logger'));

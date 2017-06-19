@@ -238,7 +238,7 @@ class Preprocessor(object):
         max_threshold = int(0.6*all_word_count)
         sorted_frequency = sorted(frequency.items(), key=operator.itemgetter(1), reverse=True)
         
-        print "*** zipf's rule ***"
+        # print "*** zipf's rule ***"
         if is_verbose:
             for fword,fvalue in sorted_frequency[:20] + sorted_frequency[-20:]:
                 print fword,fvalue
@@ -258,7 +258,7 @@ class Preprocessor(object):
         if self.is_inited:
             return self.tag_inverse_table
         else:
-            print "call load() firsr!"
+            print "call load() first!"
             return False
         
     def show_tag_summary(self):

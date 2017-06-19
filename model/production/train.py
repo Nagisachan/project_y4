@@ -23,6 +23,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 
+from copy import deepcopy
+
 # load CountVectorizer from file
 def custom_preprocessor(str):
     # Do not perform any preprocessing here.
@@ -94,19 +96,17 @@ class model_trainer:
             for model_name in self.models:
                 X_train, y_train, X_test, y_test = self.prep.get_train_test_data_tag(target_tag)
 
-                if len(X_train)  < 50 or len(X_test)  < 50:
-                    print "***** SKIP ****** %s >> %d" % (target_tag,len(X_test))
+                if len(y_train) < 200:
+                    print "[Train] not enough (%3d less than 100) sample for '%s'" % (
+                    len(y_train), self.prep.get_target_names()[target_tag].encode('utf-8'))
                     continue
 
                 # use only content from (paragraph_id,content)
                 X_train = [data[1] for data in X_train]
                 X_test = [data[1] for data in X_test]
                 
-                if len(y_train) < 50:
-                    print "[Train]1not enough (%3d less than 100) sample for '%s'" % (len(y_train),self.prep.get_target_names()[target_tag].encode('utf-8'))
-                    continue
-                
                 train_tag_list.append(target_tag)
+                print "train %s" % target_tag
                 self.train(X_train,y_train,self.count_vect,self.models[model_name],False)
                     
                 predicted = self.predict(X_test,self.count_vect,self.models[model_name])
@@ -124,17 +124,21 @@ class model_trainer:
                 if heightest_score[target_tag] < f1:
                     heightest_score[target_tag] = f1
                     heightest_info[target_tag] = (f1,precision,recall,score,model_name)
-                    heightest_model[target_tag] = self.models[model_name]
+                    heightest_model[target_tag] = deepcopy(self.models[model_name])
         
         db = DB()
         db.clear_model_score()
         for tag in set(train_tag_list):
+            if not tag in heightest_info:
+                continue
+
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
             print "[Train] save model '%s' (%s) with F1=%.2f, precision=%.2f, recall=%.2f, score=%.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
             joblib.dump(heightest_model[tag], output_filename)
             db.add_model_info(tag,output_filename,heightest_score[tag])
         
         return heightest_info
+
 
 def train_avg(my_model,n_round=10):
     avg_acc = defaultdict(float)

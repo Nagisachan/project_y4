@@ -2,6 +2,7 @@
 import json
 import sys
 import time
+import re
 
 import requests
 
@@ -16,6 +17,7 @@ class Tws(object):
     def word_segment(self,sentence):
         # replace double quote with single-quote
         sentence = sentence.replace('"',"'")
+        sentence = re.sub(pattern="\s*",repl="",string=sentence)
 
         # measure time used
         start = time.time()
@@ -31,7 +33,8 @@ class Tws(object):
             # sys.stdout.flush()
             return j_output
         else:
-            # print "error input=%s status=%d reason=%s" % (sentence, r.status_code, r.reason)
+            # print "error input=%s status=%d reason=%s output=%s" % (sentence, r.status_code, r.reason, r.text)
+            # print "error output=%s" % (r.text)
             return []
 
 if __name__ == '__main__':

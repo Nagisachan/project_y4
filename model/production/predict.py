@@ -3,6 +3,7 @@
 import codecs
 import string
 import sys
+from collections import defaultdict
 
 from sys import argv
 from sklearn.externals import joblib
@@ -52,6 +53,9 @@ with open('dicts/lemma_dict','r') as f:
             word = word.strip()
             lemma_dict[unicode(word,'utf-8')] = lemma
 
+final_text = []
+short_parageaph = []
+
 # perform real preprocessing
 for i in range(0,len(text)):
     if not text[i]:
@@ -74,13 +78,27 @@ for i in range(0,len(text)):
         # remove stop word
         if t not in stopwords and t.strip():
             filteredtext.append(t)
-    
+
+    # mark short paragraph
+    if len(filteredtext) < 30:
+        # print "too short paragraph => %d word" % len(filteredtext)
+        short_parageaph.append(False)
+    else:
+        short_parageaph.append(True)
+
     # we will do word segmentation using only a space.            
     filteredtext = ' '.join([l for l in filteredtext])
+    final_text.append(filteredtext)
 
-# predict
-X_count = count_vec.transform(text)
+# for text in final_text:
+#     print text
+
+X_count = count_vec.transform(final_text)
 X_tfidf = TfidfTransformer().fit_transform(X_count)
 result = clf.predict(X_tfidf)
+
+for i in range(0,len(result)):
+    if not short_parageaph[i]:
+        result[i] = "0"
 
 print """[%s]""" % ",".join('"%s"' % s for s in result)
