@@ -401,7 +401,11 @@ class DB
     }
 
     public function getSchoolCount(){
-        return count($this->getSchool()['data']);
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n from school_all");
+        $stmt->execute();
+        $total = $stmt->fetchAll()[0]['n'];
+
+        return $total;
     }
 
     public function deleteSchool($id){
