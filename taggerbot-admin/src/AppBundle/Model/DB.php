@@ -374,17 +374,34 @@ class DB
         return $items;
     }
 
-    public function getSchool(){
+    public function getSchool($page=0,$step=11){
         // $stmt = $this->em->getConnection()->prepare("select gid,name,status,st_x(the_geom) as lon, st_y(the_geom) as lat, location, tel, website, information from school where status='A'");
-        $stmt = $this->em->getConnection()->prepare("select id as gid, name,st_x(the_geom) as lon, st_y(the_geom) as lat, subdistrict as location, telephone as tel, website, type as information from school_all a left join file f on a.id=f.school where f.school is not null group by gid");
+        // $stmt = $this->em->getConnection()->prepare("select id as gid, name,st_x(the_geom) as lon, st_y(the_geom) as lat, subdistrict as location, telephone as tel, website, type as information from school_all a left join file f on a.id=f.school where f.school is not null group by gid");
+        
+        $stmt = $this->em->getConnection()->prepare("select id as gid, name,st_x(the_geom) as lon, st_y(the_geom) as lat, district || ' ' || subdistrict as location, telephone as tel, website, type as information from school_all order by gid " . (($page > 0 && $step > 0) ? 'limit ' . (($page-1)*$step + $step) : ''));
         $stmt->execute();
         $items = $stmt->fetchAll();
 
-        return $items;
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n from school_all");
+        $stmt->execute();
+        $total = $stmt->fetchAll()[0]['n'];
+
+        if($page > 0 && $step > 0 && ($page-1)*$step < count($items)){
+            $items = array_slice($items, ($page-1)*$step, $step);
+            $nPage = ceil($total/$step);
+        }
+        else{
+            $nPage = ceil($total/$step);
+        }
+
+        return array(
+            'data' => $items,
+            'total_page' => $nPage
+        );
     }
 
     public function getSchoolCount(){
-        return count($this->getSchool());
+        return count($this->getSchool()['data']);
     }
 
     public function deleteSchool($id){

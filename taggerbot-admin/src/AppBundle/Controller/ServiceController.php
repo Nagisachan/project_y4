@@ -479,9 +479,12 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($tags);
     }
 
-    public function getSchoolsAction(){
+    public function getSchoolsAction(Request $request){
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
-        $data = $db->getSchool();
+        $page = $request->query->get('page', 0);
+        $step = $request->query->get('step', 0);
+        $data = $db->getSchool($page,$step);
+        
         return $this->buildSuccessJson($data);
     }
 

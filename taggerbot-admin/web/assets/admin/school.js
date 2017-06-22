@@ -1,5 +1,8 @@
 var schools;
 var editMap;
+var page = 1;
+var step = 100;
+var pin = null;
 
 map = new longdo.Map({
     placeholder: document.getElementById('map'),
@@ -10,9 +13,22 @@ function clickSchool(id) {
         school = schools[i];
         if (school.gid == id) {
             map.location({ lat: school.lat, lon: school.lon });
-            if (map.zoom() < 12) {
-                map.zoom(12);
+            map.zoom(18);
+
+            if (pin == null) {
+                pin = new longdo.Marker({ lat: school.lat, lon: school.lon }, {
+                    title: school.name,
+                    icon: {
+                        url: SCHOOL_PIN,
+                        offset: { x: 16, y: 32 }
+                    },
+                    detail: school.location,
+                });
+
+                map.Overlays.add(pin);
             }
+
+            pin.move({ lat: school.lat, lon: school.lon });
 
             return;
         }
@@ -77,22 +93,63 @@ function renderHtml() {
                         <i class="remove icon"></i>
                     </button>
                 </div>
-                <div class="header">` + e.name + `</div>
+                <div class="header">[` + e.gid + `] ` + e.name + `</div>
                 ` + e.location + `
             </div>
         `);
     });
 }
 
+function renderPaging(nPage) {
+    $('.ui.pagination.menu').html('');
+    nPaging = 2;
+    nStep = nPage / nPaging;
+
+    if (page > 2) {
+        $('.ui.pagination.menu').html($('.ui.pagination.menu').html() + `
+            <a class="item" href="javascript:changePage(1)">1</a>
+        `);
+
+        $('.ui.pagination.menu').html($('.ui.pagination.menu').html() + `
+            <a class="item disabled">...</a>
+        `);
+    }
+
+    for (i = page - Math.ceil(nPaging / 2); i <= page + Math.ceil(nPaging / 2); i++) {
+        if (i >= 1 && i <= nPage) {
+            $('.ui.pagination.menu').html($('.ui.pagination.menu').html() + `
+                <a class="item ` + (i == page ? 'disabled' : '" href="javascript:changePage(' + i + ')') + `">` + i + `</a>
+            `);
+        }
+    }
+
+    if (page < nPage - 1) {
+        $('.ui.pagination.menu').html($('.ui.pagination.menu').html() + `
+            <a class="item disabled">...</a>
+        `);
+
+        $('.ui.pagination.menu').html($('.ui.pagination.menu').html() + `
+            <a class="item" href="javascript:changePage(` + nPage + `)">` + nPage + `</a>
+        `);
+    }
+
+}
+
+function changePage(p) {
+    page = Number(p);
+    getSchools();
+}
+
 function getSchools() {
     $('#add-school').addClass('loading');
-    $.ajax(SERVICE_URL, {
+    $.ajax(SERVICE_URL + "?page=" + page + "&step=" + step, {
             dataType: 'json',
         })
         .done(function(data) {
-            schools = data.data;
-            renderMap();
+            schools = data.data.data;
+            // renderMap();
             renderHtml();
+            renderPaging(data.data.total_page);
             $('#add-school').removeClass('loading');
         });
 }

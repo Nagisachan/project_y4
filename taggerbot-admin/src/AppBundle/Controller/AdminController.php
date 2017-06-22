@@ -26,12 +26,12 @@ class AdminController extends Controller
             // 'background_image' => "$asseturl/bg/default.jpg",
             // 'background_image_color' => "#457e79",
             'summary' => array(
-                'n_category' => count($db->getTagStructure()),
-                'n_document' => $db->getDocumentCount(),
-                'n_untrained' => $db->getTagCount(),
-                'n_valid_tag' => count($db->getModels()),
+                'n_category' => number_format(count($db->getTagStructure())),
+                'n_document' => number_format($db->getDocumentCount()),
+                'n_untrained' => number_format($db->getTagCount()),
+                'n_valid_tag' => number_format(count($db->getModels())),
                 'n_report' => 4,
-                'n_school' => $db->getSchoolCount(),
+                'n_school' => number_format($db->getSchoolCount()),
             ),
         ));
     }
