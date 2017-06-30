@@ -28,17 +28,22 @@ class ServiceController extends Controller
         // for uploading via drap-and-drop 
         foreach($_FILES as $key => $value){
             if(gettype($value['name']) == "string"){
+                $extension = "";
                 if($this->isHasExtension($value['name'],'PDF')){
                     $paragraphs = $this->preprocess($value['tmp_name']);
+                    $extension = ".pdf";
                 }
                 else if($this->isHasExtension($value['name'],'DOCX')){
                     $paragraphs = $this->preprocessDocx($value['tmp_name']);
+                    $extension = ".docx";
                 }
                 
                 $name = $value['name'];
 
                 $files[] = array(
                     'name' => $name,
+                    'tmp_name' => $value['tmp_name'],
+                    'extension' => $extension,
                     'text' => $paragraphs
                 );
             }
@@ -51,17 +56,22 @@ class ServiceController extends Controller
                     continue;
                 }
                 
+                $extension = "";
                 if($this->isHasExtension($_FILES['files']['name'][$i],'PDF')){
                     $paragraphs = $this->preprocess($_FILES['files']['tmp_name'][$i]);
+                    $extension = ".pdf";
                 }
                 else if($this->isHasExtension($_FILES['files']['name'][$i],'DOCX')){
                     $paragraphs = $this->preprocessDocx($_FILES['files']['tmp_name'][$i]);
+                    $extension = ".docx";
                 }
 
                 $name = $_FILES['files']['name'][$i];
 
                 $files[] = array(
                     'name' => $name,
+                    'tmp_name' => $_FILES['files']['tmp_name'][$i],
+                    'extension' => $extension,
                     'text' => $paragraphs
                 );
             }
@@ -74,6 +84,11 @@ class ServiceController extends Controller
             for($i=0;$i<count($file['text']);$i++){
                 $db->writeToContentTable($file_id,$i,$file['text'][$i]);
             }
+
+            $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/";
+            $targetPath = $targetPath . $file_id . $file['extension'];
+            rename($file['tmp_name'],$targetPath);
+            chmod($targetPath,0666);
         }
 
         return $this->buildSuccessJson($files);
