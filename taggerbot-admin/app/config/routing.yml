@@ -147,6 +147,10 @@ service_add_school:
     path:      /service/add_school
     defaults:  { _controller: AppBundle:Service:addSchool }
 
+service_search_school:
+    path:      /service/search_school/{query}
+    defaults:  { _controller: AppBundle:Service:searchSchool }
+
 service_train_all:
     path:      /service/train_all
     defaults:  { _controller: AppBundle:Service:trainAll }  

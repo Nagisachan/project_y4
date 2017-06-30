@@ -1,10 +1,32 @@
+var selectedSchool = false;
+
 $('#school-selector').dropdown({
-    onChange: function(value, text, $selectedItem) {
+    onChange: function (value, text, $selectedItem) {
         $('form').find('input[name=school]').val(value);
     }
 });
 
-var isAdvancedUpload = function() {
+$('.ui.search')
+    .search({
+        apiSettings: {
+            url: SERVICE_SEARCH_URL.replace('QUERY','{query}')
+        },
+        fields: {
+            results: 'data',
+            title: 'name',
+            description: 'description',
+            url: '',
+        },
+        minCharacters: 4,
+        onSelect: function (e) {
+            selectedSchool = e.id;
+        },
+        onSearchQuery: function(){
+            selectedSchool = false;
+        }
+    });
+
+var isAdvancedUpload = function () {
     var div = document.createElement('div');
     return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 }();
@@ -14,8 +36,7 @@ var $input = $('#file');
 var $notSupport = $('.not-support');
 
 function checkSchool() {
-    let school = $('#school-selector').dropdown('get value');
-    if (school == null || school == "") {
+    if (selectedSchool === false) {
         alert("Please choose a school.");
         return false;
     }
@@ -33,13 +54,13 @@ function crawUrl() {
             type: 'post',
             data: {
                 url: $("#crawl-url").val(),
-                school: $('#school-selector').dropdown('get value')
+                school: selectedSchool
             }
         })
-        .done(function(data) {
+        .done(function (data) {
             console.log(data);
         })
-        .always(function() {
+        .always(function () {
             $('#crawl-btn').removeClass('loading');
         })
 }
@@ -49,17 +70,17 @@ if (isAdvancedUpload) {
 
     var droppedFiles = false;
 
-    $form.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+    $form.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
             e.preventDefault();
             e.stopPropagation();
         })
-        .on('dragover dragenter', function() {
+        .on('dragover dragenter', function () {
             $form.addClass('is-dragover');
         })
-        .on('dragleave dragend drop', function() {
+        .on('dragleave dragend drop', function () {
             $form.removeClass('is-dragover');
         })
-        .on('drop', function(e) {
+        .on('drop', function (e) {
             if (!checkSchool()) {
                 return;
             }
@@ -68,7 +89,7 @@ if (isAdvancedUpload) {
             $form.trigger('submit');
         });
 
-    $input.on('change', function(e) { // when drag & drop is NOT supported
+    $input.on('change', function (e) { // when drag & drop is NOT supported
         if (!checkSchool()) {
             return;
         }
@@ -76,7 +97,7 @@ if (isAdvancedUpload) {
         $form.trigger('submit');
     });
 
-    $form.on('submit', function(e) {
+    $form.on('submit', function (e) {
         if ($form.hasClass('is-uploading')) return false;
 
         $form.removeClass('is-error');
@@ -89,7 +110,7 @@ if (isAdvancedUpload) {
             var extensionError = false;
 
             if (droppedFiles) {
-                $.each(droppedFiles, function(i, file) {
+                $.each(droppedFiles, function (i, file) {
                     extension = file.name.match(/\..*/);
                     if (extension != null) {
                         extension = extension[0].split(".");
@@ -119,20 +140,20 @@ if (isAdvancedUpload) {
                     cache: false,
                     contentType: false,
                     processData: false,
-                    complete: function() {
+                    complete: function () {
                         $form.removeClass('is-uploading');
                     },
-                    success: function(data) {
+                    success: function (data) {
                         $form.addClass(data.success == true ? 'is-success' : 'is-error');
                         if (!data.success) {
                             $errorMsg.text(data.error);
                         }
                     },
-                    error: function() {
+                    error: function () {
                         // Log the error, show an alert, whatever works for you
                     }
                 })
-                .always(function() {
+                .always(function () {
                     $form.find('input').val("");
                 });
         } else {
@@ -142,7 +163,7 @@ if (isAdvancedUpload) {
             $('body').append($iframe);
             $form.attr('target', iframeName);
 
-            $iframe.one('load', function() {
+            $iframe.one('load', function () {
                 var data = JSON.parse($iframe.contents().find('body').text());
                 $form
                     .removeClass('is-uploading')

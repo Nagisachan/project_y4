@@ -400,6 +400,15 @@ class DB
         );
     }
 
+    public function searchSchool($query){
+        $stmt = $this->em->getConnection()->prepare("select id, name, subdistrict || ' ' || district || ' ' || province as description from school_all where name like :query or id like :query");
+        $stmt->bindValue(':query',"%$query%");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
+
     public function getSchoolCount(){
         $stmt = $this->em->getConnection()->prepare("select count(*) as n from school_all");
         $stmt->execute();

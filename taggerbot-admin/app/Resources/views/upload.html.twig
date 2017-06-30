@@ -1,26 +1,25 @@
-{% extends 'fixed.html.twig' %}
-
-{% block title %}Admin Console{% endblock %}
-
-{% block css %}
-{{ parent() }}
+{% extends 'fixed.html.twig' %} {% block title %}Admin Console{% endblock %} {% block css %} {{ parent() }}
 
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/main.css') }}">
 <style type="text/css">
     body {
         background-color: #FFFFFF;
     }
+
     .main.container {
         margin-top: 7em;
     }
+
     .wireframe {
         margin-top: 2em;
     }
+
     .ui.footer.segment {
         margin: 5em 0em 0em;
         padding: 5em 0em;
     }
-    .box.ui.container{
+
+    .box.ui.container {
         font-size: 1.25rem;
         background-color: #d0e3e9;
         position: relative;
@@ -29,29 +28,36 @@
         text-align: center;
         border-radius: 6px;
     }
+
     .box__dragndrop,
     .box__uploading,
     .box__success,
     .box__error {
         display: none;
     }
+
     .box .not-support {
         display: none;
     }
-    .box .not-support.show{
+
+    .box .not-support.show {
         display: inline-block;
     }
+
     .box.has-advanced-upload {
         outline: 2px dashed #92b0b3;
         outline-offset: -10px;
     }
+
     .box.has-advanced-upload .box__dragndrop {
         display: inline;
     }
+
     .box__file,
-    .box__button{
-        display:none;
+    .box__button {
+        display: none;
     }
+
     .box.has-advanced-upload .box__icon {
         width: 100%;
         height: 80px;
@@ -59,51 +65,60 @@
         display: block;
         margin-bottom: 40px;
     }
+
     .box__dragndrop,
-    .box__icon{
-        display:none;
+    .box__icon {
+        display: none;
     }
-    .hover-pointer:hover{
+
+    .hover-pointer:hover {
         cursor: pointer;
     }
+
     .box.is-dragover {
         background-color: white !important;
     }
-    .is-success .box__success{
+
+    .is-success .box__success {
         display: inline-block;
     }
-    .is-uploading .box__uploading{
+
+    .is-uploading .box__uploading {
         display: inline-block;
     }
-    .is-error .box__error{
+
+    .is-error .box__error {
         display: inline-block;
     }
-    .url{
+
+    .url {
         text-align: center;
     }
-    #url-desc{
+
+    #url-desc {
         width: 100%;
         font-style: bold;
     }
-    .ui.action.input{
+
+    .ui.action.input {
         width: 100%;
         max-width: 640px;
     }
-    #school-selector{
+
+    #school-selector {
         max-width: 640px;
         margin: 10px auto;
-
+    }
+    #school-selector .input{
+        width: 100%;
     }
 </style>
 
-{% endblock %}
-
-{% block body %}
-{{ parent() }}
+{% endblock %} {% block body %} {{ parent() }}
 
 <div class="ui main container">
     <div class="ui cards container stackable centered">
-        <div id="school-selector" class="ui fluid search selection dropdown card">
+        <!--<div id="school-selector" class="ui fluid search selection dropdown card">
             <input name="country" type="hidden">
             <i class="dropdown icon"></i>
             <div class="default text">Select School</div>
@@ -112,10 +127,19 @@
                     <div class="item" data-value="{{ school.gid }}">{{ school.name }}</div>
                 {% endfor %}
             </div>
+        </div>-->
+        <div id="school-selector" class="ui fluid search">
+            <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Search school...">
+                <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
         </div>
         <form method="post" action="{{ path('service_upload_files') }}" enctype="multipart/form-data" novalidate="" class="box ui container">
             <div class="box__input">
-                <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43"><path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path></svg>
+                <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                    <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path>
+                </svg>
                 <input name="files[]" id="file" class="box__file" data-multiple-caption="{count} files selected" multiple="" type="file">
                 <label for="file" class="hover-pointer"><strong>Choose files</strong><span class="box__dragndrop"> or drag them here</span>.</label>
                 <button type="submit" class="box__button">Upload</button>
@@ -128,24 +152,22 @@
             <div class="ui pointing red basic label not-support">
                 Only support .pdf .docx .doc .txt
             </div>
-            <input name="school" type="hidden"/>
+            <input name="school" type="hidden" />
         </form>
     </div>
     <br/>
-    <div class="url ui cards container stackable centered">
+    <!--<div class="url ui cards container stackable centered">
         <p id="url-desc">Or</p>
         <div class="ui action input">
             <input id="crawl-url" placeholder="URL to crawl" type="text" value="">
             <button id="crawl-btn" class="ui button" onclick="javascript:crawUrl()">Crawl</button>
         </div>
-    </div>
+    </div>-->
 </div>
-{% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
+{% endblock %} {% block javascripts %} {{ parent() }}
 <script>
     SERVICE_URL = "{{ path('service_upload_crawl') }}";
+    SERVICE_SEARCH_URL = "{{ path('service_search_school',{query:'QUERY'})}}";
 </script>
 <script src="{{ asset('assets/admin/upload.js') }}"></script>
 {% endblock %}

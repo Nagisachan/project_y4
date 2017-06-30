@@ -532,6 +532,13 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($id);
     }
 
+    public function searchSchoolAction($query){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $result = $db->searchSchool($query);
+
+        return $this->buildSuccessJson($result);
+    }
+
     public function trainAllAction(){
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         if($db->lockTrain(true) === false){

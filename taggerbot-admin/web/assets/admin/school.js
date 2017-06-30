@@ -12,9 +12,9 @@ function clickSchool(id) {
     for (var i = 0; i < schools.length; i++) {
         school = schools[i];
         if (school.gid == id) {
-            map.location({ lat: school.lat, lon: school.lon });
             map.zoom(18);
-
+            map.location({ lat: school.lat, lon: school.lon });
+            
             if (pin == null) {
                 pin = new longdo.Marker({ lat: school.lat, lon: school.lon }, {
                     title: school.name,
