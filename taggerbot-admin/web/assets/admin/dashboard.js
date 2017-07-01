@@ -79,11 +79,11 @@ function tagAssocData() {
                 if (typeof(tags[e.name]) == 'undefined') {
                     tags[e.name] = {
                         document: 1,
-                        paragraph: e.count
+                        paragraph: Number(e.count)
                     }
                 } else {
                     tags[e.name].document += 1;
-                    tags[e.name].paragraph += e.count;
+                    tags[e.name].paragraph += Number(e.count);
                 }
             }, this);
 

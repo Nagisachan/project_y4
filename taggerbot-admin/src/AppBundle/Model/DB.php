@@ -10,35 +10,41 @@ class DB
     }
 
     public function writeToFileTable($file_name,$school=null){
-        $stmt = $this->em->getConnection()->prepare("INSERT INTO file (file_name,school) VALUES(:file_name,:school) RETURNING file_id");
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO file (file_name,school) VALUES(:file_name,:school)");
         $stmt->bindValue(':file_name',$file_name);
         $stmt->bindValue(':school',$school);
         $stmt->execute();
-        $file_id = $stmt->fetchAll();
 
-        return $file_id[0]['file_id'];
+        $stmt = $this->em->getConnection()->prepare("SELECT LAST_INSERT_ID() as last_id");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items[0]['last_id'];
     }
 
     public function writeToContentTable($file_id,$paragraph_id,$content){
-        $stmt = $this->em->getConnection()->prepare("INSERT INTO content (file_id,paragraph_id,content) VALUES(:file_id,:paragraph_id,:content) RETURNING content_id");
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO content (file_id,paragraph_id,content) VALUES(:file_id,:paragraph_id,:content)");
         $stmt->bindValue(':file_id',$file_id);
         $stmt->bindValue(':paragraph_id',$paragraph_id);
         $stmt->bindValue(':content',$content);
         $stmt->execute();
-        $content_id = $stmt->fetchAll();
+        
+        $stmt = $this->em->getConnection()->prepare("SELECT LAST_INSERT_ID() as last_id");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
 
-        return $content_id[0]['content_id'];
+        return $items[0]['last_id'];
     }
 
     public function getUntaggedDocument(){
-        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name as name, substring(string_agg(c.content,',') from 0 for 100) || '...' as content from file f left join content c on f.file_id = c.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id where upper(f.status)='A' and t.tag is null group by f.file_id order by f.file_id");
+        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name as name, concat(substring(GROUP_CONCAT(c.content) from 1 for 100),'...') as content from file f left join content c on f.file_id = c.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id where upper(f.status)='A' and t.tag is null group by f.file_id order by f.file_id");
         $stmt->execute();
 
         return $stmt->fetchAll();
     }
 
     public function getDocument(){
-        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name as name, substring(string_agg(c.content,',') from 0 for 100) || '...' as content from file f left join content c on f.file_id = c.file_id where upper(f.status)='A' group by f.file_id order by f.file_id");
+        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name as name, concat(substring(GROUP_CONCAT(c.content) from 1 for 100),'...') as content from file f left join content c on f.file_id = c.file_id where upper(f.status)='A' group by f.file_id order by f.file_id");
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -53,16 +59,15 @@ class DB
     }
 
     public function removeDocument($id){
-        $stmt = $this->em->getConnection()->prepare("update file set status='I' where file_id=:id returning file_id");
+        $stmt = $this->em->getConnection()->prepare("update file set status='I' where file_id=:id");
         $stmt->bindValue(':id',$id);
         $stmt->execute();
-        $n = intval($stmt->fetchAll()[0]['file_id']);
 
-        return $n;
+        return $id;
     }
 
     public function getUntaggedParagraph($fileId){
-        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name, c.paragraph_id, string_agg(t.tag,',') as tags, string_agg(item.name,',') as tag_texts, c.content, f.file_uploaded_date from content c join file f on c.file_id=f.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id left join tag_category_item item on t.tag = item.category_id || '-' || item.item where c.status='A' and c.file_id=:file_id group by f.file_id, c.paragraph_id, c.content order by c.paragraph_id");
+        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name, c.paragraph_id, GROUP_CONCAT(t.tag) as tags, GROUP_CONCAT(item.name) as tag_texts, c.content, f.file_uploaded_date from content c join file f on c.file_id=f.file_id left join tag t on f.file_id = t.file_id and c.paragraph_id = t.paragraph_id left join tag_category_item item on t.tag = concat(item.category_id,'-',item.item) where c.status='A' and c.file_id=:file_id group by f.file_id, c.paragraph_id, c.content order by c.paragraph_id");
         $stmt->bindValue(':file_id',$fileId);
         $stmt->execute();
 
@@ -127,7 +132,7 @@ class DB
     }
 
     public function getTagStructure(){
-        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, c.id::text || '-' || i.item::text as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_created_date");
+        $stmt = $this->em->getConnection()->prepare("select c.id as category_id, c.name as category_name, c.color as category_color, c.created_date as category_created_data, concat(c.id,'-',i.item) as tag_id, i.name as tag_name, i.created_date as tag_created_date from tag_category c left join tag_category_item i on c.id = i.category_id where upper(c.status)='A' and upper(i.status)='A' order by category_id,tag_created_date");
         $stmt->execute();
         $rows = $stmt->fetchAll();
 
@@ -212,7 +217,7 @@ class DB
         $id = $categoryId ? ':id' : 'DEFAULT';
         $color = $categoryIdColor ? ':color' : 'DEFAULT';
 
-        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag_category (id,name,color) VALUES($id,:name,$color) RETURNING id");
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag_category (id,name,color) VALUES($id,:name,$color)");
         $stmt->bindValue(':name',$categoryName);
         
         if($categoryId){
@@ -224,7 +229,12 @@ class DB
         }
 
         $stmt->execute();
-        $id = $stmt->fetchAll()[0]['id'];
+
+        $stmt = $this->em->getConnection()->prepare("SELECT LAST_INSERT_ID() as last_id");
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        $id = $items[0]['last_id'];
 
         return $id;
     }
@@ -245,14 +255,13 @@ class DB
 
         $maxItem += 1;
 
-        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag_category_item (category_id,item,name) VALUES(:category_id,:item,:name) RETURNING item");
+        $stmt = $this->em->getConnection()->prepare("INSERT INTO tag_category_item (category_id,item,name) VALUES(:category_id,:item,:name)");
         $stmt->bindValue(':category_id',$categoryId);
         $stmt->bindValue(':item',$maxItem);
         $stmt->bindValue(':name',$name);
         $stmt->execute();
-        $item = $stmt->fetchAll()[0]['item'];
 
-        return $item;
+        return true;
     }
 
     public function getTagCount(){
@@ -264,7 +273,7 @@ class DB
     }
 
     public function getTagParagraph($tagId){
-        $stmt = $this->em->getConnection()->prepare("select t.tag as tag_id, t.file_id as file_id, t.paragraph_id as paragraph_id, f.file_name as file_name, string_agg(i.name,', ') as tags, c.content as content from tag t join content c on t.file_id=c.file_id and t.paragraph_id=c.paragraph_id join file f on c.file_id=f.file_id join tag t2 on c.file_id=t2.file_id and c.paragraph_id=t2.paragraph_id join tag_category_item i on t2.tag = (i.category_id || '-' || i.item) where t.tag=:tag_id and t.status='A' group by t.tag, f.file_name, t.file_id, t.paragraph_id, c.content order by f.file_name");
+        $stmt = $this->em->getConnection()->prepare("select t.tag as tag_id, t.file_id as file_id, t.paragraph_id as paragraph_id, f.file_name as file_name, GROUP_CONCAT(i.name,' ') as tags, c.content as content from tag t join content c on t.file_id=c.file_id and t.paragraph_id=c.paragraph_id join file f on c.file_id=f.file_id join tag t2 on c.file_id=t2.file_id and c.paragraph_id=t2.paragraph_id join tag_category_item i on t2.tag = concat(i.category_id,'-',i.item) where t.tag=:tag_id and t.status='A' group by t.tag, f.file_name, t.file_id, t.paragraph_id, c.content order by f.file_name");
         $stmt->bindValue(':tag_id',$tagId);
         $stmt->execute();
         $item = $stmt->fetchAll();
@@ -273,7 +282,7 @@ class DB
     }
 
     public function getAllParagraph($fileId){
-        $stmt = $this->em->getConnection()->prepare("select *, file_id || '-' || paragraph_id as fpid from content where file_id=:file_id and status='A'");
+        $stmt = $this->em->getConnection()->prepare("select *, concat(file_id,'-',paragraph_id) as fpid from content where file_id=:file_id and status='A'");
         $stmt->bindValue(':file_id',$fileId);
         $stmt->execute();
         $items = $stmt->fetchAll();
@@ -282,13 +291,12 @@ class DB
     }
 
     public function removeParagraph($fileId,$paragraphId){
-        $stmt = $this->em->getConnection()->prepare("update content set status='I' where file_id=:file_id and paragraph_id=:paragraph_id returning paragraph_id");
+        $stmt = $this->em->getConnection()->prepare("update content set status='I' where file_id=:file_id and paragraph_id=:paragraph_id");
         $stmt->bindValue(':file_id',$fileId);
         $stmt->bindValue(':paragraph_id',$paragraphId);
         $stmt->execute();
-        $item = $stmt->fetchAll()['0']['paragraph_id'];
 
-        return $item;
+        return $paragraphId;
     }
 
     public function getAllText(){
@@ -347,7 +355,7 @@ class DB
     }
 
     public function getModelInfo(){
-        $stmt = $this->em->getConnection()->prepare("select tag_id, name, information from model m left join tag_category_item t on t.category_id::text=split_part(tag_id, '-', 1) and t.item::text=split_part(tag_id, '-', 2) where m.status='A'");
+        $stmt = $this->em->getConnection()->prepare("select tag_id, name, information from model m left join tag_category_item t on t.category_id=SUBSTRING_INDEX(tag_id, '-', 1) and t.item=SUBSTRING_INDEX(tag_id, '-', -1) where m.status='A'");
         $stmt->execute();
         $items = $stmt->fetchAll();
 
@@ -359,7 +367,7 @@ class DB
     }
 
     public function getAllTagTypeCount(){
-        $stmt = $this->em->getConnection()->prepare("select type, count(*) from tag where status='A' group by type");
+        $stmt = $this->em->getConnection()->prepare("select type, count(*) as count from tag where status='A' group by type");
         $stmt->execute();
         $items = $stmt->fetchAll();
 
@@ -367,7 +375,7 @@ class DB
     }
 
     public function getTagAssocDataCount(){
-        $stmt = $this->em->getConnection()->prepare("select name, count(*) from tag join tag_category_item t on t.category_id::text=split_part(tag, '-', 1) and t.item::text=split_part(tag, '-', 2) where tag.status='A' group by name, file_id");
+        $stmt = $this->em->getConnection()->prepare("select name, count(*) as count from tag join tag_category_item t on t.category_id=SUBSTRING_INDEX(tag, '-', 1) and t.item=SUBSTRING_INDEX(tag, '-', -1) where tag.status='A' group by name, file_id");
         $stmt->execute();
         $items = $stmt->fetchAll();
 
@@ -378,7 +386,7 @@ class DB
         // $stmt = $this->em->getConnection()->prepare("select gid,name,status,st_x(the_geom) as lon, st_y(the_geom) as lat, location, tel, website, information from school where status='A'");
         // $stmt = $this->em->getConnection()->prepare("select id as gid, name,st_x(the_geom) as lon, st_y(the_geom) as lat, subdistrict as location, telephone as tel, website, type as information from school_all a left join file f on a.id=f.school where f.school is not null group by gid");
         
-        $stmt = $this->em->getConnection()->prepare("select id as gid, name,st_x(the_geom) as lon, st_y(the_geom) as lat, district || ' ' || subdistrict as location, telephone as tel, website, type as information from school_all order by gid " . (($page > 0 && $step > 0) ? 'limit ' . (($page-1)*$step + $step) : ''));
+        $stmt = $this->em->getConnection()->prepare("select id as gid, name,longitude as lon, latitude as lat, concat(district,' ',subdistrict) as location, telephone as tel, website, type as information from school_all order by gid " . (($page > 0 && $step > 0) ? 'limit ' . (($page-1)*$step + $step) : ''));
         $stmt->execute();
         $items = $stmt->fetchAll();
 
@@ -401,7 +409,7 @@ class DB
     }
 
     public function searchSchool($query){
-        $stmt = $this->em->getConnection()->prepare("select id, name, subdistrict || ' ' || district || ' ' || province as description from school_all where name like :query or id like :query");
+        $stmt = $this->em->getConnection()->prepare("select id, name, concat(subdistrict,' ',district,' ',province) as description from school_all where name like :query or id like :query");
         $stmt->bindValue(':query',"%$query%");
         $stmt->execute();
         $items = $stmt->fetchAll();
@@ -418,16 +426,15 @@ class DB
     }
 
     public function deleteSchool($id){
-        $stmt = $this->em->getConnection()->prepare("update school set status='I' where gid=:id returning gid");
+        $stmt = $this->em->getConnection()->prepare("update school set status='I' where gid=:id");
         $stmt->bindValue(':id',$id);
         $stmt->execute();
-        $items = $stmt->fetchAll();
 
-        return $items[0]['gid'];
+        return $id;
     }
 
     public function updateSchool($id,$name,$lat,$lon,$location,$tel,$website,$information){
-        $stmt = $this->em->getConnection()->prepare("update school set name=:name,the_geom=st_setsrid(st_makepoint(:lon,:lat),4326), location=:location, tel=:tel, website=:website, information=:information where gid=:id returning gid");
+        $stmt = $this->em->getConnection()->prepare("update school set name=:name,the_geom=st_setsrid(st_makepoint(:lon,:lat),4326), location=:location, tel=:tel, website=:website, information=:information where gid=:id");
         $stmt->bindValue(':name',$name);
         $stmt->bindValue(':lon',$lon);
         $stmt->bindValue(':lat',$lat);
@@ -437,13 +444,12 @@ class DB
         $stmt->bindValue(':information',$information);
         $stmt->bindValue(':id',$id);
         $stmt->execute();
-        $items = $stmt->fetchAll();
 
-        return $items[0]['gid'];
+        return $id;
     }
 
     public function addSchool($name,$lat,$lon,$location,$tel,$website,$information){
-        $stmt = $this->em->getConnection()->prepare("insert into school values(DEFAULT,:name,DEFAULT,st_setsrid(st_makepoint(:lon,:lat),4326),:location,:tel,:website,:information) returning gid");
+        $stmt = $this->em->getConnection()->prepare("insert into school values(DEFAULT,:name,DEFAULT,st_setsrid(st_makepoint(:lon,:lat),4326),:location,:tel,:website,:information)");
         $stmt->bindValue(':name',$name);
         $stmt->bindValue(':lon',$lon);
         $stmt->bindValue(':lat',$lat);
@@ -452,9 +458,12 @@ class DB
         $stmt->bindValue(':website',$website);
         $stmt->bindValue(':information',$information);
         $stmt->execute();
+
+        $stmt = $this->em->getConnection()->prepare("SELECT LAST_INSERT_ID() as last_id");
+        $stmt->execute();
         $items = $stmt->fetchAll();
 
-        return $items[0]['gid'];
+        return $items[0]['last_id'];
     }
 
     public function clearAutoTag($fileId){
