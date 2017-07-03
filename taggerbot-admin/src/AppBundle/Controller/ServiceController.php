@@ -87,7 +87,7 @@ class ServiceController extends Controller
 
             // $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/";
             $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/dataset/";
-            $targetPath = $targetPath . $file['extension'] . '/' . $file['name'];
+            $targetPath = sprintf("%s%s/%s_%s",$targetPath,$file['extension'],$file_id,$file['name']);
             rename($file['tmp_name'],$targetPath);
             chmod($targetPath,0666);
         }
