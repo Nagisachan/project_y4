@@ -31,11 +31,11 @@ class ServiceController extends Controller
                 $extension = "";
                 if($this->isHasExtension($value['name'],'PDF')){
                     $paragraphs = $this->preprocess($value['tmp_name']);
-                    $extension = ".pdf";
+                    $extension = "pdf";
                 }
                 else if($this->isHasExtension($value['name'],'DOCX')){
                     $paragraphs = $this->preprocessDocx($value['tmp_name']);
-                    $extension = ".docx";
+                    $extension = "docx";
                 }
                 
                 $name = $value['name'];
@@ -59,11 +59,11 @@ class ServiceController extends Controller
                 $extension = "";
                 if($this->isHasExtension($_FILES['files']['name'][$i],'PDF')){
                     $paragraphs = $this->preprocess($_FILES['files']['tmp_name'][$i]);
-                    $extension = ".pdf";
+                    $extension = "pdf";
                 }
                 else if($this->isHasExtension($_FILES['files']['name'][$i],'DOCX')){
                     $paragraphs = $this->preprocessDocx($_FILES['files']['tmp_name'][$i]);
-                    $extension = ".docx";
+                    $extension = "docx";
                 }
 
                 $name = $_FILES['files']['name'][$i];
@@ -85,8 +85,9 @@ class ServiceController extends Controller
                 $db->writeToContentTable($file_id,$i,$file['text'][$i]);
             }
 
-            $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/";
-            $targetPath = $targetPath . $file_id . $file['extension'];
+            // $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/";
+            $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/dataset/";
+            $targetPath = $targetPath . $file['extension'] . '/' . $file['name'];
             rename($file['tmp_name'],$targetPath);
             chmod($targetPath,0666);
         }
@@ -492,6 +493,26 @@ class ServiceController extends Controller
         $tags = $db->getTagAssocDataCount();
 
         return $this->buildSuccessJson($tags);
+    }
+
+    public function documentAndParagraphGrowthAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        
+        $result = array();
+        $docGrowth = $db->getDocumentGrowth();
+        $paragraphGrowth = $db->getParagraphGrowth();
+
+        foreach($docGrowth as $docRecord){
+            $result[$docRecord['date']] = array(
+                'doc' => intval($docRecord['n'])
+            );
+        }
+        
+        foreach($paragraphGrowth as $paragraphRecord){
+            $result[$paragraphRecord['date']]['paragraph'] = intval($paragraphRecord['n']);
+        }
+
+        return $this->buildSuccessJson($result);
     }
 
     public function getSchoolsAction(Request $request){

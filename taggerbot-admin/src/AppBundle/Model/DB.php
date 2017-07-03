@@ -366,6 +366,24 @@ class DB
         return $items;
     }
 
+    public function getDocumentGrowth(){
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n, date(file_uploaded_date) as date from file group by date(file_uploaded_date)");
+
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
+
+    public function getParagraphGrowth(){
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n, date(file_uploaded_date) as date from file left join content on file.file_id = content.file_id group by date(file_uploaded_date)");
+
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
+
     public function getAllTagTypeCount(){
         $stmt = $this->em->getConnection()->prepare("select type, count(*) as count from tag where status='A' group by type");
         $stmt->execute();
