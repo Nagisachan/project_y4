@@ -367,7 +367,7 @@ class DB
     }
 
     public function getDocumentGrowth(){
-        $stmt = $this->em->getConnection()->prepare("select count(*) as n, date(file_uploaded_date) as date from file group by date(file_uploaded_date)");
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n, date(file_uploaded_date) as date from file where status = 'A' group by date(file_uploaded_date)");
 
         $stmt->execute();
         $items = $stmt->fetchAll();
@@ -376,7 +376,7 @@ class DB
     }
 
     public function getParagraphGrowth(){
-        $stmt = $this->em->getConnection()->prepare("select count(*) as n, date(file_uploaded_date) as date from file left join content on file.file_id = content.file_id group by date(file_uploaded_date)");
+        $stmt = $this->em->getConnection()->prepare("select count(*) as n, date(file_uploaded_date) as date from file left join content on file.file_id = content.file_id where file.status = 'A' and content.status = 'A' group by date(file_uploaded_date)");
 
         $stmt->execute();
         $items = $stmt->fetchAll();
