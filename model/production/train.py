@@ -133,7 +133,7 @@ class model_trainer:
                 continue
 
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
-            print "[Train] save model '%s' (%s) with F1=%.2f, precision=%.2f, recall=%.2f, score=%.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
+            print "[Train] save model '%s' (%s) with F1=%.2f, precision=%.2f, recall=%.2f, score=%.2f : %s" % (output_filename,self.prep.get_target_names()[tag],heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
             joblib.dump(heightest_model[tag], output_filename)
             db.add_model_info(tag,output_filename,heightest_score[tag])
         
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     #     sys.exit()
 
     my_model = model_trainer()
-    my_model.load_data()
+    my_model.load_data(500)
 
     info = my_model.train_all_tag()
 

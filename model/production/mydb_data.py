@@ -30,7 +30,9 @@ class DB:
         return id,text,tag
     
     def add_model_info(self,tag_id,location,score):
-        self.cur.execute("INSERT INTO model (tag_id,url,key,status,information) VALUES ('%s','%s',NULL,'A','{\"accuracy\":%f}')" % (tag_id,location,score))
+        sql = """INSERT INTO model (tag_id,url,model_key,status,information) VALUES ('%s','%s',NULL,'A','{"accuracy":%f}')""" % (tag_id,location,score)
+        print sql
+        self.cur.execute(sql)
         return self.conn.commit()
 
     def clear_model_score(self):
