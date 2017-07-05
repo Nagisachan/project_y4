@@ -493,7 +493,7 @@ class DB
     public function lockTrain($lock=true){
         $key = "train-model-lock";
 
-        $stmt = $this->em->getConnection()->prepare("select * from setting where key='$key'");
+        $stmt = $this->em->getConnection()->prepare("select * from setting where setting_key='$key'");
         $stmt->execute();
         $items = $stmt->fetchAll();
 
@@ -503,8 +503,8 @@ class DB
                 $stmt->execute();
                 return true;
             }
-            else if($items[0]['value'] == 'false'){
-                $stmt = $this->em->getConnection()->prepare("update setting set value='true' where key = '$key'");
+            else if($items[0]['value'] == 'false' || $items[0]['value'] == '0'){
+                $stmt = $this->em->getConnection()->prepare("update setting set value='true' where setting_key = '$key'");
                 $stmt->execute();
                 return true;
             }   
@@ -519,7 +519,7 @@ class DB
                 return true;
             }
             else if($items[0]['value'] == 'true'){
-                $stmt = $this->em->getConnection()->prepare("update setting set value='false' where key = '$key'");
+                $stmt = $this->em->getConnection()->prepare("update setting set value='false' where setting_key = '$key'");
                 $stmt->execute();
                 return true;
             }   
