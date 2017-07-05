@@ -581,6 +581,7 @@ class ServiceController extends Controller
             return $this->buildErrorJson('can not lock');
         }
 
+        set_time_limit(10*60);
         $cmd = 'python production/train.py 2>&1';
         $output = array();
         exec($cmd,$output);
@@ -594,6 +595,7 @@ class ServiceController extends Controller
             return $this->buildErrorJson('can not lock');
         }
 
+        set_time_limit(10*60);
         $cmd = 'python production/build_text_transformer.py 2>&1';
         $output = array();
         exec($cmd,$output);
