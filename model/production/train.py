@@ -8,7 +8,7 @@ from sys import argv
 
 import numpy as np
 from preprocess import Preprocessor
-from pgdb_data import DB
+from mydb_data import DB
 from sklearn import metrics
 from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
                               GradientBoostingClassifier,
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     #     sys.exit()
 
     my_model = model_trainer()
-    my_model.load_data()
+    my_model.load_data(100)
 
     info = my_model.train_all_tag()
 

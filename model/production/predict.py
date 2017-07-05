@@ -9,7 +9,7 @@ from sys import argv
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfTransformer
 from word_segmentation_lexto import Tws
-from pgdb_data import DB
+from mydb_data import DB
 
 def custom_preprocessor(str):
     # Do not perform any preprocessing here.
