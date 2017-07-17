@@ -505,7 +505,8 @@ class ServiceController extends Controller
 
         foreach($docGrowth as $docRecord){
             $result[$docRecord['date']] = array(
-                'doc' => intval($docRecord['n'])
+                'doc' => intval($docRecord['n']),
+                'paragraph' => 0,
             );
         }
         
