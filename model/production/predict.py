@@ -62,7 +62,8 @@ for i in range(0,len(text)):
         continue
         
     filteredtext = []
-    tmp_text = tws.word_segment(unicode(text[i].strip(),'utf-8'))
+    # tmp_text = tws.word_segment(unicode(text[i].strip(),'utf-8'))
+    tmp_text = tws.word_segment(text[i].strip())
 
     # preprocess
     for t in tmp_text:

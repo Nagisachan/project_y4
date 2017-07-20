@@ -359,7 +359,7 @@ class ServiceController extends Controller
 
         foreach($models as $model){
             $url = $model['url'];
-            $key = $model['key'];
+            $key = $model['model_key'];
 
             $classes = $ml->predict($url,$paragraphs);
             for($i=0;$i<count($classes);$i++){
