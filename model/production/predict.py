@@ -96,10 +96,15 @@ for i in range(0,len(text)):
 
 X_count = count_vec.transform(final_text)
 X_tfidf = TfidfTransformer().fit_transform(X_count)
-result = clf.predict(X_tfidf)
+
+try:
+    result = clf.predict_proba(X_tfidf)
+    result = [s[1] > 0.7 for s in result]
+except:
+    result = clf.predict(X_tfidf)
 
 for i in range(0,len(result)):
-    if not short_parageaph[i]:
+    if not short_parageaph[i] or result[i] == False:
         result[i] = "0"
-
+    
 print """[%s]""" % ",".join('"%s"' % s for s in result)
