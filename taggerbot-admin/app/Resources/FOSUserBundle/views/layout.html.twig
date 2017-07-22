@@ -1,16 +1,81 @@
 {% extends 'base.html.twig' %}
 
+{% block css %}
+    {{ parent() }}
+    <style type="text/css">
+        body {
+            background-color: #DADADA;
+            background-image: url('{{ asset("assets/bg/login-bg2.jpg") }}');
+            background-position: center center;
+            background-size: cover;
+        }
+        body > .grid {
+            height: 100%;
+        }
+        .image {
+            margin-top: -100px;
+        }
+        .column {
+            max-width: 450px;
+        }
+        .quote{
+            font-style: italic;
+            margin-bottom: 10px;
+            font-family: "Merriweather", "Georgia", serif;
+        }
+        .quote-content{
+            text-align: left;
+            font-size: 1.7em;
+        }
+        .quote-author{
+            text-align: right;
+            font-size: 0.9em;
+            margin-bottom: 26px;
+        }
+        .ui.large.form{
+            opacity: 0.9;
+        }
+        .flash-success{
+            padding: 1em;
+            width: 300px;
+            margin: 1em auto 0 auto;
+            text-align: center;
+            background: rgba(218, 249, 216, 0.78);
+            border-radius: 8px;
+            border: 2px solid rgba(255, 252, 127, 0.27);
+        }
+        label{
+             width: 10em;
+             display: inline-block;
+             text-align: right;
+             margin: 0.5em;
+             color: #777;
+        }
+        input[type=text],
+        input[type=email],
+        input[type=password]
+        {
+            border: 1px solid #E5DFA1;
+            padding: 0.6em;
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0px 0px 0px 100px #FFFFF0 inset;
+            margin-bottom: 0.4em;
+            width: 16em;
+        }
+        input[type=submit]{
+            background-color: #009c95;
+            color: #FFFFFF;
+            text-shadow: none;
+            padding: 0.8em 3em;
+            border: 0px;
+            border-radius: 0.5em;
+            margin-top: 0.2em;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-{#<div>
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-        <a href="{{ path('fos_user_security_logout') }}">
-            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-        </a>
-    {% else %}
-        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-    {% endif %}
-</div>#}
 
 {% if app.request.hasPreviousSession %}
     {% for type, messages in app.session.flashbag.all() %}
@@ -22,6 +87,19 @@
     {% endfor %}
 {% endif %}
 
-{% block fos_user_content %}
-{% endblock fos_user_content %}
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <p class="quote quote-content">
+            "No business can succeed in any great degree without being properly organized."
+        </p>
+        <p class="quote quote-author">
+            James Cash "J. C." Penney Jr.
+        </p>
+        <div class="ui stacked segment">
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+    </div>
+</div>
+
 {% endblock %}
