@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'fixed.html.twig' %}
 
 {% block css %}
     {{ parent() }}
@@ -76,6 +76,7 @@
 {% endblock %}
 
 {% block body %}
+{{ parent() }}
 
 {% if app.request.hasPreviousSession %}
     {% for type, messages in app.session.flashbag.all() %}
@@ -89,12 +90,12 @@
 
 <div class="ui middle aligned center aligned grid">
     <div class="column">
-        <p class="quote quote-content">
+        <!-- <p class="quote quote-content">
             "No business can succeed in any great degree without being properly organized."
         </p>
         <p class="quote quote-author">
             James Cash "J. C." Penney Jr.
-        </p>
+        </p> -->
         <div class="ui stacked segment">
             {% block fos_user_content %}
             {% endblock fos_user_content %}
@@ -102,4 +103,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
 {% endblock %}

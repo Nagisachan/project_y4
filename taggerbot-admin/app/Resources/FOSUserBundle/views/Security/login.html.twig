@@ -25,7 +25,6 @@
 
 {% block fos_user_content %}
     {% trans_default_domain 'FOSUserBundle' %}
-    
     <form class="ui large form" action="{{ path("fos_user_security_check") }}" method="post">
         {% if csrf_token %}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -57,18 +56,16 @@
         <div class="ui error message"></div>
     </form>
 
-    {# <div class="ui message">
+    <!-- <div class="ui message">
         New to us? <a href="#">Sign Up</a>
-    </div> #}
+    </div> -->
 {% endblock fos_user_content %}
 
 {% block javascripts %}
 <script src="{{ asset('assets/components/form.js') }}"></script>
 <script src="{{ asset('assets/components/transition.js') }}"></script>
 <script>
-    $(document)
-    .ready(function() {
-        $('.ui.form')
+     $('.ui.form')
         .form({
             fields: {
             email: {
@@ -98,9 +95,7 @@
                 ]
             }
             }
-        })
-        ;
-    });
+        });
 </script>
 {% endblock %}
 
