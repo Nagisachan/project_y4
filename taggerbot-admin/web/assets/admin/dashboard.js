@@ -14,7 +14,7 @@ function modelInfo() {
                 });
             }, this);
 
-            tags.sort(function(a,b){
+            tags.sort(function(a, b) {
                 return b.f1 - a.f1;
             });
 
@@ -79,11 +79,11 @@ function tagAssocData() {
                 if (typeof(tags[e.name]) == 'undefined') {
                     tags[e.name] = {
                         document: 1,
-                        paragraph: e.count
+                        paragraph: Number(e.count)
                     }
                 } else {
                     tags[e.name].document += 1;
-                    tags[e.name].paragraph += e.count;
+                    tags[e.name].paragraph += Number(e.count);
                 }
             }, this);
 
@@ -96,7 +96,7 @@ function tagAssocData() {
                 });
             });
 
-            data.sort(function(a,b){
+            data.sort(function(a, b) {
                 return b.paragraph - a.paragraph;
             });
 
@@ -117,9 +117,50 @@ function tagAssocData() {
         })
 }
 
+function documentGrowth() {
+    $.ajax(SERVICE_DOC_AND_PARAGRAPH_GROWth, {
+            dataType: 'json',
+            type: 'get',
+        })
+        .done(function(data) {
+            data = data.data;
+
+            graphData = [];
+
+            var docCount = 0;
+            var paragraphCount = 0;
+
+            Object.keys(data).forEach(function(date) {
+                docCount += data[date].doc;
+                paragraphCount += data[date].paragraph;
+                graphData.push({
+                    date: date,
+                    document: docCount,
+                    paragraph: paragraphCount,
+                });
+            });
+
+            Morris.Line({
+                element: 'doc-vs-parag',
+                data: graphData,
+                xkey: 'date',
+                ykeys: ['document', 'paragraph'],
+                labels: ['#Document', '#Paragraph'],
+                lineColors: ['#008080', '#0E6EB8']
+            });
+        })
+        .error(function(err) {
+
+        })
+        .always(function() {
+
+        })
+}
+
 modelInfo();
 tagTypeCount();
 tagAssocData();
+documentGrowth();
 
 // Morris.Bar({
 //     element: 'model-vs-f1',
@@ -137,21 +178,6 @@ tagAssocData();
 //     ykeys: ['f1'],
 //     labels: ['F1'],
 //     barColors: ['#0E6EB8']
-// });
-
-// Morris.Line({
-//     element: 'doc-vs-parag',
-//     data: [
-//         { year: '2008', document: 5, paragraph: 50 },
-//         { year: '2009', document: 10, paragraph: 150 },
-//         { year: '2010', document: 30, paragraph: 300 },
-//         { year: '2011', document: 35, paragraph: 350 },
-//         { year: '2012', document: 50, paragraph: 450 }
-//     ],
-//     xkey: 'year',
-//     ykeys: ['document', 'paragraph'],
-//     labels: ['#Document', '#Paragraph'],
-//     lineColors: ['#008080', '#0E6EB8']
 // });
 
 // Morris.Bar({

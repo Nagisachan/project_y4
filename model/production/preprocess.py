@@ -11,7 +11,7 @@ import numpy as np
 # from impala_db import ImpalaDB
 # from hive_db import HiveDB
 # from read_training_data import N
-from pgdb_data import DB
+from mydb_data import DB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from word_segmentation_lexto import Tws
@@ -89,7 +89,8 @@ class Preprocessor(object):
                 continue
                 
             filteredtext = []
-            tmp_text = self.tws.word_segment(unicode(text[i].strip(),'utf-8'))
+            # tmp_text = self.tws.word_segment(unicode(text[i].strip(),'utf-8'))
+            tmp_text = self.tws.word_segment(text[i].strip())
 
             # preprocess
             for t in tmp_text:
@@ -148,8 +149,10 @@ class Preprocessor(object):
     
         # save and index every tag
         for tag in self.read.get_all_tag():
-            self.tag_table[unicode(tag[1],'utf-8')] = tag[0];
-            self.tag_inverse_table[tag[0]] = unicode(tag[1],'utf-8');
+            # self.tag_table[unicode(tag[1],'utf-8')] = tag[0]
+            self.tag_table[tag[1]] = tag[0]
+            # self.tag_inverse_table[tag[0]] = unicode(tag[1],'utf-8')
+            self.tag_inverse_table[tag[0]] = tag[1]
         
         self.is_inited = True;
     def get_all_text(self):

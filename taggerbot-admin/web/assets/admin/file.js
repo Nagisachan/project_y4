@@ -60,8 +60,8 @@ function htmlFromParagraph(paragraph, i) {
                 </td>
                 <td>
                     <div class="single line content ui center aligned">
-                        <div class="ui button ` + (paragraph.tags ? 'blue' : 'gray') + ` tiny" title="` + (paragraph.tags ? 'Has tag(s)' : 'No tag') + `" onclick="addTag(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,'` + paragraph.tags + `');">` + (paragraph.tags ? 'Edit' : 'Tag') + `</div>
-                        <div class="ui button red tiny" onclick="removeParagraph(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,this)">Remove</div>
+                        <div class="ui button ` + (paragraph.tags ? 'blue' : 'gray') + ` tiny" title="` + (paragraph.tags ? 'Has tags' : 'No tag yet') + `" onclick="addTag(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,'` + paragraph.tags + `');">` + (paragraph.tags ? 'Edit' : 'Tag') + `</div>
+                        <div class="ui button red tiny" title="remove this paragraph" onclick="removeParagraph(` + paragraph.file_id + `,` + paragraph.paragraph_id + `,this)">Remove</div>
                     </div>
                 </td>
             </tr>`;

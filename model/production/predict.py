@@ -9,7 +9,7 @@ from sys import argv
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfTransformer
 from word_segmentation_lexto import Tws
-from pgdb_data import DB
+from mydb_data import DB
 
 def custom_preprocessor(str):
     # Do not perform any preprocessing here.
@@ -62,7 +62,8 @@ for i in range(0,len(text)):
         continue
         
     filteredtext = []
-    tmp_text = tws.word_segment(unicode(text[i].strip(),'utf-8'))
+    # tmp_text = tws.word_segment(unicode(text[i].strip(),'utf-8'))
+    tmp_text = tws.word_segment(text[i].strip())
 
     # preprocess
     for t in tmp_text:
@@ -95,10 +96,15 @@ for i in range(0,len(text)):
 
 X_count = count_vec.transform(final_text)
 X_tfidf = TfidfTransformer().fit_transform(X_count)
-result = clf.predict(X_tfidf)
+
+try:
+    result = clf.predict_proba(X_tfidf)
+    result = [s[1] > 0.7 for s in result]
+except:
+    result = clf.predict(X_tfidf)
 
 for i in range(0,len(result)):
-    if not short_parageaph[i]:
+    if not short_parageaph[i] or result[i] == False:
         result[i] = "0"
-
+    
 print """[%s]""" % ",".join('"%s"' % s for s in result)

@@ -8,7 +8,7 @@ from sys import argv
 
 import numpy as np
 from preprocess import Preprocessor
-from pgdb_data import DB
+from mydb_data import DB
 from sklearn import metrics
 from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
                               GradientBoostingClassifier,
@@ -133,7 +133,7 @@ class model_trainer:
                 continue
 
             output_filename = os.path.join(self.model_file_dir,"%s.model" % tag)
-            print "[Train] save model '%s' (%s) with F1=%.2f, precision=%.2f, recall=%.2f, score=%.2f : %s" % (output_filename,self.prep.get_target_names()[tag].encode('utf-8'),heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
+            # print "[Train] save model '%s' (%s) with F1=%.2f, precision=%.2f, recall=%.2f, score=%.2f : %s" % (output_filename,self.prep.get_target_names()[tag],heightest_info[tag][0],heightest_info[tag][1],heightest_info[tag][2],heightest_info[tag][3],heightest_info[tag][4])
             joblib.dump(heightest_model[tag], output_filename)
             db.add_model_info(tag,output_filename,heightest_score[tag])
         
