@@ -1,30 +1,21 @@
-{% extends 'fixed.html.twig' %}
-
-{% block title %}Admin Console{% endblock %}
-
-{% block css %}
-{{ parent() }}
+{% extends 'fixed.html.twig' %} {% block title %}Admin Console{% endblock %} {% block css %} {{ parent() }}
 
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/morris.css') }}">
 <style type="text/css">
-    body {
-        background-color: #FFFFFF;
-    }
     .main.container {
         margin-top: 7em;
     }
-    .card{
+
+    .card {
         width: 91% !important;
     }
-    .card.half{
+
+    .card.half {
         width: 45% !important;
     }
 </style>
 
-{% endblock %}
-
-{% block body %}
-{{ parent() }}
+{% endblock %} {% block body %} {{ parent() }}
 
 <div class="ui main container">
     <div class="ui link cards stackable centered">
@@ -33,48 +24,52 @@
                 <div id="model-vs-f1" style="height: 300px;"></div>
             </div>
             <div class="content">
-            <div class="header">Model score</div>
-            <div class="meta">
-                <a>F1 measure</a>
+                <div class="header">Model score</div>
+                <div class="meta">
+                    <a>F1 measure</a>
+                </div>
+                {#
+                <div class="description">
+                    F1 score of each model (tag)
+                </div>#}
             </div>
-            {#<div class="description">
-                F1 score of each model (tag)
-            </div>#}
-            </div>
+            {#
             <div class="extra content">
-            <span class="right floated">
+                <span class="right floated">
                 {{ "now"|date("d/m/Y") }}
             </span>
-            <span>
+                <span>
                 <i class="clock icon"></i>
                 {{ "now"|date("H:i:s") }}
             </span>
-            </div>
+            </div>#}
         </div>
         <div class="card">
             <div class="">
                 <div id="tag-vs-parag" style="height: 300px;"></div>
             </div>
             <div class="content">
-            <div class="header">Associated data</div>
-            <div class="meta">
-                <span class="date">Data associate with tags</span>
+                <div class="header">Associated data</div>
+                <div class="meta">
+                    <span class="date">Data associate with tags</span>
+                </div>
+                {#
+                <div class="description">
+                    Number of documents and paragraphs of particulat tags.
+                </div>#}
             </div>
-            {#<div class="description">
-                Number of documents and paragraphs of particulat tags.
-            </div>#}
-            </div>
+            {#
             <div class="extra content">
-            <span class="right floated">
+                <span class="right floated">
                 {{ "now"|date("d/m/Y") }}
             </span>
-            <span>
+                <span>
                 <i class="clock icon"></i>
                 {{ "now"|date("H:i:s") }}
             </span>
-            </div>
+            </div>#}
         </div>
-        <!--<div class="card half">
+        <div class="card half">
             <div class="">
                 <div id="doc-vs-parag" style="height: 300px;"></div>
             </div>
@@ -87,7 +82,7 @@
                 Compare number of documents and paragraphs in the system.
             </div>#}
             </div>
-            <div class="extra content">
+            {#<div class="extra content">
             <span class="right floated">
                 {{ "now"|date("d/m/Y") }}
             </span>
@@ -95,41 +90,41 @@
                 <i class="clock icon"></i>
                 {{ "now"|date("H:i:s") }}
             </span>
-            </div>
-        </div>-->
-        <div class="card">
+            </div>#}
+        </div>
+        <div class="card half">
             <div class="">
                 <div id="manual-vs-auto" style="height: 300px;"></div>
             </div>
             <div class="content">
-            <div class="header">Train vs Test</div>
-            <div class="meta">
-                <a>Manual, auto, untagged</a>
+                <div class="header">Train vs Test</div>
+                <div class="meta">
+                    <a>Manual, auto, untagged</a>
+                </div>
+                {#
+                <div class="description">
+                    Number of manual tagged, auto tagged and untagged paragraph.
+                </div>#}
             </div>
-            {#<div class="description">
-                Number of manual tagged, auto tagged and untagged paragraph. 
-            </div>#}
-            </div>
+            {#
             <div class="extra content">
-            <span class="right floated">
+                <span class="right floated">
                 {{ "now"|date("d/m/Y") }}
             </span>
-            <span>
+                <span>
                 <i class="clock icon"></i>
                 {{ "now"|date("H:i:s") }}
             </span>
-            </div>
+            </div>#}
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
+{% endblock %} {% block javascripts %} {{ parent() }}
 <script>
     SERVICE_MODEL_INFO = "{{ path('service_model_info') }}";
     SERVICE_ASSOC_DATA_SIZE = "{{ path('tag_assoc_data') }}";
     SERVICE_MODEL_TAG_TYPE = "{{ path('all_tag_type_count') }}";
+    SERVICE_DOC_AND_PARAGRAPH_GROWth = "{{ path('document_and_paragraph_growth') }}";
 </script>
 <script src="{{ asset('assets/admin/raphael.min.js') }}"></script>
 <script src="{{ asset('assets/admin/morris.min.js') }}"></script>

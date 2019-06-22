@@ -31,11 +31,11 @@ class ServiceController extends Controller
                 $extension = "";
                 if($this->isHasExtension($value['name'],'PDF')){
                     $paragraphs = $this->preprocess($value['tmp_name']);
-                    $extension = ".pdf";
+                    $extension = "pdf";
                 }
                 else if($this->isHasExtension($value['name'],'DOCX')){
                     $paragraphs = $this->preprocessDocx($value['tmp_name']);
-                    $extension = ".docx";
+                    $extension = "docx";
                 }
                 
                 $name = $value['name'];
@@ -59,11 +59,11 @@ class ServiceController extends Controller
                 $extension = "";
                 if($this->isHasExtension($_FILES['files']['name'][$i],'PDF')){
                     $paragraphs = $this->preprocess($_FILES['files']['tmp_name'][$i]);
-                    $extension = ".pdf";
+                    $extension = "pdf";
                 }
                 else if($this->isHasExtension($_FILES['files']['name'][$i],'DOCX')){
                     $paragraphs = $this->preprocessDocx($_FILES['files']['tmp_name'][$i]);
-                    $extension = ".docx";
+                    $extension = "docx";
                 }
 
                 $name = $_FILES['files']['name'][$i];
@@ -85,8 +85,10 @@ class ServiceController extends Controller
                 $db->writeToContentTable($file_id,$i,$file['text'][$i]);
             }
 
-            $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/";
-            $targetPath = $targetPath . $file_id . $file['extension'];
+            // $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/";
+            $targetPath = $this->get('kernel')->getRootDir() . "/../web/assets/files/dataset/";
+            $extensionDir = $file['extension'] == "txt" ? "txt" : "raw";
+            $targetPath = sprintf("%s%s/%s_%s",$targetPath,$extensionDir,$file_id,$file['name']);
             rename($file['tmp_name'],$targetPath);
             chmod($targetPath,0666);
         }
@@ -357,7 +359,7 @@ class ServiceController extends Controller
 
         foreach($models as $model){
             $url = $model['url'];
-            $key = $model['key'];
+            $key = $model['model_key'];
 
             $classes = $ml->predict($url,$paragraphs);
             for($i=0;$i<count($classes);$i++){
@@ -494,6 +496,27 @@ class ServiceController extends Controller
         return $this->buildSuccessJson($tags);
     }
 
+    public function documentAndParagraphGrowthAction(){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        
+        $result = array();
+        $docGrowth = $db->getDocumentGrowth();
+        $paragraphGrowth = $db->getParagraphGrowth();
+
+        foreach($docGrowth as $docRecord){
+            $result[$docRecord['date']] = array(
+                'doc' => intval($docRecord['n']),
+                'paragraph' => 0,
+            );
+        }
+        
+        foreach($paragraphGrowth as $paragraphRecord){
+            $result[$paragraphRecord['date']]['paragraph'] = intval($paragraphRecord['n']);
+        }
+
+        return $this->buildSuccessJson($result);
+    }
+
     public function getSchoolsAction(Request $request){
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         $page = $request->query->get('page', 0);
@@ -560,6 +583,7 @@ class ServiceController extends Controller
             return $this->buildErrorJson('can not lock');
         }
 
+        set_time_limit(10*60);
         $cmd = 'python production/train.py 2>&1';
         $output = array();
         exec($cmd,$output);
@@ -573,6 +597,7 @@ class ServiceController extends Controller
             return $this->buildErrorJson('can not lock');
         }
 
+        set_time_limit(10*60);
         $cmd = 'python production/build_text_transformer.py 2>&1';
         $output = array();
         exec($cmd,$output);

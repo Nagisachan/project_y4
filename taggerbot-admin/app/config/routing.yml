@@ -131,6 +131,10 @@ tag_assoc_data:
     path:      /service/tag_assoc_data
     defaults:  { _controller: AppBundle:Service:tagAssocData }
 
+document_and_paragraph_growth:
+    path:      /service/document_and_paragraph_growth
+    defaults:  { _controller: AppBundle:Service:documentAndParagraphGrowth }
+
 service_get_schools:
     path:      /service/get_schools
     defaults:  { _controller: AppBundle:Service:getSchools }
