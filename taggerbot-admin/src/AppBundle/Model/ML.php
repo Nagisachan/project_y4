@@ -30,6 +30,7 @@ class ML
     }
 
     public function predict($modelPath,$paragraphs){
+        $this->logger->info(shell_exec('pwd'));
         $newParagraphs = array();
         foreach($paragraphs as $paragraph){
             $newParagraphs[] = '"' . preg_replace('/"/',"'",$paragraph['fpid']) . '"';

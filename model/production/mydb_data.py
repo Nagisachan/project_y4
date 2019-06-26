@@ -6,8 +6,8 @@ class DB:
     def __init__(self):
         self.conn = MySQLdb.connect(host="localhost",
                                   user="root",
-                                  passwd="",
-                                  db="taggerbot",
+                                  passwd="Tp0wv6@2",
+                                  db="thaissf_kmschool",
                                   charset='utf8')
         self.cur = self.conn.cursor()
 

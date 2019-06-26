@@ -10,6 +10,7 @@ from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfTransformer
 from word_segmentation_lexto import Tws
 from mydb_data import DB
+from os.path import dirname
 
 def custom_preprocessor(str):
     # Do not perform any preprocessing here.
@@ -44,9 +45,9 @@ for id in text_ids:
 
 # load dicts
 tws = Tws()
-stopwords = codecs.open('dicts/stop_words.txt', 'r','utf-8').read().split()
+stopwords = codecs.open(dirname(__file__) + '/dicts/stop_words.txt', 'r','utf-8').read().split()
 lemma_dict = dict()
-with open('dicts/lemma_dict','r') as f:
+with open(dirname(__file__) + '/dicts/lemma_dict','r') as f:
     for line in f:
         lemma,words = line.split(":")
         for word in words.split(","):

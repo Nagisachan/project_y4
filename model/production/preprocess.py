@@ -15,7 +15,7 @@ from mydb_data import DB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from word_segmentation_lexto import Tws
-
+from os.path import dirname
 
 class Preprocessor(object):
     def __init__(self):
@@ -35,7 +35,7 @@ class Preprocessor(object):
         self.test_text_result = False
 
         # read stop words list
-        self.stopwords = codecs.open('dicts/stop_words.txt', 'r','utf-8').read().split()
+        self.stopwords = codecs.open(dirname(__file__) + '/dicts/stop_words.txt', 'r','utf-8').read().split()
 
         # for stopword in self.stopwords:
         #     print stopword.encode('utf-8'),
@@ -44,7 +44,7 @@ class Preprocessor(object):
 
         # read lemma dict
         lemma_dict = dict()
-        with open('dicts/lemma_dict','r') as f:
+        with open(dirname(__file__) + '/dicts/lemma_dict','r') as f:
             for line in f:
                 lemma,words = line.split(":")
                 for word in words.split(","):
