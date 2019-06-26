@@ -1,0 +1,2 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["ความเชี่ยวชาญ","Reflection","ศิลปะ","ครูเป็นโค้ชการเรียนรู้","ให้คำปรึกษาแนะนำ"],"freetag":[]}]}

@@ -1,0 +1,7 @@
+{"paragraph":[{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":12,"freecount":0,"dropdowntag":["คณิตศาสตร์","ครูเป็นโค้ชการเรียนรู้","FACILITATOR","เตรียมพื้นที่","ปรับพฤติกรรมเด็ก","เด็กที่ต้องการความช่วยเหลือในการเรียนรู้ - Authentic","ทักษะเรียนรู้ - นวัตกรรม","ทักษะชีวิต - มีเป้าหมาย","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - รับผิดรับชอบ","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["จิตวิญญาณ","Reflection","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]}]}

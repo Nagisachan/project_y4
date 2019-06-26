@@ -1,0 +1,3 @@
+{"paragraph":[{"dropdowncount":0,"freecount":2,"dropdowntag":[],"freetag":["ชื่อครู","ตำแหน่ง"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":8,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","FACILITATOR","เด็กปกติ - Summative Assessment","เด็กปกติ - Authentic","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]}]}

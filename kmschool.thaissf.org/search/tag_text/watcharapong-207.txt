@@ -1,0 +1,7 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้"],"freetag":[]}]}

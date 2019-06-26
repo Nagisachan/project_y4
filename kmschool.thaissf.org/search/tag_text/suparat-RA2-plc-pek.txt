@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Active Learning"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พละศึกษา"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]}]}

@@ -1,0 +1,8 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["คณิตศาสตร์"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Open approach"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]}]}

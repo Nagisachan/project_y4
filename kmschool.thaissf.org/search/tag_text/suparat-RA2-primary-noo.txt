@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["PBL"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["สิทธิพลเมือง"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["สิทธิพลเมือง"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กปกติ - Authentic"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["จิตวิญญาณ"],"freetag":[]}]}

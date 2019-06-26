@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Professional Learning Community","จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["จิตวิญญาณ","ครูเป็นโค้ชการเรียนรู้","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Professional Learning Community"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Active Learning","FACILITATOR"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]}]}

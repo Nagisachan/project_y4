@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กที่ต้องการความช่วยเหลือในการเรียนรู้ - Authentic"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","ปรับพฤติกรรมเด็ก"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เขียน"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["เครื่องหมายกำกับ"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["วิทยาศาสตร์","PBL","FACILITATOR","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["ทักษะเรียนรู้ - สื่อสาร","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - ตัดสินใจ","ทักษะชีวิต - ยืดหยุ่น"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["การงานอาชีพ","วิทยาศาสตร์","PBL","Active Learning","FACILITATOR","ทักษะเรียนรู้ - นวัตกรรม"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["PBL","FACILITATOR"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["PBL","FACILITATOR","เตรียมพื้นที่","ทักษะเรียนรู้ - นวัตกรรม","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - ยืดหยุ่น","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะเรียนรู้ - นวัตกรรม","ทักษะชีวิต - ตัดสินใจ","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["วิทยาศาสตร์","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Summative Assessment","Transformative Learning - ครู","โครงสร้างหลักสูตร"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["PBL","Active Learning","FACILITATOR","Transformative Learning - ครู"],"freetag":[]}]}

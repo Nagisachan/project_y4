@@ -1,0 +1,4 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Professional Learning Community"],"freetag":[]}]}

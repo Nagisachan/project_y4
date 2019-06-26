@@ -1,0 +1,6 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ปรับพฤติกรรมเด็ก"],"freetag":["สังเกตพฤติกรรมการเรียนรู้ วิจัยในชั้นเรียน แก้ปัญหาพฤติกรรม"]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ปรับพฤติกรรมเด็ก"],"freetag":["การชื่นชมในการทำงาน"]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

@@ -1,0 +1,5 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Active Learning"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Knowledge Management","Active Learning"],"freetag":[]}]}

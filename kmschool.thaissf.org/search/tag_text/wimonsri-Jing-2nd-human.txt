@@ -1,0 +1,11 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["สังคม","วิทยาศาสตร์"],"freetag":[]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["สิ่งแวดล้อม"],"freetag":["ภูมิศาสตร์"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["สื่อการสอน"]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

@@ -1,0 +1,12 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Professional Learning Community","Lesson Study","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["สื่อการสอน"]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["ภาษาไทย"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

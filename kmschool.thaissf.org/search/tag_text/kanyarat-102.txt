@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":0,"freecount":2,"dropdowntag":[],"freetag":["ชื่อครู","ตำแหน่ง"]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["คณิตศาสตร์","Open approach"],"freetag":[]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["คณิตศาสตร์"],"freetag":["หัวข้อ"]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["คณิตศาสตร์"],"freetag":["หัวข้อ"]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["คณิตศาสตร์"],"freetag":["หัวข้อ"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้","ครูเป็นโค้ชการเรียนรู้","FACILITATOR"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Professional Learning Community","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Professional Learning Community","พัฒนาครูให้เป็นโค้ชการเรียนรู้","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Professional Learning Community","Open approach","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["Professional Learning Community","ครูเป็นโค้ชการเรียนรู้","FACILITATOR","เด็กปกติ - Formative Assessment","เด็กปกติ - Authentic","Transformative Learning - ครู"],"freetag":[]}]}

@@ -1,0 +1,8 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Reflection","คณิตศาสตร์"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["PBL","จิตศึกษา/จิตตปัญญา"],"freetag":[]}]}

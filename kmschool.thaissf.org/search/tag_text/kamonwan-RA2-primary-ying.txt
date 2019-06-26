@@ -1,0 +1,9 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Lesson Study","Open approach","FACILITATOR","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้","คณิตศาสตร์","FACILITATOR","เตรียมพื้นที่","ให้คำปรึกษาแนะนำ","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["FACILITATOR","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Reflection"],"freetag":[]}]}

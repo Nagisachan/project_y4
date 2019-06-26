@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":1,"dropdowntag":["ศิลปะ","Transformative Learning - ครู"],"freetag":["ดนตรี ชื่นใจ"]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Professional Learning Community","PBL","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Professional Learning Community","ครูเป็นโค้ชการเรียนรู้","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

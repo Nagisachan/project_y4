@@ -1,0 +1,4 @@
+{"paragraph":[{"dropdowncount":3,"freecount":0,"dropdowntag":["จิตวิญญาณ","Reflection","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["จิตวิญญาณ","Reflection","FACILITATOR","เด็กปกติ - Formative Assessment","เด็กปกติ - Authentic"],"freetag":[]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]}]}

@@ -1,0 +1,6 @@
+{"paragraph":[{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ตำแหน่ง"]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Professional Learning Community","จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["FACILITATOR","เตรียมพื้นที่","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะเรียนรู้ - นวัตกรรม","Transformative Learning - นักเรียน"],"freetag":[]}]}

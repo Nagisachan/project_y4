@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ครูแนะแนว"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ครูแนะแนว"]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

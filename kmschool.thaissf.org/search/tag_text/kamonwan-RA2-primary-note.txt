@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":5,"freecount":0,"dropdowntag":["จิตวิญญาณ","FACILITATOR","เตรียมพื้นที่","จิตศึกษา/จิตตปัญญา","ปรับพฤติกรรมเด็ก"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Professional Learning Community","FACILITATOR","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["คณิตศาสตร์","Active Learning","FACILITATOR","ปรับพฤติกรรมเด็ก","คำนวณ"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Professional Learning Community","Reflection","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["จิตวิญญาณ","FACILITATOR","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["Professional Learning Community","พัฒนาครูให้เป็นโค้ชการเรียนรู้","ความเชี่ยวชาญ","จิตวิญญาณ","Reflection"],"freetag":[]}]}

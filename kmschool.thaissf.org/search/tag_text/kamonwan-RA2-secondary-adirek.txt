@@ -1,0 +1,12 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["ศิลปะ","FACILITATOR","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - มีเป้าหมาย","ทักษะชีวิต - ตัดสินใจ","ทักษะชีวิต - รับผิดรับชอบ"],"freetag":[]},
+{"dropdowncount":10,"freecount":0,"dropdowntag":["Lesson Study","การเงิน","เศรษฐกิจ","PBL","FACILITATOR","เตรียมพื้นที่","ทักษะชีวิต - มีเป้าหมาย","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - ตัดสินใจ","ทักษะชีวิต - รับผิดรับชอบ"],"freetag":[]},
+{"dropdowncount":8,"freecount":0,"dropdowntag":["ศิลปะ","PBL","FACILITATOR","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - ตัดสินใจ","ทักษะ IT - วิเคราะห์"],"freetag":[]},
+{"dropdowncount":13,"freecount":0,"dropdowntag":["การเงิน","เศรษฐกิจ","เศรษฐกิจพอเพียง","ศิลปะ","การงานอาชีพ","PBL","คำนวณ","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - มีเป้าหมาย","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - ตัดสินใจ","ทักษะชีวิต - รับผิดรับชอบ"],"freetag":[]},
+{"dropdowncount":6,"freecount":2,"dropdowntag":["PBL","FACILITATOR","เตรียมพื้นที่","ให้คำปรึกษาแนะนำ","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":["เห็นคุณค่า","เกิดความภาคภูมิใจ"]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Lesson Study","จิตวิญญาณ","Reflection"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]}]}

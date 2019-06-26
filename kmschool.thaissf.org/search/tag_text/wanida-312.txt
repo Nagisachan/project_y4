@@ -1,0 +1,9 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["สังคม","วิทยาศาสตร์","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Open approach","Active Learning","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":12,"freecount":0,"dropdowntag":["การเงิน","สุขภาพ","สิ่งแวดล้อม","เศรษฐกิจพอเพียง","Open approach","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - ตัดสินใจ"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["สุขภาพ","Open approach","ครูเป็นโค้ชการเรียนรู้","ทักษะ IT - วิเคราะห์"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

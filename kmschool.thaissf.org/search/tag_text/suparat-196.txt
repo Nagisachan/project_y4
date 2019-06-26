@@ -1,0 +1,11 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["โครงสร้างหลักสูตร"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["วิทยาศาสตร์"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Reflection","Active Learning"],"freetag":[]}]}

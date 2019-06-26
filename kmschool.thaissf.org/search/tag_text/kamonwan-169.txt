@@ -1,0 +1,8 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Reflection","Open approach","ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["คณิตศาสตร์","Open approach","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Open approach","FACILITATOR"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","เขียน","คำนวณ","ทักษะ IT - วิเคราะห์"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["Reflection","Open approach","ครูเป็นโค้ชการเรียนรู้","เขียน","ทักษะ IT - วิเคราะห์"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Reflection"],"freetag":[]}]}

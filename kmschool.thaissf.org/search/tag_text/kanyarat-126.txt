@@ -1,0 +1,8 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ตำแหน่ง"]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["Professional Learning Community","Lesson Study","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Authentic","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["Lesson Study","FACILITATOR","เตรียมพื้นที่","เด็กปกติ - Authentic","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["Lesson Study","FACILITATOR","เด็กปกติ - Authentic","ทักษะชีวิต - มีเป้าหมาย","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["ทักษะเรียนรู้ - สื่อสาร","ทักษะชีวิต - มีเป้าหมาย","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["จิตวิญญาณ","Reflection","FACILITATOR","ทักษะชีวิต - มีเป้าหมาย","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]}]}

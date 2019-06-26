@@ -1,0 +1,7 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Open approach","เตรียมพื้นที่","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["Open approach","FACILITATOR","เตรียมพื้นที่","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - สื่อสาร","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

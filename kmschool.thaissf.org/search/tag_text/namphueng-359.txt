@@ -1,0 +1,11 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","ทักษะชีวิต - ตัดสินใจ","ทักษะชีวิต - รับผิดรับชอบ","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["Open approach","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","ทักษะชีวิต - รับผิดรับชอบ","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":8,"freecount":0,"dropdowntag":["Open approach","ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เขียน","ทักษะเรียนรู้ - สื่อสาร","ทักษะชีวิต - รับผิดรับชอบ","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["จิตวิญญาณ","ภาษาไทย","ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เขียน","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["จิตวิญญาณ","Reflection","เด็กปกติ - Formative Assessment","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

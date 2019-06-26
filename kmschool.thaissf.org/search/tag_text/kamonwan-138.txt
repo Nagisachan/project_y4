@@ -1,0 +1,11 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ความเชี่ยวชาญ","FACILITATOR","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ศิลปะ","FACILITATOR","เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ความเชี่ยวชาญ","ศิลปะ","ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ศิลปะ","ให้คำปรึกษาแนะนำ"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ศิลปะ","ให้คำปรึกษาแนะนำ"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ศิลปะ","ให้คำปรึกษาแนะนำ"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ศิลปะ","Active Learning","ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Reflection","ศิลปะ","ทักษะเรียนรู้ - สื่อสาร"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

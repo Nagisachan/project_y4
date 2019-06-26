@@ -1,0 +1,11 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","โครงสร้างหลักสูตร"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["โลก/Globalisation","สังคม","การเรียนรู้ข้ามวัฒนธรรม","Transformative Learning - ครู","โครงสร้างหลักสูตร"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["Lesson Study","โลก/Globalisation","สังคม","การเรียนรู้ข้ามวัฒนธรรม","Transformative Learning - ครู","โครงสร้างหลักสูตร"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["โลก/Globalisation","สังคม","Open approach","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร"],"freetag":[]},
+{"dropdowncount":10,"freecount":0,"dropdowntag":["โลก/Globalisation","สังคม","Open approach","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Summative Assessment","เขียน","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร","การเรียนรู้ข้ามวัฒนธรรม","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["โลก/Globalisation","สังคม","Open approach","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","การเรียนรู้ข้ามวัฒนธรรม","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["สังคม","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["โลก/Globalisation","สังคม","เด็กปกติ - Multiple Intelligence","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","การเรียนรู้ข้ามวัฒนธรรม","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

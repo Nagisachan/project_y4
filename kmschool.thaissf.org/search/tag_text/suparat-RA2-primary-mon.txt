@@ -1,0 +1,9 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["PBL"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["PBL"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["PBL"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]}]}

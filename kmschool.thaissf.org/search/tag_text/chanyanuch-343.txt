@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Multiple Intelligence","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - สื่อสาร","ทักษะชีวิต - ตัดสินใจ","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["Active Learning","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่","ปรับพฤติกรรมเด็ก","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":9,"freecount":0,"dropdowntag":["Open approach","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":6,"freecount":1,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - สื่อสาร","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":["เพื่อนช่วยเพื่อน"]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

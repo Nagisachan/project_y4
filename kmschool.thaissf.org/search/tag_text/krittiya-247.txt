@@ -1,0 +1,6 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["เด็กปกติ - Formative Assessment","เด็กปกติ - Authentic","เด็กที่ต้องการความช่วยเหลือในการเรียนรู้ - Formative Assessment","เด็กที่ต้องการความช่วยเหลือในการเรียนรู้ - Authentic"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]}]}

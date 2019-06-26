@@ -1,0 +1,11 @@
+{"paragraph":[{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["หัวข้อ"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["ชื่อครู"]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ภาษาไทย"],"freetag":["ตำแหน่ง"]},
+{"dropdowncount":0,"freecount":1,"dropdowntag":[],"freetag":["เครื่องหมายกำกับ"]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["ภาษาไทย","ครูเป็นโค้ชการเรียนรู้","อ่าน","เขียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ภาษาไทย"],"freetag":["หัวข้อ"]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ภาษาไทย","อ่าน","เขียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ภาษาไทย"],"freetag":["หัวข้อ"]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","อ่าน","เขียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ภาษาไทย"],"freetag":["หัวข้อ"]},
+{"dropdowncount":8,"freecount":0,"dropdowntag":["ภาษาไทย","ครูเป็นโค้ชการเรียนรู้","อ่าน","เขียน","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร","ทักษะเรียนรู้ - ทำงานเป็นทีม","Transformative Learning - นักเรียน"],"freetag":[]}]}

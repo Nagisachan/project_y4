@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["คณิตศาสตร์","Open approach","เตรียมพื้นที่","เด็กปกติ - Formative Assessment","คำนวณ"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["คณิตศาสตร์","Open approach","เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["Open approach","Active Learning","เด็กปกติ - Formative Assessment","คำนวณ","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Open approach","เด็กปกติ - Formative Assessment","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","Transformative Learning - ครู"],"freetag":[]}]}

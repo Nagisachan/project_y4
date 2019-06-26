@@ -1,0 +1,8 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":1,"dropdowntag":["ภาษาไทย","เขียน"],"freetag":["Inspiring"]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ปรับพฤติกรรมเด็ก","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["จิตวิญญาณ","เด็กที่ต้องการความช่วยเหลือในการเรียนรู้ - Multiple intelligence","เขียน"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

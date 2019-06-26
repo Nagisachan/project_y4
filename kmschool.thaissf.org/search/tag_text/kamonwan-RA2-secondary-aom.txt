@@ -1,0 +1,8 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":6,"freecount":1,"dropdowntag":["Lesson Study","Reflection","การงานอาชีพ","Active Learning","เตรียมพื้นที่","ทักษะเรียนรู้ - ทำงานเป็นทีม"],"freetag":["ความสุขในการเรียน สนุกกับกิจกรรม"]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["สังคม","Active Learning"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Reflection"],"freetag":[]}]}

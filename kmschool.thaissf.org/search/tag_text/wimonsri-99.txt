@@ -1,0 +1,5 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["คณิตศาสตร์"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["PBL","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - มีเป้าหมาย","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก","ทักษะชีวิต - ตัดสินใจ","ทักษะชีวิต - รับผิดรับชอบ","ทักษะชีวิต - ยืดหยุ่น"],"freetag":[]}]}

@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พละศึกษา"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","พละศึกษา"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["Lesson Study","พละศึกษา","Open approach","เตรียมพื้นที่","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["Open approach","Active Learning","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - ทำงานเป็นทีม","ทักษะชีวิต - วางแผน/ค้นหาทางเลือก"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["Open approach","ครูเป็นโค้ชการเรียนรู้","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

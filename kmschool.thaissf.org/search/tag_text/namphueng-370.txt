@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เด็กปกติ - Formative Assessment"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["พละศึกษา","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":1,"dropdowntag":["พละศึกษา","Transformative Learning - ครู"],"freetag":["เคร่งครัด"]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["พละศึกษา","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":8,"freecount":0,"dropdowntag":["พละศึกษา","ครูเป็นโค้ชการเรียนรู้","จิตศึกษา/จิตตปัญญา","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","ทักษะชีวิต - ยืดหยุ่น","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

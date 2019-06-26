@@ -1,0 +1,9 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["PBL"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["สิ่งแวดล้อม","PBL","ทักษะเรียนรู้ - ทำงานเป็นทีม"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["วิทยาศาสตร์"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["วิทยาศาสตร์","PBL","Open approach","Active Learning","อ่าน","เขียน","ทักษะเรียนรู้ - คิดเชิงวิพากษ์"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["PBL","Open approach"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["วิทยาศาสตร์","PBL","Open approach","Active Learning","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้"],"freetag":[]}]}

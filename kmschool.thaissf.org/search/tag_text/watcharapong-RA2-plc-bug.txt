@@ -1,0 +1,10 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["เตรียมพื้นที่"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["จิตวิญญาณ","ศิลปะ","เด็กปกติ - Multiple Intelligence","Transformative Learning - ครู"],"freetag":[]}]}

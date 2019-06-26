@@ -1,0 +1,13 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["วิทยาศาสตร์"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["สิ่งแวดล้อม","Active Learning","เตรียมพื้นที่","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":6,"freecount":0,"dropdowntag":["สิ่งแวดล้อม","ภาษาไทย","วิทยาศาสตร์","PBL","Open approach","เขียน"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Open approach","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":8,"freecount":0,"dropdowntag":["Open approach","Active Learning","ครูเป็นโค้ชการเรียนรู้","เตรียมพื้นที่","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","เขียน","ทักษะชีวิต - มีเป้าหมาย"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

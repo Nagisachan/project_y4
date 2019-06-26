@@ -1,0 +1,5 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","ปรับพฤติกรรมเด็ก"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["จิตวิญญาณ","ปรับพฤติกรรมเด็ก"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["จิตวิญญาณ","ปรับพฤติกรรมเด็ก","ทักษะชีวิต - รับผิดรับชอบ"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

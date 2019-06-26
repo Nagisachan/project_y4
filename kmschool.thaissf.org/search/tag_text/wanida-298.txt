@@ -1,0 +1,12 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":1,"freecount":1,"dropdowntag":["ศิลปะ"],"freetag":["สีไม้"]},
+{"dropdowncount":3,"freecount":1,"dropdowntag":["ศิลปะ","Open approach","Active Learning"],"freetag":["เส้น ๑๓ แบบ"]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["ศิลปะ","Open approach","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - สื่อสาร"],"freetag":[]},
+{"dropdowncount":7,"freecount":0,"dropdowntag":["ศิลปะ","Open approach","ครูเป็นโค้ชการเรียนรู้","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - คิดเชิงวิพากษ์","ทักษะเรียนรู้ - สื่อสาร","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["ศิลปะ","Open approach","FACILITATOR","เด็กปกติ - Formative Assessment","ทักษะเรียนรู้ - สื่อสาร"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Open approach","เด็กปกติ - Formative Assessment","Transformative Learning - ครู"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]}]}

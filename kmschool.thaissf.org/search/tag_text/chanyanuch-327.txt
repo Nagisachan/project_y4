@@ -1,0 +1,5 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":10,"freecount":0,"dropdowntag":["คณิตศาสตร์","ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","เด็กปกติ - Summative Assessment","อ่าน","คำนวณ","ทักษะเรียนรู้ - สื่อสาร","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":5,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","ปรับพฤติกรรมเด็ก","เด็กปกติ - Formative Assessment","Transformative Learning - ครู","Transformative Learning - นักเรียน"],"freetag":[]}]}

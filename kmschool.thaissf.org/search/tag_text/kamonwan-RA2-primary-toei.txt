@@ -1,0 +1,12 @@
+{"paragraph":[{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","เขียน"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["จิตวิญญาณ"],"freetag":[]},
+{"dropdowncount":4,"freecount":0,"dropdowntag":["Knowledge Management","PBL","FACILITATOR","ปรับพฤติกรรมเด็ก"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["คณิตศาสตร์","Active Learning","คำนวณ"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["ครูเป็นโค้ชการเรียนรู้","Transformative Learning - นักเรียน"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Lesson Study","จิตวิญญาณ","ครูเป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":0,"freecount":0,"dropdowntag":[],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Lesson Study","Reflection"],"freetag":[]}]}

@@ -1,0 +1,7 @@
+{"paragraph":[{"dropdowncount":1,"freecount":0,"dropdowntag":["Lesson Study"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Professional Learning Community"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Reflection"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["Knowledge Management"],"freetag":[]},
+{"dropdowncount":1,"freecount":0,"dropdowntag":["พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":2,"freecount":0,"dropdowntag":["Knowledge Management","พัฒนาครูให้เป็นโค้ชการเรียนรู้"],"freetag":[]},
+{"dropdowncount":3,"freecount":0,"dropdowntag":["Knowledge Management","พัฒนาครูให้เป็นโค้ชการเรียนรู้","Reflection"],"freetag":[]}]}
