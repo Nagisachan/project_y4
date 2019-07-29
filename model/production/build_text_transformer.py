@@ -15,7 +15,7 @@ count_vect = CountVectorizer(analyzer = 'word',tokenizer=custom_tokenizer,prepro
 
 # load all text
 prep = Preprocessor()
-prep.load(0)
+prep.load(0) # 0 = all data
 
 # fit transformers
 print "[Transformer]: transform all text to global CountVectorizer"

@@ -37,6 +37,10 @@ class ServiceController extends Controller
                     $paragraphs = $this->preprocessDocx($value['tmp_name']);
                     $extension = "docx";
                 }
+                else if($this->isHasExtension($value['name'],'TXT')){
+                    $paragraphs = $this->preprocessTXT($value['tmp_name']);
+                    $extension = "txt";
+                }
                 
                 $name = $value['name'];
 
@@ -105,6 +109,13 @@ class ServiceController extends Controller
 
     public function preprocessDocx($tmpName){
         $outputFile = $this->preprocessor->toTextDocx($tmpName);
+        $paragraphs = $this->preprocessor->toParagraphSimple($outputFile);
+
+        return $paragraphs;
+    }
+
+    public function preprocessTxt($tmpName){
+        $outputFile = $this->preprocessor->toTextTxt($tmpName);
         $paragraphs = $this->preprocessor->toParagraphSimple($outputFile);
 
         return $paragraphs;
@@ -348,6 +359,8 @@ class ServiceController extends Controller
         $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
         $db->clearAutoTag($fileId);
         $models = $db->getModels();
+        $this->get('logger')->debug("Model count: " . count($models));
+
         $paragraphs = $db->getAllParagraph($fileId);
         $ml = new ML($this->get('logger'));
         $scores = array();
@@ -588,6 +601,19 @@ class ServiceController extends Controller
         $output = array();
         exec($cmd,$output);
         $db->lockTrain(false);
+        return $this->buildSuccessJson($output);
+    }
+
+    public function autotagSchoolAction($id){
+        $db = new DB($this->getDoctrine()->getManager(),$this->get('logger'));
+        $result = $db->getDocumentBySchoolId($id);
+
+        $output = [];
+        foreach($result as $file) {
+            $output[] = $this->predictAction(intval($file["file_id"]));
+            break;
+        }
+        
         return $this->buildSuccessJson($output);
     }
 

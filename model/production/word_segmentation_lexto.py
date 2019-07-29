@@ -11,7 +11,9 @@ class Tws(object):
 
     def __init__(self):
         # self.server_url = "https://punyapat.org/web/tech/lexto/ws.php"
-        self.server_url = "http://127.0.0.1/web/tech/lexto/ws.php"
+        # self.server_url = "http://127.0.0.1/web/tech/lexto/ws.php"
+        self.server_url = "http://u2.treeval.co:7001/tokenize" # Pert's test
+
         requests.packages.urllib3.disable_warnings()
 
     def word_segment(self,sentence):
@@ -31,7 +33,7 @@ class Tws(object):
             j_output = json.loads(r.text)
             # sys.stdout.write('.')
             # sys.stdout.flush()
-            return j_output
+            return j_output['result']
         else:
             # print "error input=%s status=%d reason=%s output=%s" % (sentence, r.status_code, r.reason, r.text)
             # print "error output=%s" % (r.text)

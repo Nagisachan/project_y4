@@ -91,6 +91,7 @@ class Preprocessor(object):
             filteredtext = []
             # tmp_text = self.tws.word_segment(unicode(text[i].strip(),'utf-8'))
             tmp_text = self.tws.word_segment(text[i].strip())
+            print "[Preprocess]: tokenization words count=", len(tmp_text)
 
             # preprocess
             for t in tmp_text:

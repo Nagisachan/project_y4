@@ -33,10 +33,30 @@ class FilePreprocessor
         putenv('LC_ALL='.$locale);
 
         $output = shell_exec($cmd);
+        $this->logger->debug($file_path);
+        $this->logger->debug($output_file);
         $this->logger->debug($cmd);
         $this->logger->debug($output);
         
         return $output_file;
+    }
+
+    public function toTextTxt($file_path){
+        $output_file = "$file_path.txt";
+        $pwd = realpath(dirname(__FILE__));
+        $cmd = "$pwd/extract_docx.sh $file_path $output_file";
+
+        $locale='en_US.UTF-8';
+        setlocale(LC_ALL,$locale);
+        putenv('LC_ALL='.$locale);
+
+        #$output = shell_exec($cmd);
+        $this->logger->debug($file_path);
+        $this->logger->debug($output_file);
+        $this->logger->debug($cmd);
+        #$this->logger->debug($output);
+        
+        return $file_path;
     }
 
     public function toParagraph($file_path){
@@ -61,6 +81,7 @@ class FilePreprocessor
     }
 
     public function toParagraphSimple($file_path){
+        $this->logger->debug($file_path);
         $handle = fopen($file_path, "r");
         $lines = array();
         while (($line = fgets($handle)) !== false) {

@@ -175,7 +175,7 @@ if __name__ == "__main__":
     #     sys.exit()
 
     my_model = model_trainer()
-    my_model.load_data()
+    my_model.load_data(0)
 
     info = my_model.train_all_tag()
 

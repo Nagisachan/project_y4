@@ -50,6 +50,14 @@ class DB
         return $stmt->fetchAll();
     }
 
+    public function getDocumentBySchoolId($schoolId){
+        $stmt = $this->em->getConnection()->prepare("select f.file_id, f.file_name as name, concat(substring(GROUP_CONCAT(c.content) from 1 for 100),'...') as content from file f left join content c on f.file_id = c.file_id where upper(f.status)='A' and f.school=:id group by f.file_id order by f.file_id");
+        $stmt->bindValue(':id',"$schoolId");
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
     public function getDocumentCount(){
         $stmt = $this->em->getConnection()->prepare("select count(*) as n from file where status='A'");
         $stmt->execute();
@@ -444,7 +452,7 @@ class DB
     }
 
     public function deleteSchool($id){
-        $stmt = $this->em->getConnection()->prepare("update school set status='I' where gid=:id");
+        $stmt = $this->em->getConnection()->prepare("update school_all set status='I' where id=:id");
         $stmt->bindValue(':id',$id);
         $stmt->execute();
 
@@ -452,14 +460,12 @@ class DB
     }
 
     public function updateSchool($id,$name,$lat,$lon,$location,$tel,$website,$information){
-        $stmt = $this->em->getConnection()->prepare("update school set name=:name,the_geom=st_setsrid(st_makepoint(:lon,:lat),4326), location=:location, tel=:tel, website=:website, information=:information where gid=:id");
+        $stmt = $this->em->getConnection()->prepare("update school_all set name=:name,longitude=:lon,latitude=:lat, telephone=:tel, website=:website where id=:id");
         $stmt->bindValue(':name',$name);
         $stmt->bindValue(':lon',$lon);
         $stmt->bindValue(':lat',$lat);
-        $stmt->bindValue(':location',$location);
         $stmt->bindValue(':tel',$tel);
         $stmt->bindValue(':website',$website);
-        $stmt->bindValue(':information',$information);
         $stmt->bindValue(':id',$id);
         $stmt->execute();
 

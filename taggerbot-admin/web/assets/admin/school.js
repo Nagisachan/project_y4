@@ -92,6 +92,9 @@ function renderHtml() {
                     <button class="ui red button" onclick="deleteSchool(` + e.gid + `)">
                         <i class="remove icon"></i>
                     </button>
+                    <button class="ui green button" onclick="autoTagSchool(this,` + e.gid + `)" title="Auto tag all documents from this school">
+                        <i class="tag icon"></i>
+                    </button>
                 </div>
                 <div class="header">[` + e.gid + `] ` + e.name + `</div>
                 ` + e.location + `
@@ -179,6 +182,16 @@ function deleteSchool(id) {
                 });
         }
     }).modal('show');
+}
+
+function autoTagSchool(elem, schoolId) {
+    $(elem).addClass('loading');
+    $.ajax(SERVICE_AUTOTAG_URL.replace('SCHOOLID', schoolId), {
+        dataType: 'json',
+    })
+    .done(function(data) {
+        $(elem).removeClass('loading');
+    });
 }
 
 function editSchool(id) {

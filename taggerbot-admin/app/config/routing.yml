@@ -159,6 +159,10 @@ service_train_all:
     path:      /service/train_all
     defaults:  { _controller: AppBundle:Service:trainAll }  
 
+service_autotag_school:
+    path:      /service/autotag_school/{id}
+    defaults:  { _controller: AppBundle:Service:autotagSchool }  
+
 service_corpus:
     path:      /service/build_corpus
     defaults:  { _controller: AppBundle:Service:buildCorpus }    
